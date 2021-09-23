@@ -1,9 +1,9 @@
 export class GeomPoint {
   /**
    * Represents a point in 3-D Euclidean space.
-   * @param {number} x
-   * @param {number} y
-   * @param {number} z    Elevation off the canvas. Default 0.
+   * @property {number} x
+   * @property {number} y
+   * @property {number} z    Elevation off the canvas. Default 0.
    * @constructor
    */
    x: number;
