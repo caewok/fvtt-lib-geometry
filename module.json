@@ -1,0 +1,36 @@
+{
+  "name": "libgeometry",
+  "title": "libGeometry",
+  "description": "Library of geometry-based classes for Foundry VTT.",
+  "version": "This is auto replaced",
+  "library": true,
+  "manifestPlusVersion": "1.0.0",
+  "minimumCoreVersion": "0.8.9",
+  "compatibleCoreVersion": "9",
+  "authors": [
+    {
+      "name": "Michael Enion",
+      "email": "caewok_2000@yahoo.com",
+      "url": "https://github.com/caewok",
+      "discord": "caewok#9192"
+    }
+  ],
+  "dependencies": [
+  ],
+  "conflicts": [
+    
+  ],
+  "esmodules": [
+    "/scripts/module.js"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "languages/en.json"
+    }
+  ],
+  "url": "This is auto replaced",
+  "manifest": "This is auto replaced",
+  "download": "This is auto replaced"
+}
