@@ -10,7 +10,7 @@
       "discord": "caewok#9192"
     }
   ],
-  "version": "0.0.1-alpha1",
+  "version": "0.0.2",
   "minimumCoreVersion": "0.8.9",
   "compatibleCoreVersion": "9",
   "manifestPlusVersion": "1.0.0",
