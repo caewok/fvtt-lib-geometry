@@ -1,6 +1,6 @@
 {
   "name": "libgeometry",
-  "version": "1.0.0",
+  "version": "0.0.1-alpha1",
   "description": "Foundry VTT geometry library",
   "main": "index.js",
   "scripts": {
