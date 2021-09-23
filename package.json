@@ -1,12 +1,12 @@
 {
-  "name": "foundry-typescript-template",
-  "version": "1.0.0",
-  "description": "Foundry VTT Typescript Template",
+  "name": "libgeometry",
+  "version": "0.0.1-alpha1",
+  "description": "Foundry VTT geometry library",
   "main": "index.js",
   "scripts": {
     "build": "gulp build"
   },
-  "author": "",
+  "author": "Michael Enion",
   "license": "MIT",
   "devDependencies": {
     "gulp": "^4.0.2",
