@@ -60,5 +60,5 @@ Objects are assigned unique ids. The one exception are GeomPixelPoints, which us
 - COUNTERCLOCKWISE: 1
 - CLOCKWISE: -1
 - COLLINEAR: 0
-
+- 2D: Version of method that only accounts for x and y, treating the object as if it were flat on the canvas. 
 
