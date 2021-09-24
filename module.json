@@ -16,6 +16,10 @@
     }
   ],
   "dependencies": [
+    {
+      "name": "Math.js",
+      "manifest": "https://raw.githubusercontent.com/League-of-Foundry-Developers/mathjs-lib/master/module.json"
+    }
   ],
   "conflicts": [
     
