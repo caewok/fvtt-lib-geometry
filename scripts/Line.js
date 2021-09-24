@@ -233,7 +233,6 @@ export class GeomLine {
    intersectsYZ(l) { this._intersects2D(l, "YZ"); }
    intersectsXZ(l) { this._intersects2D(l, "XZ"); }
    
-  
   /**
    * Get the intersection point of this line with another
    * @param {GeomLine} l
@@ -245,8 +244,9 @@ export class GeomLine {
      // l1 = (x1 y1 z1) + a (u1 v1 w1)
      // l2 = (x2 y2 z2) + b (u2 v2 w2)
      // [ u1 -u2 ]     [ a ] = [ x2 - x1 ]
-     // [ v1 -v2 ] dot [ b ] = [ y2 - y1 ]
-     // [ w1 -w2 ]     [ c ] = [ z2 - z1 ]
+     // [ v1 -v2 ] dot [ b ] = [ y2 - y1 ] or
+     
+     // [ w1 -w2 ]     [ b ] = [ z2 - z1 ]
      
      // Use Cramer's rule
      // Ax = b, then xi = det(Ai) / det(A)
@@ -254,16 +254,54 @@ export class GeomLine {
      
    }
    
-   intersection2d(l) {
+   /**
+    * Helper function to determine intersection of line with this one along a plane.
+    * As if the line were projected onto the 2-D plane.
+    * @param {GeomLine} l
+    * @param {"XY"|"XZ"|"YZ"} plane
+    * @return {boolean|GeomPoint|GeomLine} 
+    */ 
+   _intersection2d(l, dim1 = "x", dim2 = "y") {
      // l1 = this
      // l2 = l
      // l1 = (x1 y1) + a (u1 v1)
      // l2 = (x2 y2) + b (u2 v2)
-     // [ u1 -u2 ]     [ a ] = [ x2 - x1 ]
-     // [ v1 -v2 ] dot [ b ] = [ y2 - y1 ]
+     // [ u1 -u2 ]     [ t0 ] = [ x2 - x1 ]
+     // [ v1 -v2 ] dot [ t1 ] = [ y2 - y1 ]
      
      // Use Cramer's rule
      // Ax = b, then xi = det(Ai) / det(A)
+     const A = [
+       [ this.v[dim1], -l.v[dim1] ],
+       [ this.v[dim2], -l.v[dim2] ]
+     ];
+     
+     const detA = math.det(A);
+     if(detA === 0) return false;
+     
+     const b = [ 
+       l.p[dim1] - this.p[dim1], 
+       l.p[dim2] - this.p[dim2] 
+     ];
+     
+     const A0 = [
+       [ b[0], A[0][1] ],
+       [ b[1], A[1][1] ]
+     ];
+     
+     const A1 = [
+       [ A[0][0], b[0] ],
+       [ A[1][0], b[1] ]
+     ];
+     
+     const t0 = det(A0) / detA;
+     const t1 = det(A1) / detA;
+     
+     const intersection1
+     
+     this.v.multiply(t0);
+     p.v.multiply(t1);
+     
      
    }
    
