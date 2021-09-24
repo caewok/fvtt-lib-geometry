@@ -1,7 +1,7 @@
 import { GEOM_CONSTANTS } from "./constants.js";
 import { orient2d } from "./lib/orient2d.min.js";
 
-export class GeomVector extends math.matrix {
+export class GeomVector extends Array {
   /**
    * Vector defines a direction and magnitude (size, or length) in 3D space.
    * (Basically, an arrow pointing in a specific direction.)
@@ -12,12 +12,12 @@ export class GeomVector extends math.matrix {
    * @property {number} y   Magnitude in the y direction  
    * @property {number} z   Magnitude in the z direction
    */
-   constructor(data) {
-     if(data.length > 3) console.warn(`GeomVector: Dimensions exceed 3.`);
-     if(data.length < 1) console.warn(`GeomVector: Dimensions less than 1.`);
-  
-     super(data, "dense");
-        
+   constructor(...items) {
+     if(items.length < 2) console.warn(`GeomVector: constructor passed less than 2 coordinates.`);
+     if(items.length > 3) console.warn(`GeomVector: constructor passed more than 3 coordinates.`);
+     if(items[2] === undefined) items[2] = 0;
+     super(...items);
+
     /**
      * @property {number} _magnitudeSquared  x^2 * y^2 * z^2
      * @private
@@ -65,17 +65,17 @@ export class GeomVector extends math.matrix {
  /**
   * @type {number}
   */
-  get x() { this._data[0]; }
+  get x() { return this[0]; }
   
  /**
   * @type {number}
   */
-  get y() { this._data[1]; } 
+  get y() { return this[1]; } 
   
  /**
   * @type {number}
   */
-  get z() { this._data[2]; } 
+  get z() { return this[2]; } 
   
  /**
   * Magnitude squared, used for comparisons.
