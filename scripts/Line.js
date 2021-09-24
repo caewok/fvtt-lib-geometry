@@ -143,121 +143,128 @@ export class GeomLine {
   }
   
   /**
-   * Orientation in 2D relative to a point
+   * Helper function to get orientation on 2-D plane.
+   * @param {GeomPoint} p 
+   * @param {"XY"|"XZ"|"YZ"} plane
+   * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
+   * @private
+   */
+  _orientation2D(p, dim1 = "x", dim2 = "y") {
+    
+    const t1 = this.point(1);
+    return orient2d(this.p[dim1], this.p[dim2],
+                    t1[dim1], t1[dim2],
+                    p[dim1], p[dim2]);
+    
+  }
+  
+  /**
+   * Orientation on XY relative to a point
+   * See comparable functions for XZ and YZ planes
    * @param {GeomPoint} p   
    * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
    */
-   orientation2D(p) {
-     const t1 = this.point(1);
-     return orient2d(this.p.x, t1.x,
-                     this.p.y, t1.y,
-                     p.x, p.y);
+   orientationXY(p) { return this._orientation2D(p, "x", "y"); }
+   orientationXZ(p) { return this._orientation2D(p, "x", "z"); }
+   orientationYZ(p) { return this._orientation2D(p, "y", "z"); }
+  
+  /**
+   * Helper function to get ccw on 2-D plane
+   * @param {GeomPoint} p
+   * @param {"XY"|"XZ"|"YZ"} plane
+   * @return {GEOM_CONSTANTS.CLOCKWISE |
+              GEOM_CONSTANTS.COLLINEAR | 
+              GEOM_CONSTANTS.COUNTERCLOCKWISE}
+   * @private
+   */
+   _ccw2D(p, plane) {
+     const res = this["orientation" + plane](p);
+     return res < 0 ? GEOM_CONSTANTS.CLOCKWISE :
+            res > 0 ? GEOM_CONSTANTS.COUNTERCLOCKWISE :
+            GEOM_CONSTANTS.COLLINEAR;
    }
   
   /**
-   * Determine whether point is counter-clockwise to this line.
+   * Determine whether point is counter-clockwise to this line on XY plane.
+   * See comparable functions for XZ and YZ planes
    * @param {GeomPoint} p
    * @return {GEOM_CONSTANTS.CLOCKWISE |
               GEOM_CONSTANTS.COLLINEAR | 
               GEOM_CONSTANTS.COUNTERCLOCKWISE}
    */
-   ccw2D(p) {
-     const res = this.orientation2D(p):
-     return res < 0 ? GEOM_CONSTANTS.CLOCKWISE :
-            res > 0 ? GEOM_CONSTANTS.COUNTERCLOCKWISE :
-            GEOM_CONSTANTS.COLLINEAR;
-   }
+   ccwXY(p) { return this._ccw2D(p, "XY"); }
+   ccwXZ(p) { return this._ccw2D(p, "XZ"); }
+   ccwYZ(p) { return this._ccw2D(p, "YZ"); }
    
+  
   /**
    * Determine whether the line contains a point, measured in terms of collinearity
    * @param {GeomPoint} p
    * @return {boolean} True if contains point
    */
-   contains(p) {
-     return this.ccw2D(p) === GEOM_CONSTANTS.COLLINEAR;
-   }
+//    contains(p) {
+//      return this.ccw2D(p) === GEOM_CONSTANTS.COLLINEAR;
+//    }
    
    /**
-    * Determine whether this line intersects another
+    * Helper function to determine intersection of two lines on a plane
     * @param {GeomLine} l
+    * @param {"XY"|"XZ"|"YZ"} plane
     * @return {boolean} True if it intersects
+    * @private
     */
-   intersects2D(l) {
+   _intersects2D(l, plane) {
      const pl0 = l.p;
      const pl1 = l.point(1);
      const p0 = this.p;
      const p1 = this.p(1);
    
-     return this.ccw2D(pl0) !== this.ccw2D(pl1) && 
-            l.ccw2D(p0)  !== l.ccw2D(p1);
-   } 
+     return this._ccw(pl0, plane) !== this.ccw(pl1, plane) && 
+            l.ccw(p0, plane)  !== l.ccw(p1, plane);
+   }
    
+   /**
+    * Determine whether this line intersects another in XY plane
+    * See comparable functions for XZ and YZ planes.
+    * @param {GeomLine} l
+    * @return {boolean} True if it intersects
+    */
+   intersectsXY(l) { this._intersects2D(l, "XY"); }
+   intersectsYZ(l) { this._intersects2D(l, "YZ"); }
+   intersectsXZ(l) { this._intersects2D(l, "XZ"); }
+   
+  
   /**
    * Get the intersection point of this line with another
    * @param {GeomLine} l
    * @return {GeomPoint}
    */
    intersection3D(l) {
-     //this.p.x + t0 * this.v.x = l.p.x + t1 * l.v.x // (1)
-     //this.p.y + t0 * this.v.y = l.p.y + t1 * l.v.y // (2)
-     //this.p.z + t0 * this.v.z = l.p.z + t1 * l.v.z // (3)
-       
-     //t0 = (l.p.x + t1 * l.v.x - this.p.x) / this.v.x // (1)
-     //t0 = (l.p.y + t1 * l.v.y - this.p.y) / this.v.y // (2)
-     //t1 = (this.p.z + t0 * this.v.z - l.p.z) / l.v.z // (3)
+     // l1 = this
+     // l2 = l
+     // l1 = (x1 y1 z1) + a (u1 v1 w1)
+     // l2 = (x2 y2 z2) + b (u2 v2 w2)
+     // [ u1 -u2 ]     [ a ] = [ x2 - x1 ]
+     // [ v1 -v2 ] dot [ b ] = [ y2 - y1 ]
+     // [ w1 -w2 ]     [ c ] = [ z2 - z1 ]
      
-     const p0_x = this.p.x; 
-     const p0_y = this.p.y;
-     const p0_z = this.p.z;
-     const v0_x = this.v.x;
-     const v0_y = this.v.y;
-     const v0_z = this.v.z;
-     const p1_x = l.p.x;
-     const p1_y = l.p.y;
-     const p1_z = l.p.z;
-     const v1_x = l.v.x;
-     const v1_y = l.v.y;
-     const v1_z = l.v.z;
-       
-     const t0_denom_xy = (v0_x * v1_y - v0_y * v1_x);
-     const t0_denom_xz = (v0_x * v1_z - v0_z * v1_x);
-     const t0_denom_yz = (v0_y * v1_z - v0_z * v1_y);
+     // Use Cramer's rule
+     // Ax = b, then xi = det(Ai) / det(A)
      
-     let t0 = undefined;
-     if(!almostEqual(t0_denom_xy, 0)) {
-       t0 = v1_x * (p0_y - p1_y) + v1_y * (p1_x - p0_x) / t0_denom_xy;     
-     } else if(!almostEqual(t0_denom_xz, 0)) {
-       t0 = v1_x * (p0_z - p1_z) + v1_z * (p1_x - p0_x) / t0_denom_xz;     
-     } else if(!almostEqual(t0_denom_yz, 0)) {
-       t0 = v1_y * (p0_z - p1_z) + v1_z * (p1_y - p0_y) / t0_denom_yz;
-     }
-     if(t0 === undefined) return false;
      
-     const t1_denom_xy = (v1_x * v0_y - v1_y * v0_x);
-     const t1_denom_xz = (v1_x * v0_z - v1_z * v0_x);
-     const t1_denom_yz = (v1_y * v0_z - v1_z * v0_y);
+   }
+   
+   intersection2d(l) {
+     // l1 = this
+     // l2 = l
+     // l1 = (x1 y1) + a (u1 v1)
+     // l2 = (x2 y2) + b (u2 v2)
+     // [ u1 -u2 ]     [ a ] = [ x2 - x1 ]
+     // [ v1 -v2 ] dot [ b ] = [ y2 - y1 ]
      
-     let t1 = undefined;
-     if(!almostEqual(t1_denom_xy, 0)) {
-       t1 = v0_x * (p1_y - p0_y) + v0_y * (p0_x - p1_x) / t1_denom_xy;
-     } else if(!almostEqual(t1_denom_xz, 0)) {
-       t1 = v0_x * (p1_z - p0_z) + v0_z * (p0_x - p1_x) / t1_denom_xy;
-     } else if(!almostEqual(t1_denom_yz, 0)) {
-       t1 = v0_y * (p1_z - p0_z) + v0_z * (p0_y - p1_y) / t1_denom_yz;
-     } 
-     if(t1 === undefined) return false;
+     // Use Cramer's rule
+     // Ax = b, then xi = det(Ai) / det(A)
      
-     const i0 = new GeomPoint(p0_x + t0 * v0_x,
-                              p0_y + t0 * v0_y,
-                              p0_z + t0 * v0_z);
-    
-     const i1 = new GeomPoint(p1_x + t1 * v1_x,
-                              p1_y + t1 * v1_y,
-                              p1_z + t1 * v1_z);
-     
-     if(!i0.equivalent(i1)) return false;
-     
-     return i0;     
    }
    
    /**
