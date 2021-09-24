@@ -1,46 +1,392 @@
+import { GeomPoint } from "./Point.js";
+import { GEOM_CONSTANTS } from "./constants.js";
+import { orient2d } from "./lib/orient2d.min.js";
+
 export class GeomLine {  
   /**
    * Represents a line with infinite length in either direction.
-   * Defined by a slope and y-intercept. y = mx + b
-   * @property {number} m    Slope of the line. 0 for horizontal lines. 
-   *                           Undefined for vertical.
-   * @property {number} b    Y-intercept. Undefined for vertical.
-   * @property {number} k    X-intercept. Optional but for vertical lines.
+   * Defined by the parametric form of the equation for a line:
+   *   A Vector and a point on the line.
+   * @property {GeomPoint}  p    Point on the line
+   * @property {GeomVector} v    Vector (analog of slope)
    * @constructor
    */
-  m: number,
-  b: number
-  k: number
 
-  constructor(m, b, k) {
-    this.m = m;
-    this.b = b;
-    this.k = k;
+  constructor(p, v) {
+    this.p = p;
+    this.v = v;
+    
+    /*
+     * @property {number} _x_intercept
+     * @private
+     */
+     this._x_intercept = undefined;
+    
+    /*
+     * @property {number} _y_intercept
+     * @private
+     */
+     this._y_intercept = undefined; 
+    
+    /*
+     * @property {number} _z_intercept
+     * @private
+     */
+     this._z_intercept = undefined; 
+     
+    /*
+     * @property {number} angleXY   In radians
+     * @private
+     */
+     this._angleXY = undefined; 
+     
+    /*
+     * @property {number} angleYZ   In radians
+     * @private
+     */
+     this._angleYZ = undefined; 
+     
+    /*
+     * @property {number} angleXZ   In radians
+     * @private
+     */
+     this._angleXZ = undefined;   
   }
   
-  // factory functions
+  // -------------- GETTERS/SETTERS ------------- //
+  
+  /**
+   * @type {number}
+   */
+   get x_intercept() {
+     if(this._x_intercept === undefined) {
+       const t = almostEqual(v.y, 0) ? -p.z / v.z : -p.y / v.y;
+       this._x_intercept = p.x + t * v.x;
+     }
+     return this._x_intercept;
+   }
+   
+  /**
+   * @type {number}
+   */
+   get y_intercept() { 
+     if(this._y_intercept === undefined) {
+       const t = almostEqual(v.x, 0) ? -p.z / v.z : -p.x / v.x;
+       this._y_intercept = p.y + t * v.y;
+     }
+     return this._y_intercept;
+   } 
+   
+  /**
+   * @type {number}
+   */
+   get z_intercept() {
+     if(this._z_intercept === undefined) {
+       const t = almostEqual(v.y, 0) ? -p.x / v.x : -p.y / v.y;
+       this._z_intercept = p.z + t * v.z;
+     }
+     return this._z_intercept;
+   } 
+    
+  /**
+   * @type {number}
+   */
+   get angleXY() {
+     if(this._angleXY === undefined) {
+       this._angleXY = Math.atan2(this.v.x, this.v.y);
+     }
+     return this._angleXY;
+   }
+   
+  /**
+   * @type {number}
+   */
+   get angleYZ() {
+     if(this._angleYZ === undefined) {
+       this._angleYZ = Math.atan2(this.v.y, this.v.z);
+     }
+     return this._angleYZ;
+   }
+   
+  /**
+   * @type {number}
+   */
+   get angleXZ() {
+     if(this._angleXZ === undefined) {
+       this._angleXZ = Math.atan2(this.v.x, this.v.z);
+     }
+     return this._angleXZ;
+   }  
+   
+  
+  // -------------- FACTORY FUNCTIONS ----------- // 
   /**
    * Construct a line given two points
-   * @param {GeomPoint|GeomPixelPoint} A  First point; anchor for direction
-   * @param {GeomPoint|GeomPixelPoint} B  Second point.
+   * @param {GeomPoint} A  First point
+   * @param {GeomPoint} B  Second point.
    * @return {GeomLine} 
    */}
-  static lineFrom(A: GeomPoint|GeomPixelPoint, 
-                  B: GeomPoint|GeomPixelPoint) {
-    
-    let m = undefined;
-    if(almostEqual(B.x - A.x, 0)) return new GeomLine()
-    
-    const m = (B.y - A.y) / (B.x - A.x)                    
+  static lineFrom(A, B) {
+    return new GeomLine(A, A.subtract(B));
   }
   
-  static lineFrom(A: GeomPixelPoint, B: GeomPixelPoint) {
   
+  // -------------- METHODS --------------------- // 
+  /**
+   * Get arbitrary point on the line
+   * 
+   */
+  point(t) {
+    return new GeomPoint(this.p.x + t * this.v.x,
+                         this.p.y + t * this.v.y,
+                         this.p.z + t * this.v.z);
   }
   
-  static lineFrom(ray: Ray) {
+  /**
+   * Orientation in 2D relative to a point
+   * @param {GeomPoint} p   
+   * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
+   */
+   orientation2D(p) {
+     const t1 = this.point(1);
+     return orient2d(this.p.x, t1.x,
+                     this.p.y, t1.y,
+                     p.x, p.y);
+   }
+  
+  /**
+   * Determine whether point is counter-clockwise to this line.
+   * @param {GeomPoint} p
+   * @return {GEOM_CONSTANTS.CLOCKWISE |
+              GEOM_CONSTANTS.COLLINEAR | 
+              GEOM_CONSTANTS.COUNTERCLOCKWISE}
+   */
+   ccw2D(p) {
+     const res = this.orientation2D(p):
+     return res < 0 ? GEOM_CONSTANTS.CLOCKWISE :
+            res > 0 ? GEOM_CONSTANTS.COUNTERCLOCKWISE :
+            GEOM_CONSTANTS.COLLINEAR;
+   }
+   
+  /**
+   * Determine whether the line contains a point, measured in terms of collinearity
+   * @param {GeomPoint} p
+   * @return {boolean} True if contains point
+   */
+   contains(p) {
+     return this.ccw2D(p) === GEOM_CONSTANTS.COLLINEAR;
+   }
+   
+   /**
+    * Determine whether this line intersects another
+    * @param {GeomLine} l
+    * @return {boolean} True if it intersects
+    */
+   intersects2D(l) {
+     const pl0 = l.p;
+     const pl1 = l.point(1);
+     const p0 = this.p;
+     const p1 = this.p(1);
+   
+     return this.ccw2D(pl0) !== this.ccw2D(pl1) && 
+            l.ccw2D(p0)  !== l.ccw2D(p1);
+   } 
+   
+  /**
+   * Get the intersection point of this line with another
+   * @param {GeomLine} l
+   * @return {GeomPoint}
+   */
+   intersection3D(l) {
+     //this.p.x + t0 * this.v.x = l.p.x + t1 * l.v.x // (1)
+     //this.p.y + t0 * this.v.y = l.p.y + t1 * l.v.y // (2)
+     //this.p.z + t0 * this.v.z = l.p.z + t1 * l.v.z // (3)
+       
+     //t0 = (l.p.x + t1 * l.v.x - this.p.x) / this.v.x // (1)
+     //t0 = (l.p.y + t1 * l.v.y - this.p.y) / this.v.y // (2)
+     //t1 = (this.p.z + t0 * this.v.z - l.p.z) / l.v.z // (3)
+     
+     const p0_x = this.p.x; 
+     const p0_y = this.p.y;
+     const p0_z = this.p.z;
+     const v0_x = this.v.x;
+     const v0_y = this.v.y;
+     const v0_z = this.v.z;
+     const p1_x = l.p.x;
+     const p1_y = l.p.y;
+     const p1_z = l.p.z;
+     const v1_x = l.v.x;
+     const v1_y = l.v.y;
+     const v1_z = l.v.z;
+       
+     const t0_denom_xy = (v0_x * v1_y - v0_y * v1_x);
+     const t0_denom_xz = (v0_x * v1_z - v0_z * v1_x);
+     const t0_denom_yz = (v0_y * v1_z - v0_z * v1_y);
+     
+     let t0 = undefined;
+     if(!almostEqual(t0_denom_xy, 0)) {
+       t0 = v1_x * (p0_y - p1_y) + v1_y * (p1_x - p0_x) / t0_denom_xy;     
+     } else if(!almostEqual(t0_denom_xz, 0)) {
+       t0 = v1_x * (p0_z - p1_z) + v1_z * (p1_x - p0_x) / t0_denom_xz;     
+     } else if(!almostEqual(t0_denom_yz, 0)) {
+       t0 = v1_y * (p0_z - p1_z) + v1_z * (p1_y - p0_y) / t0_denom_yz;
+     }
+     if(t0 === undefined) return false;
+     
+     const t1_denom_xy = (v1_x * v0_y - v1_y * v0_x);
+     const t1_denom_xz = (v1_x * v0_z - v1_z * v0_x);
+     const t1_denom_yz = (v1_y * v0_z - v1_z * v0_y);
+     
+     let t1 = undefined;
+     if(!almostEqual(t1_denom_xy, 0)) {
+       t1 = v0_x * (p1_y - p0_y) + v0_y * (p0_x - p1_x) / t1_denom_xy;
+     } else if(!almostEqual(t1_denom_xz, 0)) {
+       t1 = v0_x * (p1_z - p0_z) + v0_z * (p0_x - p1_x) / t1_denom_xy;
+     } else if(!almostEqual(t1_denom_yz, 0)) {
+       t1 = v0_y * (p1_z - p0_z) + v0_z * (p0_y - p1_y) / t1_denom_yz;
+     } 
+     if(t1 === undefined) return false;
+     
+     const i0 = new GeomPoint(p0_x + t0 * v0_x,
+                              p0_y + t0 * v0_y,
+                              p0_z + t0 * v0_z);
     
+     const i1 = new GeomPoint(p1_x + t1 * v1_x,
+                              p1_y + t1 * v1_y,
+                              p1_z + t1 * v1_z);
+     
+     if(!i0.equivalent(i1)) return false;
+     
+     return i0;     
+   }
+   
+   /**
+    * Intersection of another line with this one in XY dimension.
+    * @param {GeomLine} l       Other line to test for intersection
+    * @param {boolean} as_point If true, return a GeomPoint with z set to 0. 
+    *                           If false, return a GeomLine.
+    * @return {GeomPoint|GeomLine}
+    */
+   intersectionXY(l, as_point = true) {
+        // p0 + t0 * v0 = p1 + t1 * v1
+//         t0 = (p1 + t1 * v1 - p0) / v0
+   
+   
+//      this.p.x + t0 * this.v.x = l.p.x + t1 * l.v.x // (1)
+//      this.p.y + t0 * this.v.y = l.p.y + t1 * l.v.y // (2)
+     
+//      t0 = (l.p.x + t1 * l.v.x - this.p.x) / this.v.x // (1)
+//      t0 = (l.p.y + t1 * l.v.y - this.p.y) / this.v.y // (2)
+//      (l.p.x + t1 * l.v.x - this.p.x) / this.v.x = (l.p.y + t1 * l.v.y - this.p.y) / this.v.y
+//      (l.p.x + t1 * l.v.x - this.p.x) * this.v.y = (l.p.y + t1 * l.v.y - this.p.y) * this.v.x
+//      this.v.y * l.p.x + t1 * l.v.x * this.v.y - this.p.x * this.v.y = this.v.x * l.p.y + t1 * l.v.y * this.v.x - this.p.y * this.v.x
+//      t1 * l.v.x * this.v.y - t1 * l.v.y * this.v.x = this.v.x * l.p.y - this.p.y * this.v.x - this.v.y * l.p.x + this.p.x * this.v.y
+//      t1(l.v.x * this.v.y - l.v.y * this.v.x) = this.v.x * (l.p.y - this.p.y) + this.v.y * (this.p.x - l.p.x)
+//      const t1 = this.v.x * (l.p.y - this.p.y) + this.v.y * (this.p.x - l.p.x) / (l.v.x * this.v.y - l.v.y * this.v.x)
+     
+     // const t1_denom = (l.v.x * this.v.y - l.v.y * this.v.x);
+//      if(almostEqual(t1_denom, 0)) return [];
+     
+//      t1 = (this.p.x + t0 * this.v.x - l.p.x) / l.v.x // (1)
+//      t1 = (this.p.y + t0 * this.v.y - l.p.y) / l.v.y // (2)
+//      (this.p.x + t0 * this.v.x - l.p.x) / l.v.x = (this.p.y + t0 * this.v.y - l.p.y) / l.v.y
+//      (this.p.x + t0 * this.v.x - l.p.x) * l.v.y = (this.p.y + t0 * this.v.y - l.p.y) * l.v.x
+//      this.p.x * l.v.y + t0 * this.v.x * l.v.y - l.p.x * l.v.y = this.p.y * l.v.x + t0 * this.v.y * l.v.x - l.p.y * l.v.x
+//      t0 * this.v.x * l.v.y - t0 * this.v.y * l.v.x = this.p.y * l.v.x - l.p.y * l.v.x - this.p.x * l.v.y + l.p.x * l.v.y
+//      t0(this.v.x * l.v.y - this.v.y * l.v.x) = l.v.x * (this.p.y - l.p.y) + l.v.y * (l.p.x - this.p.x)
+//      const t0 = l.v.x * (this.p.y - l.p.y) + l.v.y * (l.p.x - this.p.x) / (this.v.x * l.v.y - this.v.y * l.v.x)
+     
+     // const t0_denom  = (this.v.x * l.v.y - this.v.y * l.v.x);
+//      if(almostEqual(t0_denom, 0)) return [];
+//      
+//      const t1 = this.v.x * (l.p.y - this.p.y) + this.v.y * (this.p.x - l.p.x) / t1_denom;
+//      const t0 = l.v.x * (this.p.y - l.p.y) + l.v.y * (l.p.x - this.p.x) / t0_denom;
+//      
+//      const intersect_x0 = this.p.x + t0 * this.v.x;
+//      const intersect_y0 = this.p.y + t0 * this.v.y;
+//      
+//      const intersect_x1 = l.p.x + t1 * l.v.x;
+//      const intersect_y1 = l.p.y + t1 * l.v.y;
+//      
+//      if(!almostEqual(intersect_x0, intersect_x1) || !almostEqual(intersect_y0, intersect_y1)) return [];
+     const intersection = this._intersection2D(this.p.x, this.p.y, this.v.x, this.v.y,
+                                               l.p.x, l.p.y, l.v.x, l.v.y);
+     if(!intersection) return false;   
+     return as_point ? intersection :
+                       GeomLine.lineFrom(intersection,
+                                         new GeomPoint(intersection.x, intersection.y, 1));
+   }
+   
+   /**
+    * Intersection of another line with this one in XZ dimension.
+    * @param {GeomLine} l       Other line to test for intersection
+    * @param {boolean} as_point If true, return a GeomPoint with y set to 0. 
+    *                           If false, return a GeomLine.
+    * @return {GeomPoint|GeomLine}
+    */
+   intersectionXZ(l, as_point = true) {
+     const intersection = this._intersection2D(this.p.x, this.p.z, this.v.x, this.v.z,
+                                               l.p.x, l.p.z, l.v.x, l.v.z);
+     if(!intersection) return false;   
+     return as_point ? intersection :
+                       GeomLine.lineFrom(new GeomPoint(intersection.x, 0, intersection.y),
+                                         new GeomPoint(intersection.x, 1, intersection.y));
+   }
+   
+   /**
+    * Intersection of another line with this one in YZ dimension.
+    * @param {GeomLine} l       Other line to test for intersection
+    * @param {boolean} as_point If true, return a GeomPoint with x set to 0. 
+    *                           If false, return a GeomLine.
+    * @return {GeomPoint|GeomLine}
+    */
+   intersectionYZ(l, as_point = true) {
+     const intersection = this._intersection2D(this.p.y, this.p.z, this.v.y, this.v.z,
+                                               l.p.y, l.p.z, l.v.y, l.v.z);
+     if(!intersection) return false;   
+     return as_point ? intersection :
+                       GeomLine.lineFrom(new GeomPoint(0, intersection.x, intersection.y),
+                                         new GeomPoint(1, intersection.x, intersection.y));
+   }
+   
+   
+   /**
+    * Calculate an intersection point in two dimensions
+    * X,Y can stand in for any two dimensions
+    * @param {number} p0_x    X-coordinate on the first line
+    * @param {number} p0_y    Y-coordinate on the first line
+    * @param {number} v0_x    X magnitude of the first line
+    * @param {number} v0_y    Y magnitude of the first line
+    * @param {number} p1_x    X-coordinate on the second line
+    * @param {number} p1_y    Y-coordinate on the second line
+    * @param {number} v1_x    X magnitude of the second line
+    * @param {number} v1_y    Y magnitude of the second line
+    * @return {boolean|GeomPoint} False if no intersection; otherwise the intersection point.
+    * @private
+    */
+   _intersection2D(p0_x, p0_y, v0_x, v0_y, p1_x, p1_y, v1_x, v1_y) {
+     const t0_denom  = (v0_x * v1_y - v0_y * v1_x);
+     if(almostEqual(t0_denom, 0)) return false;
+     
+     const t1_denom = (v1_x * v0_y - v1_y * v0_x);
+     if(almostEqual(t1_denom, 0)) return false;
+   
+     const t0 = v1_x * (p0_y - p1_y) + v1_y * (p1_x - p0_x) / t0_denom;
+     const t1 = v0_x * (p1_y - p0_y) + v0_y * (p0_x - p1_x) / t1_denom;
+     
+     const i0 = new GeomPoint(p0_x + t0 * v0_x,
+                              p0_y + t0 * v0_y);
+                              
+     const i1 = new GeomPoint(p1_x + t1 * v1_x,
+                              p1_y + t1 * v1_y);
+                              
+     if(!i0.equivalent(i1)) return false;                         
+     return i0;
+   }
+   
+   
+   
   
-  }
 
+  
 }
