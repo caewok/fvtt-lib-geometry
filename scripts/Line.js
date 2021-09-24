@@ -125,7 +125,7 @@ export class GeomLine {
    * @param {GeomPoint} A  First point
    * @param {GeomPoint} B  Second point.
    * @return {GeomLine} 
-   */}
+   */
   static lineFrom(A, B) {
     return new GeomLine(A, A.subtract(B));
   }
@@ -297,7 +297,7 @@ export class GeomLine {
      const t0 = det(A0) / detA;
      const t1 = det(A1) / detA;
      
-     const intersection1
+     const intersection1 = 5;
      
      this.v.multiply(t0);
      p.v.multiply(t1);

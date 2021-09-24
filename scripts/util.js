@@ -13,6 +13,6 @@ const PRESET_EPSILON = 1e-8;
   *
   * @return {boolean} True if x and y are within the error of each other.
   */
-export almostEqual(x, y, EPSILON = PRESET_EPSILON) {
+export function almostEqual(x, y, EPSILON = PRESET_EPSILON) {
   return Math.abs(x - y) < EPSILON;
 }

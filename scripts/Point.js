@@ -88,7 +88,7 @@ export class GeomPoint {
               GEOM_CONSTANTS.COUNTERCLOCKWISE}
    */
    ccw2D(p1, p2) {
-     const res = this.orientation2D(p1, p2):
+     const res = this.orientation2D(p1, p2);
      return res < 0 ? GEOM_CONSTANTS.CLOCKWISE :
             res > 0 ? GEOM_CONSTANTS.COUNTERCLOCKWISE :
             GEOM_CONSTANTS.COLLINEAR; 

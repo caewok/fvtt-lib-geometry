@@ -26,7 +26,7 @@ export class GeomPixelVector extends GeomVector {
        return this.equivalentLocation(p, EPSILON) && this.z === p.z;
      }
       
-     return super(p, EPSILON);
+     return GeomVector.prototype.equivalent.call(this, v, EPSILON);
    }
 
   /**
@@ -43,26 +43,13 @@ export class GeomPixelVector extends GeomVector {
    }
    
   /**
-   * 3-D equivalence 
-   * @param {GeomVector} v    Vector to compare
-   * @return {boolean} True if equivalent
-   */
-   equivalent(v) {
-     if(v instanceof GeomPixelVector) { 
-       return this.location_key === v.location_key && 
-                this.z === v.z;
-     }
-     return super(v);
-   }
-   
-  /**
    * Find the vector perpendicular to this an another vector.
    * @override
    */
    perpendicular(v) {
-     if(!(v instance of GeomPixelVector)) return super(v);
+     if(!(v instanceof GeomPixelVector)) return GeomVector.prototype.perpendicular.call(this, v); ;
    
-     const res = GeomVector..crossProduct(this, v);
+     const res = GeomVector.crossProduct(this, v);
      return new GeomPixelVector(res.x, res.y, res.z);
    }  
 }
