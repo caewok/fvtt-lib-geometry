@@ -144,6 +144,13 @@ export class GeomVector extends Array {
     return this._angleYZ;
   }
   
+  // -------------- FACTORY FUNCTIONS ------------- //
+ /**
+  * @param {Array} arr
+  * @return {GeomVector}
+  */
+  static fromArray(arr) { return new GeomVector(...arr); }
+  
   // -------------- METHODS ----------- // 
       
  /**
