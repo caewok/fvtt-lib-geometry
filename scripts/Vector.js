@@ -155,7 +155,7 @@ export class GeomVector extends GeomPoint {
               GEOM_CONSTANTS.COUNTERCLOCKWISE}
    */
    ccw2D(v) {
-     const res = this.orientation2D(v):
+     const res = this.orientation2D(v);
      return res < 0 ? GEOM_CONSTANTS.CLOCKWISE :
             res > 0 ? GEOM_CONSTANTS.COUNTERCLOCKWISE :
             GEOM_CONSTANTS.COLLINEAR;

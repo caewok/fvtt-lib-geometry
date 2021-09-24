@@ -13,22 +13,19 @@ import { GeomPixelLine } from "./PixelLine.js";
 
 import { GeomRay } from "./Ray.js";
 
-import { determinent } from "mathjs";
-
-
 Hooks.once('init', async function() {
   game.modules.get(MODULE_ID).api = {
-    GEOM_CONSTANTS = GEOM_CONSTANTS,
+    GEOM_CONSTANTS: GEOM_CONSTANTS,
     
-    GeomPoint = GeomPoint,
-    GeomPixelPoint = GeomPixelPoint,
+    GeomPoint: GeomPoint,
+    GeomPixelPoint: GeomPixelPoint,
     
-    GeomVector = GeomVector,
-    GeomPixelVector = GeomPixelVector,
+    GeomVector: GeomVector,
+    GeomPixelVector: GeomPixelVector,
     
-    GeomLine = GeomLine,
-    GeomPixelLine = GeomPixelLine,
+    GeomLine: GeomLine,
+    GeomPixelLine: GeomPixelLine,
     
-    GeomRay = GeomRay
+    GeomRay: GeomRay
   };
-}
+});

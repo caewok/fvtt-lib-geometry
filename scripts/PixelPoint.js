@@ -28,7 +28,7 @@ export class GeomPixelPoint extends GeomPoint {
        return this.equivalent2D(p, EPSILON) && this.z === p.z;
      }
       
-     return super(p, EPSILON);
+     return GeomPoint.prototype.equivalent.call(this, p, EPSILON);
    }
   
   /**
@@ -37,7 +37,7 @@ export class GeomPixelPoint extends GeomPoint {
    */
    equivalent2D(p, EPSILON)  {
      if(p instanceof GeomPixelPoint) { return this.location_key === p.location_key; }
-     return super(p, EPSILON);
+     return GeomPoint.prototype.equivalent2D.call(this, p, EPSILON);
    }  
    
   /**
@@ -50,7 +50,7 @@ export class GeomPixelPoint extends GeomPoint {
        return orient2dfast(this.x, this.y, p1.x, p1.y, p2.x, p2.y);
      }
    
-     return super(p1, p2);
+     return GeomPoint.prototype.orientation2D.call(this, p1, p2);
    }
    
 }
