@@ -25,10 +25,12 @@ export class GeomVector extends Array {
      this._magnitudeSquared = undefined;
      
     /**
-     * @property {number} _magnitudeSquared2D  x^2 * y^2
+     * @property {number} _magnitudeSquaredXY  x^2 * y^2
      * @private
      */ 
-     this._magnitudeSquared2D = undefined;
+     this._magnitudeSquaredXY = undefined;
+     this._magnitudeSquaredXZ = undefined;
+     this._magnitudeSquaredYZ = undefined;
      
     /**
      * @property {number} _magnitude    sqrt(x^2 * y^2 * z^2)
@@ -37,28 +39,21 @@ export class GeomVector extends Array {
      this._magnitude = undefined;
      
     /**
-     * @property {number} _magnitude2D    sqrt(x^2 * y^2)
+     * @property {number} _magnitudeXY    sqrt(x^2 * y^2)
      * @private
      */
-     this._magnitude2D = undefined;
+     this._magnitudeXY = undefined;
+     this._magnitudeXZ = undefined;
+     this._magnitudeYZ = undefined;
      
     /**
      * @property {number} _angleXY
      * @private
      */
      this._angleXY = undefined;
-     
-    /**
-     * @property {number} _angleXZ
-     * @private
-     */
      this._angleXZ = undefined;
-     
-    /**
-     * @property {number} _angleYZ
-     * @private
-     */
      this._angleYZ = undefined;
+    
    }
   
   // -------------- GETTERS/SETTERS ------------- //
@@ -66,34 +61,54 @@ export class GeomVector extends Array {
   * @type {number}
   */
   get x() { return this[0]; }
-  
- /**
-  * @type {number}
-  */
   get y() { return this[1]; } 
-  
- /**
-  * @type {number}
-  */
   get z() { return this[2]; } 
-  
+ 
  /**
   * Magnitude squared, used for comparisons.
   * @type {number}
   */ 
   get magnitudeSquared() {
-    if(this._magnitudeSquared === undefined) { this._magnitudeSquared = x*x + y*y + z*z; }
+    if(this._magnitudeSquared === undefined) { 
+      this._magnitudeSquared = this.x * this.x + 
+                               this.y * this.y +
+                               this.z * this.z; 
+    }
     return this._magnitudeSquared;
   }
-  
+    
  /**
   * Magnitude squared of the {x, y} dimensions, used for comparisons
   * @type {number}
   */
-  get magnitudeSquared2D() {
-    if(this._magnitudeSquared2D === undefined) { this._magnitudeSquared2D = x*x + y*y; }
-    return this._magnitudeSquared2D;
+  get magnitudeSquaredXY() {
+    if(this._magnitudeSquared2D === undefined) { 
+       this._magnitudeSquaredXY = this.x * this.x + this.y * this.y; 
+    }
+    return this._magnitudeSquaredXY;
   }
+  
+ /**
+  * Magnitude squared of the {x, z} dimensions, used for comparisons
+  * @type {number}
+  */
+  get magnitudeSquaredXZ() {
+    if(this._magnitudeSquaredXZ === undefined) { 
+       this._magnitudeSquaredXZ = this.x * this.x + this.z * this.z; 
+    }
+    return this._magnitudeSquaredXZ;
+  }
+  
+ /**
+  * Magnitude squared of the {y, z} dimensions, used for comparisons
+  * @type {number}
+  */
+  get magnitudeSquaredYZ() {
+    if(this._magnitudeSquaredYZ === undefined) { 
+       this._magnitudeSquaredYZ = this.y * this.y + this.z * this.z; 
+    }
+    return this._magnitudeSquaredYZ;
+  } 
  
  /**
   * Magnitude (length)
@@ -107,14 +122,36 @@ export class GeomVector extends Array {
   }
 
  /**
-  * Magnitude (length) of the {x, y } coordinates
+  * Magnitude (length) of the {x, y} coordinates
   * @type {number}
   */
-  get magnitude2D() {
-    if(this._magnitude2D === undefined) { 
-      this._magnitude2D = Math.sqrt(this.magnitudeSquared2D); 
+  get magnitudeXY() {
+    if(this._magnitudeXY === undefined) { 
+      this._magnitudeXY = Math.sqrt(this.magnitudeSquaredXY); 
     }
-    return this._magnitude2D;
+    return this._magnitudeXY;
+  }
+ 
+ /**
+  * Magnitude (length) of the {x, z} coordinates
+  * @type {number}
+  */
+  get magnitudeXZ() {
+    if(this._magnitudeXZ === undefined) { 
+      this._magnitudeXZ = Math.sqrt(this.magnitudeSquaredXZ); 
+    }
+    return this._magnitudeXZ;
+  }
+  
+ /**
+  * Magnitude (length) of the {y, z} coordinates
+  * @type {number}
+  */
+  get magnitudeYZ() {
+    if(this._magnitudeYZ === undefined) { 
+      this._magnitudeYZ = Math.sqrt(this.magnitudeSquaredYZ); 
+    }
+    return this._magnitudeYZ;
   }
  
  /**
@@ -154,13 +191,13 @@ export class GeomVector extends Array {
   // -------------- METHODS ----------- // 
       
  /**
-  * Test for orientation in 2 dimensions against another vector
+  * Test for orientation against another vector
   * Orientation is with regard to the canvas origin
   * @param {GeomPoint} v   Vector or point to test against
   * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
   * Approximation of twice the signed area of the triangle defined by the three points
   */
-  orientation2D(v) {
+  orientation(v) {
     return orient2d(GEOM_CONSTANTS.ORIGIN.x,
                     GEOM_CONSTANTS.ORIGIN.y,
                     this.x,
@@ -169,88 +206,149 @@ export class GeomVector extends Array {
                     v.y);
   }
   
+  
+ /**
+   * Helper function to get orientation on 2-D plane.
+   * @param {GeomPoint} p 
+   * @param {"XY"|"XZ"|"YZ"} plane
+   * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
+   * @private
+   */
+  _orientation2D(p, dim1 = "x", dim2 = "y") {
+    const t1 = this.point(1);
+    return orient2d(GEOM_CONSTANTS.ORIGIN[dim1],
+                    GEOM_CONSTANTS.ORIGIN[dim2],
+                    this[dim1], 
+                    this[dim2],
+                    p[dim1],
+                    p[dim2]);
+  }
+  
+ /**
+  * Orientation on XY relative to a point
+  * See comparable functions for XZ and YZ planes
+  * Orientation is with regard to the canvas origin
+  * @param {GeomPoint} p Point to test against
+  * @return number  Positive value if CCW, negative if CW, 0 if collinear.
+  * Approximation of twice the signed area of the triangle defined by the three points
+  */
+  orientationXY(p) { return this._orientation2D(p, "x", "y"); }
+  orientationXZ(p) { return this._orientation2D(p, "x", "z"); }
+  orientationYZ(p) { return this._orientation2D(p, "y", "z"); }
+  
   /**
-   * Test if orientation is counterclockwise, clockwise, or collinear.
-   * See orientation2d.
-   * @param {GeomPoint} v   Vector or point to test against
+   * Helper function to get ccw on 2-D plane
+   * @param {GeomPoint} p
+   * @param {"XY"|"XZ"|"YZ"} plane
+   * @return {GEOM_CONSTANTS.CLOCKWISE |
+              GEOM_CONSTANTS.COLLINEAR | 
+              GEOM_CONSTANTS.COUNTERCLOCKWISE}
+   * @private
+   */
+   _ccw2D(p, plane) {
+     const res = this["orientation" + plane](p);
+     return res < 0 ? GEOM_CONSTANTS.CLOCKWISE :
+            res > 0 ? GEOM_CONSTANTS.COUNTERCLOCKWISE :
+            GEOM_CONSTANTS.COLLINEAR;
+   }
+  
+  /**
+   * Determine whether point is counter-clockwise to this line on XY plane.
+   * See comparable functions for XZ and YZ planes
+   * @param {GeomPoint} p
    * @return {GEOM_CONSTANTS.CLOCKWISE |
               GEOM_CONSTANTS.COLLINEAR | 
               GEOM_CONSTANTS.COUNTERCLOCKWISE}
    */
-   ccw2D(v) {
-     const res = this.orientation2D(v);
-     return res < 0 ? GEOM_CONSTANTS.CLOCKWISE :
-            res > 0 ? GEOM_CONSTANTS.COUNTERCLOCKWISE :
-            GEOM_CONSTANTS.COLLINEAR;
-   }  
+   ccwXY(p) { return this._ccw2D(p, "XY"); }
+   ccwXZ(p) { return this._ccw2D(p, "XZ"); }
+   ccwYZ(p) { return this._ccw2D(p, "YZ"); }
+ 
+ /**
+  * Is another vector equivalent to this one in magnitude and direction?
+  */ 
+  equivalent(v) {
+    return almostEqual(this.x, v.x) &&
+           almostEqual(this.y, v.y) &&
+           almostEqual(this.z, v.z);
+  }
+  
+ /**
+  * Helper function for 2-D equivalence
+  */
+  _equivalent2D(v, dim1, dim2) {
+    return almostEqual(this[dim1], v[dim1]) &&
+           almostEqual(this[dim2], v[dim2]);
+  }
+  
+ /**
+  * Is another vector equivalent to this one along two dimensions?
+  * @param {GeomVector} v    Vector to compare
+  * @return {boolean} True if equivalent in two dimensions
+  */
+  equivalentXY(v) { return this._equivalent2D(v, "x", "y"); }
+  equivalentXZ(v) { return this._equivalent2D(v, "x", "z"); }
+  equivalentYZ(v) { return this._equivalent2D(v, "y", "z"); }
    
-  /*
-   * Add a vector to this one
-   * @param {GeomVector} v    Vector to sum
-   * @return {GeomVector} New vector
+  // -------------- MATH.JS METHODS ----------------------- // 
+   
+  /**
+   * Add another vector to this one.
+   * @param {GeomVector} v
+   * @return {GeomVector}
    */
-   add(v) {
-     return new GeomVector(this.x + v.x, this.y + v.y);
-   }
-   
-  /*
-   * Subtract a vector from this one
-   * @param {GeomVector} v    Vector to sum
-   * @return {GeomVector} New vector
+  add(v) { return GeomVector.forArray(math.add(this, v)); }
+  
+  /**
+   * Subtract another vector to this one
+   * @param {GeomVector} v
+   * @return {GeomVector}
    */
-   subtract(v) {
-     return new GeomVector(this.x - v.x, this.y -  v.y);
-   }
+  subtract(v) { return GeomVector.forArray(math.subtract(this, v)); } 
    
-  /*
-   * Multiply this vector by a scalar
-   * @param {number} scalar   Number by which to multiply this vector
-   * @return {GeomVector} New vector
+  /**
+   * Dot product of this vector with another.
+   * Result is a scalar.
+   * - Project of one vector onto the other
+   * - If B is a unit vector, then A • B = ||A||cos(Ø), magnitude of the projection of
+   *   A in the direction of B.
+   * - If both are normalized, then the arc cosine of the dot product is the 
+   *   angle Ø between the two vectors.
+   * - 0: Two vectors are perpendicular
+   * - 1: Two vectors point in the same direction
+   * - -1: Two vectors point in the opposite direction. 
+   * @param {GeomVector} v
+   * @return {number}
    */
-   multiply(scalar) {
-     return new GeomVector(this.x * scalar, this.y * scalar);
-   } 
-   
-  /*
-   * Divide this vector by a scalar
-   * @param {number} scalar   Number by which to divide this vector
-   * @return {GeomVector} New vector
-   */  
-   divide(scalar) {
-     return new GeomVector(this.x / scalar, this.y / scalar);
-   }
-   
-  /*
-   * Equivalence for a vector is length and direction
-   * @param {GeomVector} v    Vector to compare
-   * @return {boolean} True if equivalent in two dimensions
-   */
-   equivalent2D(v) {
-     return almostEqual(this.magnitudeSquared2D, v.magnitudeSquared2D) && 
-              this.ccw2D(v) === GEOM_CONSTANTS.COLLINEAR;
+   dot(v) {
+     return math.dot(this, v);
    }
    
   /**
-   * Find the vector perpendicular to this an another vector.
-   * Determined by calculating the cross product
+   * Cross product of this vector with another.
+   * Resulting vector is perpendicular to the first two.
    * @param {GeomVector} v   Vector to cross
-   * @param {GeomVector} New perpendicular vector
+   * @param {GeomVector} New vector, perpendicular to this vector and v.
    */
-   perpendicular(v) {
-     const res = GeomVector.crossProduct(this, v);
-     return new GeomVector(res.x, res.y, res.z);
+   cross(v) {
+     return GeomVector.fromArray(math.cross(this, v));
    } 
    
   /**
-   * Calculate cross product
-   * @param {x: number, y: number, z: number} p1   First point
-   * @param {x: number, y: number, z: number} p2   Second point
+   * Normalize this vector to unit length 1
+   * @return {GeomVector} New vector normalized to length 1
    */
-   static crossProduct(p1, p2) {
-     const x = (p1.y * p2.z - p2.y * p1.z);
-     const y = (p1.x * p2.z - p2.x * p1.z);
-     const z = (p1.x * p2.y - p2.x * p1.y);
-     return { x: x, y: y, z: z }
+   normalize() {
+     if(this.magnitudeSquared === 0) return this; // probably a point?
+     if(this.magnitudeSquared === 1) return this; // already normalized
+     
+     const invLen = 1 / this.magnitude;
+     const out = new GeomVector(this.x * invLen,
+                                this.y * invLen,
+                                this.z * invLen);
+     out._magnitudeSquared = 1;
+     out._magnitude = 1;
+     return out;                          
    }
    
       
