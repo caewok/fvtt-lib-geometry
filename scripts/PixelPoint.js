@@ -1,56 +1,24 @@
 import { GeomPoint } from "./Point.js";
 
-export class GeomPixelPoint extends GeomPoint {
+export class GeomPixelPoint extends GeomPixelVector {
   /**
-   * Represents pixel coordinates in 3-D Euclidean space.
-   * @param {number} x    Integer
-   * @param {number} y    Integer
-   * @param {number} z    Integer elevation off the canvas. Default 0.
-   * @constructor
-   */
-  constructor(x, y, z = 0) {
-    x = Math.round(x);
-    y = Math.round(y);
-    z = Math.round(x);
-    
-    super(x, y, z);
-    
-    this.location_key = this.x | (this.y << 16);
+   * Represents a point in 3-D Euclidean space.
+   * Technically equivalent to a vector, but conceptually different.
+   * This version uses only integer coordinates.
+   */   
+
+  // -------------- GETTERS/SETTERS ------------- //
+  
+  
+  // -------------- METHODS --------------------- //    
+  
+ /**
+  * Draw a filled circular point of given radius. Only drawn in x,y dimensions
+  * @param {number} color
+  * @param {number} alpha
+  * @param {number} radius
+  */
+  draw(color = COLORS.gray, alpha = 1, radius = 5) {
+   GeomPoint.prototype.draw.call(this, color, alpha, radius);
   }
-  
-  // -------------- METHODS ----------- // 
-  /**
-   * Test for PixelPoint equivalence using location_key
-   * @override
-   */
-   equivalent(p, EPSILON) {
-     if(p instanceof GeomPixelPoint) { 
-       return this.equivalent2D(p, EPSILON) && this.z === p.z;
-     }
-      
-     return GeomPoint.prototype.equivalent.call(this, p, EPSILON);
-   }
-  
-  /**
-   * Determine if another PixelPoint point shares the same 2-D space as this one.
-   * @override
-   */
-   equivalent2D(p, EPSILON)  {
-     if(p instanceof GeomPixelPoint) { return this.location_key === p.location_key; }
-     return GeomPoint.prototype.equivalent2D.call(this, p, EPSILON);
-   }  
-   
-  /**
-   * Given two other points, determine their orientation
-   * @override
-   */
-   orientation2D(p1, p2) {
-     if(p1 instanceof GeomPixelPoint &&
-        p2 instanceof GeomPixelPoint) {   
-       return orient2dfast(this.x, this.y, p1.x, p1.y, p2.x, p2.y);
-     }
-   
-     return GeomPoint.prototype.orientation2D.call(this, p1, p2);
-   }
-   
 }

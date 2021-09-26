@@ -1,8 +1,9 @@
 import { GeomPoint } from "./Point.js";
+import { GeomVector } from "./Vector.js";
 import { GEOM_CONSTANTS } from "./constants.js";
 import { orient2d } from "./lib/orient2d.min.js";
 
-export class GeomLine {  
+export class GeomLine extends GeomVector {  
   /**
    * Represents a line with infinite length in either direction.
    * Defined by the parametric form of the equation for a line:
@@ -126,8 +127,31 @@ export class GeomLine {
    * @param {GeomPoint} B  Second point.
    * @return {GeomLine} 
    */
-  static lineFrom(A, B) {
+  static fromPoints(A, B) {
     return new GeomLine(A, A.subtract(B));
+  }
+  
+  /**
+   * Get the canvas borders as lines
+   * @return {GeomLine[]} The four canvas borders as infinite lines
+   */
+  static canvasEdges() {
+    // clockwise from 0,0
+    let canvas_pts = [{ x: 0, y: 0 }, 
+                      { x: canvas.dimensions.width, y: 0 },
+                      { x: canvas.dimensions.width, y: canvas.dimensions.height },
+                      { x: 0, y: canvas.dimensions.height }];
+  
+   canvas_pts = canvas_pts.map(pt => new GeomPoint(pt.x, pt.y));
+  
+   const canvas_edges = [
+       GeomLine.fromPoints(canvas_pts[0], canvas_pts[1]),
+       GeomLine.fromPoints(canvas_pts[1], canvas_pts[2]),
+       GeomLine.fromPoints(canvas_pts[2], canvas_pts[3]),
+       GeomLine.fromPoints(canvas_pts[3], canvas_pts[0]),
+     ];
+   
+   return canvas_edges;  
   }
   
   
@@ -137,9 +161,7 @@ export class GeomLine {
    * 
    */
   point(t) {
-    return new GeomPoint(this.p.x + t * this.v.x,
-                         this.p.y + t * this.v.y,
-                         this.p.z + t * this.v.z);
+    return new GeomPoint.fromArray(math.add(this.p, math.dotMultiply(this.v, t)));
   }
   
   /**
@@ -236,22 +258,19 @@ export class GeomLine {
   /**
    * Get the intersection point of this line with another
    * @param {GeomLine} l
+   * @param {boolean} as_point If true, return a GeomPoint with z set to 0. 
+   *                           If false, return a GeomLine.
    * @return {GeomPoint}
    */
    intersection3D(l) {
-     // l1 = this
-     // l2 = l
-     // l1 = (x1 y1 z1) + a (u1 v1 w1)
-     // l2 = (x2 y2 z2) + b (u2 v2 w2)
-     // [ u1 -u2 ]     [ a ] = [ x2 - x1 ]
-     // [ v1 -v2 ] dot [ b ] = [ y2 - y1 ] or
+     // get the x,y intersection then the x,z intersection
+     const intersection_xy = this._intersection2D(l, "x", "y");
+     if(!intersection_xy) return false;
      
-     // [ w1 -w2 ]     [ b ] = [ z2 - z1 ]
+     const intersection_xz = this._intersection2D(l, "x", "z");
+     if(!intersection_xz) return false;
      
-     // Use Cramer's rule
-     // Ax = b, then xi = det(Ai) / det(A)
-     
-     
+     return intersection_xy;
    }
    
    /**
@@ -261,29 +280,28 @@ export class GeomLine {
     * @param {"XY"|"XZ"|"YZ"} plane
     * @return {boolean|GeomPoint|GeomLine} 
     */ 
-   _intersection2d(l, dim1 = "x", dim2 = "y") {
-     // l1 = this
-     // l2 = l
-     // l1 = (x1 y1) + a (u1 v1)
-     // l2 = (x2 y2) + b (u2 v2)
-     // [ u1 -u2 ]     [ t0 ] = [ x2 - x1 ]
-     // [ v1 -v2 ] dot [ t1 ] = [ y2 - y1 ]
+   _intersection2D(l, dim1 = "x", dim2 = "y") {
+     // l0 = this
+     // l1 = l
+     // l0 = (x0 y0) + a (u0 v0)
+     // l1 = (x1 y1) + b (u1 v1)
+     // [ u0 -u1 ]     [ t0 ] = [ x1 - x0 ]
+     // [ v0 -v1 ] dot [ t1 ] = [ y1 - y0 ]
      
      // Use Cramer's rule
      // Ax = b, then xi = det(Ai) / det(A)
-     const A = [
-       [ this.v[dim1], -l.v[dim1] ],
-       [ this.v[dim2], -l.v[dim2] ]
-     ];
+     const p0 = [this.p[dim1], this.p[dim2]];
+     const v0 = [this.v[dim1], this.v[dim2]];
      
+     const p1 = [l.p[dim1], l.p[dim2]];
+     const v1 = [l.v[dim1], l.v[dim2]];
+     
+     const A = math.matrixFromColumns(v0, math.unaryMinus(v1));
      const detA = math.det(A);
      if(detA === 0) return false;
      
-     const b = [ 
-       l.p[dim1] - this.p[dim1], 
-       l.p[dim2] - this.p[dim2] 
-     ];
-     
+     const b = math.subtract(p1, p0);
+          
      const A0 = [
        [ b[0], A[0][1] ],
        [ b[1], A[1][1] ]
@@ -294,15 +312,15 @@ export class GeomLine {
        [ A[1][0], b[1] ]
      ];
      
-     const t0 = det(A0) / detA;
-     const t1 = det(A1) / detA;
+     const t0 = math.det(A0) / detA;
+     const t1 = math.det(A1) / detA;
      
-     const intersection1 = 5;
+     const intersection0 = this.point(t0);
+     const intersection1 = this.point(t1);
      
-     this.v.multiply(t0);
-     p.v.multiply(t1);
+     if(!intersection0._equivalent2D(intersection1, dim1, dim2)) return false;
      
-     
+     return intersection0;
    }
    
    /**
@@ -312,56 +330,16 @@ export class GeomLine {
     *                           If false, return a GeomLine.
     * @return {GeomPoint|GeomLine}
     */
-   intersectionXY(l, as_point = true) {
-        // p0 + t0 * v0 = p1 + t1 * v1
-//         t0 = (p1 + t1 * v1 - p0) / v0
-   
-   
-//      this.p.x + t0 * this.v.x = l.p.x + t1 * l.v.x // (1)
-//      this.p.y + t0 * this.v.y = l.p.y + t1 * l.v.y // (2)
-     
-//      t0 = (l.p.x + t1 * l.v.x - this.p.x) / this.v.x // (1)
-//      t0 = (l.p.y + t1 * l.v.y - this.p.y) / this.v.y // (2)
-//      (l.p.x + t1 * l.v.x - this.p.x) / this.v.x = (l.p.y + t1 * l.v.y - this.p.y) / this.v.y
-//      (l.p.x + t1 * l.v.x - this.p.x) * this.v.y = (l.p.y + t1 * l.v.y - this.p.y) * this.v.x
-//      this.v.y * l.p.x + t1 * l.v.x * this.v.y - this.p.x * this.v.y = this.v.x * l.p.y + t1 * l.v.y * this.v.x - this.p.y * this.v.x
-//      t1 * l.v.x * this.v.y - t1 * l.v.y * this.v.x = this.v.x * l.p.y - this.p.y * this.v.x - this.v.y * l.p.x + this.p.x * this.v.y
-//      t1(l.v.x * this.v.y - l.v.y * this.v.x) = this.v.x * (l.p.y - this.p.y) + this.v.y * (this.p.x - l.p.x)
-//      const t1 = this.v.x * (l.p.y - this.p.y) + this.v.y * (this.p.x - l.p.x) / (l.v.x * this.v.y - l.v.y * this.v.x)
-     
-     // const t1_denom = (l.v.x * this.v.y - l.v.y * this.v.x);
-//      if(almostEqual(t1_denom, 0)) return [];
-     
-//      t1 = (this.p.x + t0 * this.v.x - l.p.x) / l.v.x // (1)
-//      t1 = (this.p.y + t0 * this.v.y - l.p.y) / l.v.y // (2)
-//      (this.p.x + t0 * this.v.x - l.p.x) / l.v.x = (this.p.y + t0 * this.v.y - l.p.y) / l.v.y
-//      (this.p.x + t0 * this.v.x - l.p.x) * l.v.y = (this.p.y + t0 * this.v.y - l.p.y) * l.v.x
-//      this.p.x * l.v.y + t0 * this.v.x * l.v.y - l.p.x * l.v.y = this.p.y * l.v.x + t0 * this.v.y * l.v.x - l.p.y * l.v.x
-//      t0 * this.v.x * l.v.y - t0 * this.v.y * l.v.x = this.p.y * l.v.x - l.p.y * l.v.x - this.p.x * l.v.y + l.p.x * l.v.y
-//      t0(this.v.x * l.v.y - this.v.y * l.v.x) = l.v.x * (this.p.y - l.p.y) + l.v.y * (l.p.x - this.p.x)
-//      const t0 = l.v.x * (this.p.y - l.p.y) + l.v.y * (l.p.x - this.p.x) / (this.v.x * l.v.y - this.v.y * l.v.x)
-     
-     // const t0_denom  = (this.v.x * l.v.y - this.v.y * l.v.x);
-//      if(almostEqual(t0_denom, 0)) return [];
-//      
-//      const t1 = this.v.x * (l.p.y - this.p.y) + this.v.y * (this.p.x - l.p.x) / t1_denom;
-//      const t0 = l.v.x * (this.p.y - l.p.y) + l.v.y * (l.p.x - this.p.x) / t0_denom;
-//      
-//      const intersect_x0 = this.p.x + t0 * this.v.x;
-//      const intersect_y0 = this.p.y + t0 * this.v.y;
-//      
-//      const intersect_x1 = l.p.x + t1 * l.v.x;
-//      const intersect_y1 = l.p.y + t1 * l.v.y;
-//      
-//      if(!almostEqual(intersect_x0, intersect_x1) || !almostEqual(intersect_y0, intersect_y1)) return [];
-     const intersection = this._intersection2D(this.p.x, this.p.y, this.v.x, this.v.y,
-                                               l.p.x, l.p.y, l.v.x, l.v.y);
-     if(!intersection) return false;   
-     return as_point ? intersection :
+    intersectionXY(l, as_point = true) {
+      const intersection = this._intersection2D(l, "x", "y");
+      if(!res) return false;
+      
+      intersection.z = 0;
+      return as_point ? intersection :
                        GeomLine.lineFrom(intersection,
-                                         new GeomPoint(intersection.x, intersection.y, 1));
-   }
-   
+                                         new GeomVector(intersection.x, intersection.y, 1));
+    } 
+    
    /**
     * Intersection of another line with this one in XZ dimension.
     * @param {GeomLine} l       Other line to test for intersection
@@ -369,15 +347,16 @@ export class GeomLine {
     *                           If false, return a GeomLine.
     * @return {GeomPoint|GeomLine}
     */
-   intersectionXZ(l, as_point = true) {
-     const intersection = this._intersection2D(this.p.x, this.p.z, this.v.x, this.v.z,
-                                               l.p.x, l.p.z, l.v.x, l.v.z);
-     if(!intersection) return false;   
-     return as_point ? intersection :
-                       GeomLine.lineFrom(new GeomPoint(intersection.x, 0, intersection.y),
-                                         new GeomPoint(intersection.x, 1, intersection.y));
-   }
-   
+    intersectionXZ(l, as_point = true) {
+      const intersection = this._intersection2D(l, "x", "z");
+      if(!res) return false;
+      
+      intersection.y = 0;
+      return as_point ? intersection :
+                       GeomLine.lineFrom(intersection,
+                                         new GeomVector(intersection.x, 1, intersection.z));
+    } 
+    
    /**
     * Intersection of another line with this one in YZ dimension.
     * @param {GeomLine} l       Other line to test for intersection
@@ -385,53 +364,52 @@ export class GeomLine {
     *                           If false, return a GeomLine.
     * @return {GeomPoint|GeomLine}
     */
-   intersectionYZ(l, as_point = true) {
-     const intersection = this._intersection2D(this.p.y, this.p.z, this.v.y, this.v.z,
-                                               l.p.y, l.p.z, l.v.y, l.v.z);
-     if(!intersection) return false;   
-     return as_point ? intersection :
-                       GeomLine.lineFrom(new GeomPoint(0, intersection.x, intersection.y),
-                                         new GeomPoint(1, intersection.x, intersection.y));
-   }
-   
-   
-   /**
-    * Calculate an intersection point in two dimensions
-    * X,Y can stand in for any two dimensions
-    * @param {number} p0_x    X-coordinate on the first line
-    * @param {number} p0_y    Y-coordinate on the first line
-    * @param {number} v0_x    X magnitude of the first line
-    * @param {number} v0_y    Y magnitude of the first line
-    * @param {number} p1_x    X-coordinate on the second line
-    * @param {number} p1_y    Y-coordinate on the second line
-    * @param {number} v1_x    X magnitude of the second line
-    * @param {number} v1_y    Y magnitude of the second line
-    * @return {boolean|GeomPoint} False if no intersection; otherwise the intersection point.
-    * @private
-    */
-   _intersection2D(p0_x, p0_y, v0_x, v0_y, p1_x, p1_y, v1_x, v1_y) {
-     const t0_denom  = (v0_x * v1_y - v0_y * v1_x);
-     if(almostEqual(t0_denom, 0)) return false;
-     
-     const t1_denom = (v1_x * v0_y - v1_y * v0_x);
-     if(almostEqual(t1_denom, 0)) return false;
-   
-     const t0 = v1_x * (p0_y - p1_y) + v1_y * (p1_x - p0_x) / t0_denom;
-     const t1 = v0_x * (p1_y - p0_y) + v0_y * (p0_x - p1_x) / t1_denom;
-     
-     const i0 = new GeomPoint(p0_x + t0 * v0_x,
-                              p0_y + t0 * v0_y);
-                              
-     const i1 = new GeomPoint(p1_x + t1 * v1_x,
-                              p1_y + t1 * v1_y);
-                              
-     if(!i0.equivalent(i1)) return false;                         
-     return i0;
-   }
-   
-   
-   
+    intersectionYZ(l, as_point = true) {
+      const intersection = this._intersection2D(l, "y", "z");
+      if(!res) return false;
+      
+      intersection.x = 0;
+      return as_point ? intersection :
+                       GeomLine.lineFrom(intersection,
+                                         new GeomVector(1, intersection.y, intersection.z));
+    } 
+    
   
-
-  
+   
+   
+  /**
+   * Draw this line extending across the entire canvas
+   * @param {number} color
+   * @param {number} alpha
+   * @param {number} width
+   */
+  draw(color = COLORS.gray, alpha = 1, width = 1) {
+    // draw from one canvas edge all the way to the other
+    // to do so, locate the intersections of this line with the canvas
+    const canvas_edges = GeomLine.canvasEdges().filter(e => {
+      this.intersectsXY(e);
+    });
+    const intersections = canvas_edges.map(e => {
+      this.intersetionsXY(e);
+    });
+    
+    if(intersections.length === 0) {
+      // could be simply vertical in the z direction. 
+      ui.notifications.warn("No intersections with canvas edge found for line.");
+      this.point(0).draw(color, alpha);
+      return;
+    }
+    
+    if(intersections.length === 1) {
+      // should not happen
+      ui.notifications.error("Only one intersection with canvas edge found for line.");
+      return;
+    }
+    
+    canvas.controls.debug
+      .lineStyle(width, color, alpha)
+      .moveTo(intersections[0].x, intersections[0].y)
+      .lineTo(intersections[1].x, intersections[1].y);      
+  }
+   
 }

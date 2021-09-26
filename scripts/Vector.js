@@ -54,6 +54,11 @@ export class GeomVector extends Array {
      this._angleXZ = undefined;
      this._angleYZ = undefined;
     
+    /**
+     * @property {string} _id
+     * @private
+     */
+     this._id = undefined;
    }
   
   // -------------- GETTERS/SETTERS ------------- //
@@ -63,6 +68,45 @@ export class GeomVector extends Array {
   get x() { return this[0]; }
   get y() { return this[1]; } 
   get z() { return this[2]; } 
+  
+ /**
+  * @type {number}
+  */
+  set x(value) { 
+    this[0] = x; 
+    this._clearCached();
+  }
+  
+ /**
+  * @type {number}
+  */
+  set y(value) { 
+    this[1] = y; 
+    this._clearCached();
+  }
+  
+ /**
+  * @type {number}
+  */
+  set z(value) { 
+    this[2] = z; 
+    this._clearCached();
+  }
+ 
+ /**
+   * Unique id for this point
+   * @type {string}
+   */
+   get id() {
+     if(!this._id) { this._id = foundry.utils.randomID(); }
+     return this._id;
+   }
+   
+  /**
+   * Set id to specific value
+   * @param {string} value
+   */
+   set id(value) { this._id = value; }
  
  /**
   * Magnitude squared, used for comparisons.
@@ -189,11 +233,31 @@ export class GeomVector extends Array {
   static fromArray(arr) { return new GeomVector(...arr); }
   
   // -------------- METHODS ----------- // 
+  
+ /**
+  * Clear cached calculations
+  * @private
+  */
+  _clearCached(
+    this._magnitudeSquared = undefined;
+    this._magnitudeSquaredXY = undefined;
+    this._magnitudeSquaredXZ = undefined;
+    this._magnitudeSquaredYZ = undefined;
+    
+    this._magnitude = undefined;
+    this._magnitudeXY = undefined;
+    this._magnitudeXZ = undefined;
+    this._magnitudeYZ = undefined;
+    
+    this._angleXY = undefined;
+    this._angleXZ = undefined;
+    this._angleYZ = undefined;
+  ) 
       
  /**
   * Test for orientation against another vector
   * Orientation is with regard to the canvas origin
-  * @param {GeomPoint} v   Vector or point to test against
+  * @param {GeomVector} v   Vector or point to test against
   * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
   * Approximation of twice the signed area of the triangle defined by the three points
   */
@@ -297,14 +361,23 @@ export class GeomVector extends Array {
    * @param {GeomVector} v
    * @return {GeomVector}
    */
-  add(v) { return GeomVector.forArray(math.add(this, v)); }
+  add(v) { return GeomVector.fromArray(math.add(this, v)); }
   
   /**
    * Subtract another vector to this one
    * @param {GeomVector} v
    * @return {GeomVector}
    */
-  subtract(v) { return GeomVector.forArray(math.subtract(this, v)); } 
+  subtract(v) { return GeomVector.fromArray(math.subtract(this, v)); } 
+  
+  /**
+   * Multiply by a scalar
+   * @param {number} scalar 
+   * @return {GeomVector}  
+   */
+   multiplyScalar(scalar) { 
+     return GeomVector.fromArray(math.dotMultiply(this, scalar)); }
+   }
    
   /**
    * Dot product of this vector with another.
@@ -350,6 +423,24 @@ export class GeomVector extends Array {
      out._magnitude = 1;
      return out;                          
    }
+   
+  /**
+   * Draw this vector from a given origin point. (for debugging)
+   * @param {number} color
+   * @param {number} alpha
+   * @param {number} width
+   */
+  draw(origin, color = COLORS.gray, alpha = 1, width = 1) {
+    origin = new GeomPoint(origin.x, origin.y, origin?.z);
+    const end_point = origin.add(this);
+  
+    canvas.controls.debug
+      .lineStyle(width, color, alpha)
+      .moveTo(origin.x, origin.y)
+      .lineTo(end_point.x, end_point.y);
+      
+    // TO-DO: Add arrow at end      
+  }
    
       
 }
