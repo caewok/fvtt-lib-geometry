@@ -23,8 +23,8 @@ export class GeomPixelLine extends GeomLine {
    * @param {GeomPixelPoint} B  Second point.
    * @return {GeomPixelLine} 
    */
-  static lineFrom(A, B) {
-    return new GeomPixelLine(A, A.subtract(B));
+  static fromPoints(A, B) {
+    return new GeomPixelLine(A, B.subtract(A));
   }
   
   
