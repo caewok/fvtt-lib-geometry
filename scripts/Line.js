@@ -215,7 +215,7 @@ export class GeomLine {
     */
     parallel(l) {
      const dot = this.v.dot(l.v);
-     return almostEqual(dot * dot, this.v.magnitudeSquared * this.l.magnitudeSquared);
+     return almostEqual(dot * dot, this.v.magnitudeSquared * l.v.magnitudeSquared);
     }
     
    /**
@@ -243,8 +243,8 @@ export class GeomLine {
     * @return {boolean} True if parallel
     */
     parallel2D(l, plane) {
-      const l0 = GeomVector.projectToPlane(this, plane);
-      const l1 = GeomVector.projectToPlane(l, plane);
+      const l0 = new GeomLine(this.p, GeomVector.projectToPlane(this.v, plane));
+      const l1 = new GeomLine(l.p, GeomVector.projectToPlane(l.v, plane));
       return l0.parallel(l1);
     }
     
@@ -254,7 +254,7 @@ export class GeomLine {
     * @param {"XY"|"XZ"|"YZ"} plane
     * @return {boolean} True if parallel
     */
-    intersect2D(l, plane) { return !this.parallel2D(l, plane); }
+    intersects2D(l, plane) { return !this.parallel2D(l, plane); }
 
    /**
     * Is this line perpendicular to another on the specified plane?
@@ -263,8 +263,8 @@ export class GeomLine {
     * @return {boolean} True if parallel
     */
     perpendicular2D(l, plane) {
-      const l0 = GeomVector.projectToPlane(this, plane);
-      const l1 = GeomVector.projectToPlane(l, plane);
+      const l0 = new GeomLine(this.p, GeomVector.projectToPlane(this.v, plane));
+      const l1 = new GeomLine(l.p, GeomVector.projectToPlane(l.v, plane));
       return l0.perpendicular(l1);
     }
    
@@ -294,6 +294,7 @@ export class GeomLine {
     * @return {boolean|GeomPoint|GeomLine} 
     */ 
    _intersection2D(l, dim1 = "x", dim2 = "y") {
+
      // l0 = this
      // l1 = l
      // l0 = (x0 y0) + a (u0 v0)
@@ -308,8 +309,10 @@ export class GeomLine {
      
      const p1 = [l.p[dim1], l.p[dim2]];
      const v1 = [l.v[dim1], l.v[dim2]];
-     
-     const A = math.matrixFromColumns(v0, math.unaryMinus(v1));
+
+     // math.matrixFromColumns does not exist. Do it by hand
+     const A = [[v0[0], -v1[0]], [v0[1], -v1[1]]];
+
      const detA = math.det(A);
      if(detA === 0) return false;
      
@@ -329,7 +332,7 @@ export class GeomLine {
      const t1 = math.det(A1) / detA;
      
      const intersection0 = this.point(t0);
-     const intersection1 = this.point(t1);
+     const intersection1 = l.point(t1);
      
      if(!intersection0._equivalent2D(intersection1, dim1, dim2)) return false;
      
@@ -345,7 +348,7 @@ export class GeomLine {
     */
     intersectionXY(l, as_point = true) {
       const intersection = this._intersection2D(l, "x", "y");
-      if(!res) return false;
+      if(!intersection) return false;
       
       intersection.z = 0;
       return as_point ? intersection :
@@ -362,7 +365,7 @@ export class GeomLine {
     */
     intersectionXZ(l, as_point = true) {
       const intersection = this._intersection2D(l, "x", "z");
-      if(!res) return false;
+      if(!intersection) return false;
       
       intersection.y = 0;
       return as_point ? intersection :
@@ -379,7 +382,7 @@ export class GeomLine {
     */
     intersectionYZ(l, as_point = true) {
       const intersection = this._intersection2D(l, "y", "z");
-      if(!res) return false;
+      if(!intersection) return false;
       
       intersection.x = 0;
       return as_point ? intersection :
@@ -399,13 +402,23 @@ export class GeomLine {
   draw(color = COLORS.gray, alpha = 1, width = 1) {
     // draw from one canvas edge all the way to the other
     // to do so, locate the intersections of this line with the canvas
-    const canvas_edges = GeomLine.canvasEdges().filter(e => {
-      this.intersects2D(e, "XY");
+    //const canvas_edges = GeomLine.canvasEdges().filter(e => this.intersects2D(e, "XY") );
+    const canvas_edges = GeomLine.canvasEdges().filter(e => this.intersects2D(e, "XY"));
+    let intersections = canvas_edges.map(e => this.intersectionXY(e) );
+
+    // find the two intersections that are within the canvas
+    intersections = intersections.filter(i => {
+      const x_in = (i.x > 0 && i.x < canvas.dimensions.width) || 
+                   almostEqual(i.x, 0) || 
+                   almostEqual(i.x, canvas.dimensions.width);
+      
+      if(!x_in) return false;
+      
+      return (i.y > 0 && i.y < canvas.dimensions.height) || 
+             almostEqual(i.y, 0) || 
+             almostEqual(i.y, canvas.dimensions.height);
     });
-    const intersections = canvas_edges.map(e => {
-      this.intersections2D, "XY");
-    });
-    
+   
     if(intersections.length === 0) {
       // could be simply vertical in the z direction. 
       ui.notifications.warn("No intersections with canvas edge found for line.");

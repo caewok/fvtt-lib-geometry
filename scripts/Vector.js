@@ -1,6 +1,6 @@
 import { GEOM_CONSTANTS } from "./constants.js";
 import { orient2d } from "./lib/orient2d.min.js";
-import { COLORS } from "./util.js";
+import { COLORS, almostEqual } from "./util.js";
 
 export class GeomVector extends Array {
   /**
@@ -74,7 +74,7 @@ export class GeomVector extends Array {
   * @type {number}
   */
   set x(value) { 
-    this[0] = x; 
+    this[0] = value; 
     this._clearCached();
   }
   
@@ -82,7 +82,7 @@ export class GeomVector extends Array {
   * @type {number}
   */
   set y(value) { 
-    this[1] = y; 
+    this[1] = value; 
     this._clearCached();
   }
   
@@ -90,7 +90,7 @@ export class GeomVector extends Array {
   * @type {number}
   */
   set z(value) { 
-    this[2] = z; 
+    this[2] = value; 
     this._clearCached();
   }
  
