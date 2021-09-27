@@ -278,11 +278,14 @@ export class GeomLine {
      let l0 = this;
      let l1 = l;
      if(in2D) {
-       l0 = GeomVector.projectToPlane(this, plane);
-       l1 = GeomVector.projectToPlane(l, plane);
+       l0.v = GeomVector.projectToPlane(l0.v, plane);
+       l1.v = GeomVector.projectToPlane(l1.v, plane);
+
+       l0.p = GeomVector.projectToPlane(l0.p, plane);
+       l1.p = GeomVector.projectToPlane(l1.p, plane);
      }
      
-     const nzd = this._nonZeroDeterminant(this, l, { in2D: in2D, plane: plane });
+     const nzd = this._nonZeroDeterminant(l0, l1, { in2D: in2D, plane: plane });
      if(!nzd) return false;
           
      const A0 = [
@@ -329,7 +332,7 @@ export class GeomLine {
      }
      
      const ln = dim1.length;     
-     for(i = 0; i < ln; i += 1) {
+     for(let i = 0; i < ln; i += 1) {
        const d1 = dim1[i];
        const d2 = dim2[i];
      
@@ -358,13 +361,16 @@ export class GeomLine {
     * @return {GeomPoint|GeomLine}
     */
     intersection2D(l, plane, as_point = true) {
-      const l0 = GeomVector.projectToPlane(this, plane);
-      const l1 = GeomVector.projectToPlane(l, plane);
+      const intersection = this._intersection(l, { in2D: true, plane: plane }); 
       if(!intersection) return false;
-      return as_point ? 
-               intersection :
-               GeomLine.lineFrom(intersection,
-                                 new GeomVector(intersection.x, intersection.y, 1));
+      if(as_point) return intersection;
+
+      // make a line, infinite in the non-plane direction
+      const x = (plane === "YZ") ? 1 : intersection.x;
+      const y = (plane === "XZ") ? 1 : intersection.y;
+      const z = (plane === "XY") ? 1 : intersection.z;
+
+      return GeomLine.fromPoints(intersection, new GeomPoint(x, y, z));
     }
        
   /**

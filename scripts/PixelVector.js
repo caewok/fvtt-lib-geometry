@@ -36,7 +36,7 @@ export class GeomPixelVector extends GeomVector {
     if(v instanceof GeomPixelVector) {
       return this.location_key === v.location_key && this.z === v.z;
     }
-    return GeomPixel.prototype.equivalent.call(this, v);
+    return GeomVector.prototype.equivalent.call(this, v);
   }
   
  /**
@@ -50,7 +50,7 @@ export class GeomPixelVector extends GeomVector {
       return this.location_key === v.location_key;
     }
     
-    return GeomPixel.prototype.equivalent2D.call(this, v, plane);
+    return GeomVector.prototype.equivalent2D.call(this, v, plane);
   }   
   
  /**
