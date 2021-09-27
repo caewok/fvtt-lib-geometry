@@ -1,5 +1,6 @@
 import { GEOM_CONSTANTS } from "./constants.js";
 import { orient2d } from "./lib/orient2d.min.js";
+import { COLORS } from "./util.js";
 
 export class GeomVector extends Array {
   /**
@@ -203,7 +204,7 @@ export class GeomVector extends Array {
   * @type {number}
   */ 
   get angleXY() {
-    if(this._angleXY === undefined) this._angleXY = Math.atan(this.x, this.y);
+    if(this._angleXY === undefined) this._angleXY = math.atan2(this.x, this.y);
     return this._angleXY;
   }
   
@@ -212,7 +213,7 @@ export class GeomVector extends Array {
   * @type {number}
   */ 
   get angleXZ() {
-    if(this._angleXZ === undefined) this._angleXZ = Math.atan(this.x, this.z);
+    if(this._angleXZ === undefined) this._angleXZ = math.atan2(this.x, this.z);
     return this._angleXZ;
   }
 
@@ -221,7 +222,7 @@ export class GeomVector extends Array {
   * @type {number}
   */ 
   get angleYZ() {
-    if(this._angleYZ === undefined) this._angleYZ = Math.atan(this.y, this.z);
+    if(this._angleYZ === undefined) this._angleYZ = math.atan2(this.y, this.z);
     return this._angleYZ;
   }
   
@@ -238,7 +239,7 @@ export class GeomVector extends Array {
   * Clear cached calculations
   * @private
   */
-  _clearCached(
+  _clearCached() {
     this._magnitudeSquared = undefined;
     this._magnitudeSquaredXY = undefined;
     this._magnitudeSquaredXZ = undefined;
@@ -252,8 +253,8 @@ export class GeomVector extends Array {
     this._angleXY = undefined;
     this._angleXZ = undefined;
     this._angleYZ = undefined;
-  ) 
-      
+  }
+
  /**
   * Test for orientation against another vector
   * Orientation is with regard to the canvas origin
@@ -376,7 +377,7 @@ export class GeomVector extends Array {
    * @return {GeomVector}  
    */
    multiplyScalar(scalar) { 
-     return GeomVector.fromArray(math.dotMultiply(this, scalar)); }
+     return GeomVector.fromArray(math.dotMultiply(this, scalar));
    }
    
   /**

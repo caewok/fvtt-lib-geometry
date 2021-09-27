@@ -9,9 +9,9 @@ export class GeomPixelVector extends GeomVector {
    constructor(...items) {   
      super(...items);
      
-     this[0] = round(this[0]);
-     this[1] = round(this[1]);
-     this[2] = round(this[2]);
+     this[0] = Math.round(this[0]);
+     this[1] = Math.round(this[1]);
+     this[2] = Math.round(this[2]);
     
      this.location_key = this.x | (this.y << 16);
    }

@@ -2,8 +2,9 @@ import { GeomPoint } from "./Point.js";
 import { GeomVector } from "./Vector.js";
 import { GEOM_CONSTANTS } from "./constants.js";
 import { orient2d } from "./lib/orient2d.min.js";
+import { COLORS, almostEqual } from "./util.js";
 
-export class GeomLine extends GeomVector {  
+export class GeomLine {  
   /**
    * Represents a line with infinite length in either direction.
    * Defined by the parametric form of the equation for a line:
@@ -16,7 +17,7 @@ export class GeomLine extends GeomVector {
   constructor(p, v) {
     this.p = p;
     this.v = v;
-    
+
     /*
      * @property {number} _x_intercept
      * @private
@@ -92,33 +93,17 @@ export class GeomLine extends GeomVector {
   /**
    * @type {number}
    */
-   get angleXY() {
-     if(this._angleXY === undefined) {
-       this._angleXY = Math.atan2(this.v.x, this.v.y);
-     }
-     return this._angleXY;
-   }
+   get angleXY() { return v.angleXY; }
    
   /**
    * @type {number}
    */
-   get angleYZ() {
-     if(this._angleYZ === undefined) {
-       this._angleYZ = Math.atan2(this.v.y, this.v.z);
-     }
-     return this._angleYZ;
-   }
+   get angleYZ() { return v.angleYZ; }
    
   /**
    * @type {number}
    */
-   get angleXZ() {
-     if(this._angleXZ === undefined) {
-       this._angleXZ = Math.atan2(this.v.x, this.v.z);
-     }
-     return this._angleXZ;
-   }  
-   
+   get angleXZ() { return v.angleXZ; }
   
   // -------------- FACTORY FUNCTIONS ----------- // 
   /**
@@ -128,7 +113,7 @@ export class GeomLine extends GeomVector {
    * @return {GeomLine} 
    */
   static fromPoints(A, B) {
-    return new GeomLine(A, A.subtract(B));
+    return new GeomLine(A, B.subtract(A));
   }
   
   /**
@@ -157,11 +142,15 @@ export class GeomLine extends GeomVector {
   
   // -------------- METHODS --------------------- // 
   /**
-   * Get arbitrary point on the line
-   * 
+   * Get a point on the line
+   * t = 0 is this.p.
+   * Each increment of t by 1 is equal to adding the line vector magnitude to the line point.
+   * So if this.p = {0, 0, 0} and this.v = {10, 20, -10}, this.point(2) returns {20, 40, -20}
+   * @param {number} t  Increment, from line formula p + t•v
+   * @return {GeomPoint} Point on the line
    */
   point(t) {
-    return new GeomPoint.fromArray(math.add(this.p, math.dotMultiply(this.v, t)));
+    return GeomPoint.fromArray(math.add(this.p, math.dotMultiply(this.v, t)));
   }
   
   /**
@@ -239,10 +228,20 @@ export class GeomLine extends GeomVector {
      const pl0 = l.p;
      const pl1 = l.point(1);
      const p0 = this.p;
-     const p1 = this.p(1);
+     const p1 = this.point(1);
    
-     return this._ccw(pl0, plane) !== this.ccw(pl1, plane) && 
-            l.ccw(p0, plane)  !== l.ccw(p1, plane);
+     return this._ccw2D(pl0, plane) !== this._ccw2D(pl1, plane) && 
+            l._ccw2D(p0, plane)  !== l._ccw2D(p1, plane);
+   }
+
+   /**
+    * Determine whether this line intersects another in 3-D
+    * For vectors, 
+    * @param {GeomLine} l
+    * @return {boolean} True if it intersects
+    */
+   intersects(l) {
+
    }
    
    /**

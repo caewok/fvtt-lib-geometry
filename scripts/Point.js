@@ -9,6 +9,12 @@ export class GeomPoint extends GeomVector {
 
   // -------------- GETTERS/SETTERS ------------- //
   
+  // -------------- FACTORY FUNCTIONS ----------- //
+ /**
+  * @param {Array} arr
+  * @return {GeomPoint}
+  */
+  static fromArray(arr) { return new GeomPoint(...arr); }
   
   // -------------- METHODS --------------------- // 
   

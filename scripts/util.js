@@ -16,3 +16,18 @@ const PRESET_EPSILON = 1e-8;
 export function almostEqual(x, y, EPSILON = PRESET_EPSILON) {
   return Math.abs(x - y) < EPSILON;
 }
+
+// Simple set of colors for drawing and debugging 
+export const COLORS = {
+  orange: 0xFFA500,
+  yellow: 0xFFFF00,
+  green: 0x00FF00, 
+  greenyellow: 0xADFF2F,
+  blue: 0x0000FF,
+  lightblue: 0xADD8E6,
+  red: 0xFF0000,
+  gray: 0x808080,
+  black: 0x000000,
+  white: 0xFFFFFF
+}
+
