@@ -161,7 +161,9 @@ export class GeomLine {
   */
   orientation2D(p, plane = "XY") {
     // Treat the point as a vector, and compare to the vector for this line
-    return this.v.orient2D(p, plane);
+    // Need to set the origin of the point to the 0-point for this line
+    // Because points have a 0,0 origin whereas the line originates at the line point
+    return this.v.orient2D(p.subtract(this.p), plane);
   }
   
  /**
@@ -174,7 +176,8 @@ export class GeomLine {
   */
   ccw2D(p, plane) {
     // Treat the point as a vector, and compare to the vector for this line
-    return this.v.ccw2D(p, plane)
+    // Need to set the origin of the point to the 0-point for this line
+    return this.v.ccw2D(p.subtract(this.p), plane)
   }
   
  /**
