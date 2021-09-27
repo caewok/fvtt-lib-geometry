@@ -52,6 +52,27 @@ export class GeomPixelVector extends GeomVector {
     
     return GeomPixel.prototype.equivalent2D.call(this, v, plane);
   }   
+  
+ /**
+  * Orientation on 2D plane with respect to another vector.
+  * (Assumes both vectors use the same origin point)
+  * @override
+  */
+  orientation2D(v, plane = "XY", {use_robust = true} = {}) {
+    if(v instanceof GeomPixelVector) use_robust = false;
+    return GeomVector.prototype.orientation2D.call(this, v, plane, 
+                                                   {use_robust: use_robust});
+  }
+
+ /**
+  * CCW on 2D plane with respect to another vector
+  * @override
+  */
+  ccw2D(v, plane, {use_robust = true} = {}) {
+    if(v instanceof GeomPixelVector) use_robust = false;
+    return GeomVector.prototype.ccw2D.call(this, v, plane, 
+                                           {use_robust: use_robust});
+  }
    
  /**
   * @override

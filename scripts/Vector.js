@@ -1,6 +1,7 @@
-import { GEOM_CONSTANTS } from "./constants.js";
-import { orient2d } from "./lib/orient2d.min.js";
-import { COLORS, almostEqual } from "./util.js";
+import { GEOM_CONSTANTS, COLORS } from "./constants.js";
+import { orient2d, orient2dfast } from "./lib/orient2d.min.js";
+import { almostEqual } from "./util.js";
+
 
 export class GeomVector extends Array {
   /**
@@ -287,30 +288,34 @@ export class GeomVector extends Array {
   * (Assumes both vectors use the same origin point)
   * @param {GeomVector}     v 
   * @param {"XY"|"XZ"|"YZ"} plane
+  * @param {boolean}        use_robust  If false, use a fast, non-robust orient function   
   * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
   */
-  orientation2D(v, plane = "XY") {
+  orientation2D(v, plane = "XY", {use_robust = true} = {}) {
     const dim1 = (plane === "YZ") ? "y" : "x";
     const dim2 = (plane === "XY") ? "y" : "z";
     
-    orient2d(GEOM_CONSTANTS.ORIGIN[dim1],
-                    GEOM_CONSTANTS.ORIGIN[dim2],
-                    this[dim1], 
-                    this[dim2],
-                    v[dim1],
-                    v[dim2]); 
+    const fn = use_robust ? orient2d : orient2dfast;
+    
+    return fn(GEOM_CONSTANTS.ORIGIN[dim1],
+              GEOM_CONSTANTS.ORIGIN[dim2],
+              this[dim1], 
+              this[dim2],
+              v[dim1],
+              v[dim2]); 
   }
 
  /**
   * CCW on 2D plane with respect to another vector
-  * @param {GeomVector}      v
-  * @param {"XY"|"XZ"|"YZ"}  plane
+  * @param {GeomVector}     v
+  * @param {"XY"|"XZ"|"YZ"} plane
+  * @param {boolean}        use_robust  If false, use a fast, non-robust orient function
   * @return {GEOM_CONSTANTS.CLOCKWISE |
              GEOM_CONSTANTS.COLLINEAR | 
              GEOM_CONSTANTS.COUNTERCLOCKWISE}
   */
-  ccw2D(v, plane) {
-    const res = this.orientation2D(v, plane);
+  ccw2D(v, plane, {use_robust = true} = {}) {
+    const res = this.orientation2D(v, plane, {use_robust: use_robust});
     return res < 0 ? GEOM_CONSTANTS.CLOCKWISE :
            res > 0 ? GEOM_CONSTANTS.COUNTERCLOCKWISE :
            GEOM_CONSTANTS.COLLINEAR;

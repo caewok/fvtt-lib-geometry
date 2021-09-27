@@ -1,4 +1,5 @@
 import { almostEqual, COLORS } from "./util.js";
+import { COLORS } from "./constants.js";
 import { GeomVector } from "./Vector.js";
 
 export class GeomPoint extends GeomVector {

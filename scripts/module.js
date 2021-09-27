@@ -1,7 +1,7 @@
 export const MODULE_ID = 'libgeometry';
 
-import { GEOM_CONSTANTS } from "./constants.js";
-import { COLORS } from "./util.js";
+import { GEOM_CONSTANTS, COLORS } from "./constants.js";
+import { clearDrawings } from "./util.js";
 
 import { GeomPoint } from "./Point.js";
 import { GeomPixelPoint } from "./PixelPoint.js";
@@ -18,6 +18,7 @@ Hooks.once('init', async function() {
   game.modules.get(MODULE_ID).api = {
     GEOM_CONSTANTS: GEOM_CONSTANTS,
     COLORS: COLORS,
+    clearDrawings: clearDrawings,
     
     GeomPoint: GeomPoint,
     GeomPixelPoint: GeomPixelPoint,

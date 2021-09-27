@@ -4,6 +4,7 @@ GeomVector = game.modules.get("libgeometry").api.GeomVector;
 GeomPixelVector = game.modules.get("libgeometry").api.GeomPixelVector;
 GeomLine = game.modules.get("libgeometry").api.GeomLine;
 GeomPixelLine = game.modules.get("libgeometry").api.GeomPixelLine;
+GeomPixelLine = game.modules.get("libgeometry").api.clearDrawings;
 COLORS = game.modules.get("libgeometry").api.COLORS;
 
 function drawSegment(p0, p1, color = COLORS.blue, alpha = 1, width = 1) {
@@ -71,3 +72,14 @@ lix.draw(COLORS.blue)
 
 l2 = GeomLine.fromPoints(p, pix);
 l2.draw(COLORS.orange)
+
+// Test CCW -------------------------------
+
+// Vector
+
+// Line
+
+
+// Test intersections
+
+

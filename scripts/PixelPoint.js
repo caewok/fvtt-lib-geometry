@@ -1,5 +1,5 @@
 import { GeomPixelVector } from "./PixelVector.js";
-import { COLORS } from "./util.js";
+import { COLORS } from "./constants.js";
 
 export class GeomPixelPoint extends GeomPixelVector {
   /**

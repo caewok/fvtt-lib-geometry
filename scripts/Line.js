@@ -1,8 +1,8 @@
 import { GeomPoint } from "./Point.js";
 import { GeomVector } from "./Vector.js";
-import { GEOM_CONSTANTS } from "./constants.js";
+import { GEOM_CONSTANTS, COLORS } from "./constants.js";
 import { orient2d } from "./lib/orient2d.min.js";
-import { COLORS, almostEqual } from "./util.js";
+import { almostEqual } from "./util.js";
 
 export class GeomLine {  
   /**
