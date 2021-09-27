@@ -289,14 +289,13 @@ export class GeomLine {
    /**
     * Helper function to determine intersection of line with this one along a plane.
     * As if the line were projected onto the 2-D plane.
-    * @param {GeomLine}     l
-    * @param {"x"|"y"|"z"}  dim1  First dimension of the plane
-    * @param {"x"|"y"|"z"}  dim2  Second dimension of the plane
+    * @param {GeomLine}       l
     * @param {boolean}      in2D  If true, get the intersection only for the indicated 
     *                             dim1 and dim2
+    * @param {"XY"|"XZ"|"YZ"} plane   Only used if in 2D is true
     * @return {boolean|GeomPoint|GeomLine} 
     */ 
-   _intersection(l, {dim1 = "x", dim2 = "y", in2D = false} = {}) {
+   _intersection(l, { in2D = false, plane = "XY" } = {}) {
      // l0 = this
      // l1 = l
      // l0 = (x0 y0) + a (u0 v0)
@@ -306,39 +305,36 @@ export class GeomLine {
      
      // Use Cramer's rule
      // Ax = b, then xi = det(Ai) / det(A)
-     const p0 = [this.p[dim1], this.p[dim2]];
-     const v0 = [this.v[dim1], this.v[dim2]];
+     let l0 = this;
+     let l1 = l;
+     if(in2D) {
+       l0 = GeomVector.projectToPlane(this, plane);
+       l1 = GeomVector.projectToPlane(l, plane);
+     }
      
-     const p1 = [l.p[dim1], l.p[dim2]];
-     const v1 = [l.v[dim1], l.v[dim2]];
-
-     // math.matrixFromColumns does not exist. Do it by hand
-     const A = [[v0[0], -v1[0]], [v0[1], -v1[1]]];
-
-     const detA = math.det(A);
-     if(detA === 0) return false;
-     
-     const b = math.subtract(p1, p0);
+     const nzd = this._nonZeroDeterminant(this, l, { in2D: in2D, plane: plane });
+     if(!nzd) return false;
           
      const A0 = [
-       [ b[0], A[0][1] ],
-       [ b[1], A[1][1] ]
+       [ nzd.b[0], nzd.A[0][1] ],
+       [ nzd.b[1], nzd.A[1][1] ]
      ];
      
      const A1 = [
-       [ A[0][0], b[0] ],
-       [ A[1][0], b[1] ]
+       [ nzd.A[0][0], nzd.b[0] ],
+       [ nzd.A[1][0], nzd.b[1] ]
      ];
      
-     const t0 = math.det(A0) / detA;
-     const t1 = math.det(A1) / detA;
+     const t0 = math.det(A0) / nzd.detA;
+     const t1 = math.det(A1) / nzd.detA;
+          
+     const i0 = l0.point(t0);
+     const i1 = l1.point(t1);
      
-     const intersection0 = this.point(t0);
-     const intersection1 = l.point(t1);
-     
-     if(!intersection0._equivalent2D(intersection1, dim1, dim2)) return false;
-     
-     return intersection0;
+     const intersections_match = in2D ? 
+             i0.equivalent2D(i1, plane) : i0.equivalent(i1)
+             
+     return intersections_match ? i0 : false;                  
    }
    
   /**
@@ -349,9 +345,38 @@ export class GeomLine {
    * @param {"x"|"y"|"z"}  dim2  Second dimension of the plane
    * @param {boolean}      in2D  If true, test only in 2D 
    * @return {Array|boolean} The valid array or false if determinant is zero
+   * @private
    */
-   nonZeroDeterminant(l0, l1, {dim1 = "x", dim2 = "y", in2D = false} = {}) {
+   _nonZeroDeterminant(l0, l1, {in2D = false, plane = "XY"} = {}) {
+     // If 2D, test the A matrix for the given two dimensions
+     // If 3D, test all combinations (could the others be different?)
+     let dim1 = ["x", "x", "y"];
+     let dim2 = ["y", "z", "z"];
      
+     if(in2D) {
+       dim1 = (plane === "YZ") ? "y" : "x";
+       dim2 = (plane === "XY") ? "y" : "z";
+     }
+     
+     const ln = dim1.length;     
+     for(i = 0; i < ln; i += 1) {
+       const d1 = dim1[i];
+       const d2 = dim2[i];
+     
+       const p0 = [l0.p[d1], l0.p[d2]];
+       const v0 = [l0.v[d1], l0.v[d2]];
+       
+       const p1 = [l1.p[d1], l1.p[d2]];
+       const v1 = [l1.v[d1], l1.v[d2]];
+       
+       // math.matrixFromColumns does not exist. Do it by hand
+       const A = [[v0[0], -v1[0]], [v0[1], -v1[1]]];
+       const detA = math.det(A);
+       
+       if(!almostEqual(detA, 0)) { return { A: A, b: math.subtract(p1, p0), detA: detA }; }
+     }
+     
+     return false;
    }
    
    /**
