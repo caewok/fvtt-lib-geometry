@@ -31,3 +31,11 @@ export const COLORS = {
   white: 0xFFFFFF
 }
 
+
+/**
+ * Draw a point
+
+/**
+ * Clear the canvas of drawings. Used for debugging
+ */
+export function clearDrawings() { canvas.controls.debug.clear() } 
