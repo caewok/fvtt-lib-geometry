@@ -1,4 +1,4 @@
-import { almostEqual, COLORS } from "./util.js";
+import { almostEqual } from "./util.js";
 import { COLORS } from "./constants.js";
 import { GeomVector } from "./Vector.js";
 
