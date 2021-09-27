@@ -233,6 +233,23 @@ export class GeomVector extends Array {
   */
   static fromArray(arr) { return new GeomVector(...arr); }
   
+ /**
+  * Strip one dimension from a vector
+  * @param {GeomVector}     v       Vector to project onto a plane
+  * @param {"XY"|"XZ"|"YZ"} plane   String indicating plane to use
+  * @return {GeomVector} New vector with third dimension zeroed out
+  */
+  static projectToPlane(v, plane) {
+    switch(plane) {
+      case "XY":
+        return new GeomVector(v.x, v.y, 0);
+      case "XZ":
+        return new GeomVector(v.x, 0, v.z);
+      case "YZ":
+        return new GeomVector(0, v.y, v.z);
+    }
+  }
+  
   // -------------- METHODS ----------- // 
   
  /**
@@ -354,6 +371,7 @@ export class GeomVector extends Array {
   equivalentXY(v) { return this._equivalent2D(v, "x", "y"); }
   equivalentXZ(v) { return this._equivalent2D(v, "x", "z"); }
   equivalentYZ(v) { return this._equivalent2D(v, "y", "z"); }
+   
    
   // -------------- MATH.JS METHODS ----------------------- // 
    
