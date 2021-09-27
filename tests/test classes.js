@@ -68,3 +68,6 @@ vix.draw({x: 1000, y: 1000}, COLORS.green);
 
 l.draw(COLORS.blue)
 lix.draw(COLORS.blue)
+
+l2 = GeomLine.fromPoints(p, pix);
+l2.draw(COLORS.orange)
