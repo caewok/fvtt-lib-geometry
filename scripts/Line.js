@@ -138,7 +138,7 @@ export class GeomLine {
    
    return canvas_edges;  
   }
-  
+
   
   // -------------- METHODS --------------------- // 
   /**
@@ -149,9 +149,9 @@ export class GeomLine {
    * @param {number} t  Increment, from line formula p + t•v
    * @return {GeomPoint} Point on the line
    */
-  point(t) {
-    return GeomPoint.fromArray(math.add(this.p, math.dotMultiply(this.v, t)));
-  }
+   point(t) {
+     return GeomPoint.fromArray(math.add(this.p, math.dotMultiply(this.v, t)));
+   }
   
   /**
    * Helper function to get orientation on 2-D plane.
@@ -206,53 +206,67 @@ export class GeomLine {
    ccwXY(p) { return this._ccw2D(p, "XY"); }
    ccwXZ(p) { return this._ccw2D(p, "XZ"); }
    ccwYZ(p) { return this._ccw2D(p, "YZ"); }
-   
-  
-  /**
-   * Determine whether the line contains a point, measured in terms of collinearity
-   * @param {GeomPoint} p
-   * @return {boolean} True if contains point
-   */
-//    contains(p) {
-//      return this.ccw2D(p) === GEOM_CONSTANTS.COLLINEAR;
-//    }
-   
+      
    /**
-    * Helper function to determine intersection of two lines on a plane
+    * Is this line parallel to another in 3D? 
+    * Vectors of infinite length are parallel if A•B = |A|x|B| where |A| is magnitude
+    * @param {GeomLine} l
+    * @return {boolean} True if parallel
+    */
+    parallel(l) {
+     const dot = this.v.dot(l.v);
+     return almostEqual(dot * dot, this.v.magnitudeSquared * this.l.magnitudeSquared);
+    }
+    
+   /**
+    * Does this line intersects another in 3D? 
+    * Simply the opposite of parallel.
+    * @param {GeomLine} l
+    * @return {boolean} True if they intersect
+    */
+    intersects(l) { !this.parallel(l); }
+      
+   /**
+    * Are these two lines perpendicular to one another in 3D?
+    * Perpendicular if A•B === 0
+    * @param {GeomLine} l
+    * @return {boolean} True if perpendicular
+    */
+    perpendicular(l) {
+     almostEqual(this.v.dot(l.v), 0);
+    }
+     
+   /**
+    * Is this line parallel to another on the specified plane?
     * @param {GeomLine} l
     * @param {"XY"|"XZ"|"YZ"} plane
-    * @return {boolean} True if it intersects
-    * @private
+    * @return {boolean} True if parallel
     */
-   _intersects2D(l, plane) {
-     const pl0 = l.p;
-     const pl1 = l.point(1);
-     const p0 = this.p;
-     const p1 = this.point(1);
-   
-     return this._ccw2D(pl0, plane) !== this._ccw2D(pl1, plane) && 
-            l._ccw2D(p0, plane)  !== l._ccw2D(p1, plane);
-   }
+    parallel2D(l, plane) {
+      const l0 = GeomVector.projectToPlane(this, plane);
+      const l1 = GeomVector.projectToPlane(l, plane);
+      return l0.parallel(l1);
+    }
+    
+   /**
+    * Does this line intersect another on the specified plane?
+    * @param {GeomLine} l
+    * @param {"XY"|"XZ"|"YZ"} plane
+    * @return {boolean} True if parallel
+    */
+    intersect2D(l, plane) { return !this.parallel2D(l, plane); }
 
    /**
-    * Determine whether this line intersects another in 3-D
-    * For vectors, 
+    * Is this line perpendicular to another on the specified plane?
     * @param {GeomLine} l
-    * @return {boolean} True if it intersects
+    * @param {"XY"|"XZ"|"YZ"} plane
+    * @return {boolean} True if parallel
     */
-   intersects(l) {
-
-   }
-   
-   /**
-    * Determine whether this line intersects another in XY plane
-    * See comparable functions for XZ and YZ planes.
-    * @param {GeomLine} l
-    * @return {boolean} True if it intersects
-    */
-   intersectsXY(l) { this._intersects2D(l, "XY"); }
-   intersectsYZ(l) { this._intersects2D(l, "YZ"); }
-   intersectsXZ(l) { this._intersects2D(l, "XZ"); }
+    perpendicular2D(l, plane) {
+      const l0 = GeomVector.projectToPlane(this, plane);
+      const l1 = GeomVector.projectToPlane(l, plane);
+      return l0.perpendicular(l1);
+    }
    
   /**
    * Get the intersection point of this line with another
@@ -386,10 +400,10 @@ export class GeomLine {
     // draw from one canvas edge all the way to the other
     // to do so, locate the intersections of this line with the canvas
     const canvas_edges = GeomLine.canvasEdges().filter(e => {
-      this.intersectsXY(e);
+      this.intersects2D(e, "XY");
     });
     const intersections = canvas_edges.map(e => {
-      this.intersetionsXY(e);
+      this.intersections2D, "XY");
     });
     
     if(intersections.length === 0) {
