@@ -153,120 +153,90 @@ export class GeomLine {
      return GeomPoint.fromArray(math.add(this.p, math.dotMultiply(this.v, t)));
    }
   
-  /**
-   * Helper function to get orientation on 2-D plane.
-   * @param {GeomPoint} p 
-   * @param {"XY"|"XZ"|"YZ"} plane
-   * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
-   * @private
-   */
-  _orientation2D(p, dim1 = "x", dim2 = "y") {
-    
-    const t1 = this.point(1);
-    return orient2d(this.p[dim1], this.p[dim2],
-                    t1[dim1], t1[dim2],
-                    p[dim1], p[dim2]);
-    
+ /**
+  * Orientation on 2D plane with respect to a point
+  * @param {GeomPoint}     p 
+  * @param {"XY"|"XZ"|"YZ"} plane
+  * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
+  */
+  orientation2D(p, plane = "XY") {
+    // Treat the point as a vector, and compare to the vector for this line
+    return this.v.orient2D(p, plane);
   }
   
-  /**
-   * Orientation on XY relative to a point
-   * See comparable functions for XZ and YZ planes
-   * @param {GeomPoint} p   
-   * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
-   */
-   orientationXY(p) { return this._orientation2D(p, "x", "y"); }
-   orientationXZ(p) { return this._orientation2D(p, "x", "z"); }
-   orientationYZ(p) { return this._orientation2D(p, "y", "z"); }
+ /**
+  * CCW on 2D plane with respect to a point
+  * @param {GeomPoint}      p
+  * @param {"XY"|"XZ"|"YZ"}  plane
+  * @return {GEOM_CONSTANTS.CLOCKWISE |
+             GEOM_CONSTANTS.COLLINEAR | 
+             GEOM_CONSTANTS.COUNTERCLOCKWISE}
+  */
+  ccw2D(p, plane) {
+    // Treat the point as a vector, and compare to the vector for this line
+    return this.v.ccw2D(p, plane)
+  }
   
-  /**
-   * Helper function to get ccw on 2-D plane
-   * @param {GeomPoint} p
-   * @param {"XY"|"XZ"|"YZ"} plane
-   * @return {GEOM_CONSTANTS.CLOCKWISE |
-              GEOM_CONSTANTS.COLLINEAR | 
-              GEOM_CONSTANTS.COUNTERCLOCKWISE}
-   * @private
-   */
-   _ccw2D(p, plane) {
-     const res = this["orientation" + plane](p);
-     return res < 0 ? GEOM_CONSTANTS.CLOCKWISE :
-            res > 0 ? GEOM_CONSTANTS.COUNTERCLOCKWISE :
-            GEOM_CONSTANTS.COLLINEAR;
-   }
+ /**
+  * Is this line parallel to another in 3D? 
+  * Vectors of infinite length are parallel if A•B = |A|x|B| where |A| is magnitude
+  * @param {GeomLine} l
+  * @return {boolean} True if parallel
+  */
+  parallel(l) {
+   const dot = this.v.dot(l.v);
+   return almostEqual(dot * dot, this.v.magnitudeSquared * l.v.magnitudeSquared);
+  }
+    
+ /**
+  * Does this line intersects another in 3D? 
+  * Simply the opposite of parallel.
+  * @param {GeomLine} l
+  * @return {boolean} True if they intersect
+  */
+  intersects(l) { !this.parallel(l); }
+    
+ /**
+  * Are these two lines perpendicular to one another in 3D?
+  * Perpendicular if A•B === 0
+  * @param {GeomLine} l
+  * @return {boolean} True if perpendicular
+  */
+  perpendicular(l) {
+   almostEqual(this.v.dot(l.v), 0);
+  }
+   
+ /**
+  * Is this line parallel to another on the specified plane?
+  * @param {GeomLine} l
+  * @param {"XY"|"XZ"|"YZ"} plane
+  * @return {boolean} True if parallel
+  */
+  parallel2D(l, plane) {
+    const l0 = new GeomLine(this.p, GeomVector.projectToPlane(this.v, plane));
+    const l1 = new GeomLine(l.p, GeomVector.projectToPlane(l.v, plane));
+    return l0.parallel(l1);
+  }
   
-  /**
-   * Determine whether point is counter-clockwise to this line on XY plane.
-   * See comparable functions for XZ and YZ planes
-   * @param {GeomPoint} p
-   * @return {GEOM_CONSTANTS.CLOCKWISE |
-              GEOM_CONSTANTS.COLLINEAR | 
-              GEOM_CONSTANTS.COUNTERCLOCKWISE}
-   */
-   ccwXY(p) { return this._ccw2D(p, "XY"); }
-   ccwXZ(p) { return this._ccw2D(p, "XZ"); }
-   ccwYZ(p) { return this._ccw2D(p, "YZ"); }
-      
-   /**
-    * Is this line parallel to another in 3D? 
-    * Vectors of infinite length are parallel if A•B = |A|x|B| where |A| is magnitude
-    * @param {GeomLine} l
-    * @return {boolean} True if parallel
-    */
-    parallel(l) {
-     const dot = this.v.dot(l.v);
-     return almostEqual(dot * dot, this.v.magnitudeSquared * l.v.magnitudeSquared);
-    }
-    
-   /**
-    * Does this line intersects another in 3D? 
-    * Simply the opposite of parallel.
-    * @param {GeomLine} l
-    * @return {boolean} True if they intersect
-    */
-    intersects(l) { !this.parallel(l); }
-      
-   /**
-    * Are these two lines perpendicular to one another in 3D?
-    * Perpendicular if A•B === 0
-    * @param {GeomLine} l
-    * @return {boolean} True if perpendicular
-    */
-    perpendicular(l) {
-     almostEqual(this.v.dot(l.v), 0);
-    }
-     
-   /**
-    * Is this line parallel to another on the specified plane?
-    * @param {GeomLine} l
-    * @param {"XY"|"XZ"|"YZ"} plane
-    * @return {boolean} True if parallel
-    */
-    parallel2D(l, plane) {
-      const l0 = new GeomLine(this.p, GeomVector.projectToPlane(this.v, plane));
-      const l1 = new GeomLine(l.p, GeomVector.projectToPlane(l.v, plane));
-      return l0.parallel(l1);
-    }
-    
-   /**
-    * Does this line intersect another on the specified plane?
-    * @param {GeomLine} l
-    * @param {"XY"|"XZ"|"YZ"} plane
-    * @return {boolean} True if parallel
-    */
-    intersects2D(l, plane) { return !this.parallel2D(l, plane); }
+ /**
+  * Does this line intersect another on the specified plane?
+  * @param {GeomLine} l
+  * @param {"XY"|"XZ"|"YZ"} plane
+  * @return {boolean} True if parallel
+  */
+  intersects2D(l, plane) { return !this.parallel2D(l, plane); }
 
-   /**
-    * Is this line perpendicular to another on the specified plane?
-    * @param {GeomLine} l
-    * @param {"XY"|"XZ"|"YZ"} plane
-    * @return {boolean} True if parallel
-    */
-    perpendicular2D(l, plane) {
-      const l0 = new GeomLine(this.p, GeomVector.projectToPlane(this.v, plane));
-      const l1 = new GeomLine(l.p, GeomVector.projectToPlane(l.v, plane));
-      return l0.perpendicular(l1);
-    }
+ /**
+  * Is this line perpendicular to another on the specified plane?
+  * @param {GeomLine} l
+  * @param {"XY"|"XZ"|"YZ"} plane
+  * @return {boolean} True if parallel
+  */
+  perpendicular2D(l, plane) {
+    const l0 = new GeomLine(this.p, GeomVector.projectToPlane(this.v, plane));
+    const l1 = new GeomLine(l.p, GeomVector.projectToPlane(l.v, plane));
+    return l0.perpendicular(l1);
+  }
    
   /**
    * Get the intersection point of this line with another
@@ -396,44 +366,7 @@ export class GeomLine {
                GeomLine.lineFrom(intersection,
                                  new GeomVector(intersection.x, intersection.y, 1));
     }
-    
-   /**
-    * Intersection of another line with this one in XZ dimension.
-    * @param {GeomLine} l       Other line to test for intersection
-    * @param {boolean} as_point If true, return a GeomPoint with y set to 0. 
-    *                           If false, return a GeomLine.
-    * @return {GeomPoint|GeomLine}
-    */
-    intersectionXZ(l, as_point = true) {
-      const intersection = this._intersection2D(l, "x", "z");
-      if(!res) return false;
-      
-      intersection.y = 0;
-      return as_point ? intersection :
-                       GeomLine.lineFrom(intersection,
-                                         new GeomVector(intersection.x, 1, intersection.z));
-    } 
-    
-   /**
-    * Intersection of another line with this one in YZ dimension.
-    * @param {GeomLine} l       Other line to test for intersection
-    * @param {boolean} as_point If true, return a GeomPoint with x set to 0. 
-    *                           If false, return a GeomLine.
-    * @return {GeomPoint|GeomLine}
-    */
-    intersectionYZ(l, as_point = true) {
-      const intersection = this._intersection2D(l, "y", "z");
-      if(!res) return false;
-      
-      intersection.x = 0;
-      return as_point ? intersection :
-                       GeomLine.lineFrom(intersection,
-                                         new GeomVector(1, intersection.y, intersection.z));
-    } 
-    
-  
-   
-   
+       
   /**
    * Draw this line extending across the entire canvas
    * @param {number} color
@@ -445,7 +378,7 @@ export class GeomLine {
     // to do so, locate the intersections of this line with the canvas
     //const canvas_edges = GeomLine.canvasEdges().filter(e => this.intersects2D(e, "XY") );
     const canvas_edges = GeomLine.canvasEdges().filter(e => this.intersects2D(e, "XY"));
-    let intersections = canvas_edges.map(e => this.intersectionXY(e) );
+    let intersections = canvas_edges.map(e => this.intersection2D(e, "XY") );
 
     // find the two intersections that are within the canvas
     intersections = intersections.filter(i => {
@@ -478,5 +411,4 @@ export class GeomLine {
       .moveTo(intersections[0].x, intersections[0].y)
       .lineTo(intersections[1].x, intersections[1].y);      
   }
-   
 }
