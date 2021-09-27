@@ -288,7 +288,6 @@ export class GeomVector extends Array {
   * @param {GeomVector}     v 
   * @param {"XY"|"XZ"|"YZ"} plane
   * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
-  * @private
   */
   orientation2D(v, plane = "XY") {
     const dim1 = (plane === "YZ") ? "y" : "x";
@@ -309,7 +308,6 @@ export class GeomVector extends Array {
   * @return {GEOM_CONSTANTS.CLOCKWISE |
              GEOM_CONSTANTS.COLLINEAR | 
              GEOM_CONSTANTS.COUNTERCLOCKWISE}
-  * @private
   */
   ccw2D(v, plane) {
     const res = this.orientation2D(v, plane);
