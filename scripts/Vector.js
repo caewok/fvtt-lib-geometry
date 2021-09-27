@@ -279,73 +279,45 @@ export class GeomVector extends Array {
   * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
   * Approximation of twice the signed area of the triangle defined by the three points
   */
-  orientation(v) {
-    return orient2d(GEOM_CONSTANTS.ORIGIN.x,
-                    GEOM_CONSTANTS.ORIGIN.y,
-                    this.x,
-                    this.y,
-                    v.x,
-                    v.y);
-  }
+  // orientation -- how to do in 3D? If at all?
   
   
  /**
-   * Helper function to get orientation on 2-D plane.
-   * @param {GeomPoint} p 
-   * @param {"XY"|"XZ"|"YZ"} plane
-   * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
-   * @private
-   */
-  _orientation2D(p, dim1 = "x", dim2 = "y") {
-    const t1 = this.point(1);
-    return orient2d(GEOM_CONSTANTS.ORIGIN[dim1],
+  * Orientation on 2D plane with respect to another vector.
+  * (Assumes both vectors use the same origin point)
+  * @param {GeomVector}     v 
+  * @param {"XY"|"XZ"|"YZ"} plane
+  * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
+  * @private
+  */
+  orientation2D(v, plane = "XY") {
+    const dim1 = (plane === "YZ") ? "y" : "x";
+    const dim2 = (plane === "XY") ? "y" : "z";
+    
+    orient2d(GEOM_CONSTANTS.ORIGIN[dim1],
                     GEOM_CONSTANTS.ORIGIN[dim2],
                     this[dim1], 
                     this[dim2],
-                    p[dim1],
-                    p[dim2]);
+                    v[dim1],
+                    v[dim2]); 
+  }
+
+ /**
+  * CCW on 2D plane with respect to another vector
+  * @param {GeomVector}      v
+  * @param {"XY"|"XZ"|"YZ"}  plane
+  * @return {GEOM_CONSTANTS.CLOCKWISE |
+             GEOM_CONSTANTS.COLLINEAR | 
+             GEOM_CONSTANTS.COUNTERCLOCKWISE}
+  * @private
+  */
+  ccw2D(v, plane) {
+    const res = this.orientation2D(v, plane);
+    return res < 0 ? GEOM_CONSTANTS.CLOCKWISE :
+           res > 0 ? GEOM_CONSTANTS.COUNTERCLOCKWISE :
+           GEOM_CONSTANTS.COLLINEAR;
   }
   
- /**
-  * Orientation on XY relative to a point
-  * See comparable functions for XZ and YZ planes
-  * Orientation is with regard to the canvas origin
-  * @param {GeomPoint} p Point to test against
-  * @return number  Positive value if CCW, negative if CW, 0 if collinear.
-  * Approximation of twice the signed area of the triangle defined by the three points
-  */
-  orientationXY(p) { return this._orientation2D(p, "x", "y"); }
-  orientationXZ(p) { return this._orientation2D(p, "x", "z"); }
-  orientationYZ(p) { return this._orientation2D(p, "y", "z"); }
-  
-  /**
-   * Helper function to get ccw on 2-D plane
-   * @param {GeomPoint} p
-   * @param {"XY"|"XZ"|"YZ"} plane
-   * @return {GEOM_CONSTANTS.CLOCKWISE |
-              GEOM_CONSTANTS.COLLINEAR | 
-              GEOM_CONSTANTS.COUNTERCLOCKWISE}
-   * @private
-   */
-   _ccw2D(p, plane) {
-     const res = this["orientation" + plane](p);
-     return res < 0 ? GEOM_CONSTANTS.CLOCKWISE :
-            res > 0 ? GEOM_CONSTANTS.COUNTERCLOCKWISE :
-            GEOM_CONSTANTS.COLLINEAR;
-   }
-  
-  /**
-   * Determine whether point is counter-clockwise to this line on XY plane.
-   * See comparable functions for XZ and YZ planes
-   * @param {GeomPoint} p
-   * @return {GEOM_CONSTANTS.CLOCKWISE |
-              GEOM_CONSTANTS.COLLINEAR | 
-              GEOM_CONSTANTS.COUNTERCLOCKWISE}
-   */
-   ccwXY(p) { return this._ccw2D(p, "XY"); }
-   ccwXZ(p) { return this._ccw2D(p, "XZ"); }
-   ccwYZ(p) { return this._ccw2D(p, "YZ"); }
- 
  /**
   * Is another vector equivalent to this one in magnitude and direction?
   */ 
@@ -356,22 +328,18 @@ export class GeomVector extends Array {
   }
   
  /**
-  * Helper function for 2-D equivalence
-  */
-  _equivalent2D(v, dim1, dim2) {
-    return almostEqual(this[dim1], v[dim1]) &&
-           almostEqual(this[dim2], v[dim2]);
-  }
-  
- /**
-  * Is another vector equivalent to this one along two dimensions?
-  * @param {GeomVector} v    Vector to compare
+  * 2D equivalence
+  * @param {GeomVector} v
+  * @param {"XY"|"XZ"|"YZ"}  plane
   * @return {boolean} True if equivalent in two dimensions
   */
-  equivalentXY(v) { return this._equivalent2D(v, "x", "y"); }
-  equivalentXZ(v) { return this._equivalent2D(v, "x", "z"); }
-  equivalentYZ(v) { return this._equivalent2D(v, "y", "z"); }
-   
+  equivalent2D(v, plane) {
+    const dim1 = (plane === "YZ") ? "y" : "x";
+    const dim2 = (plane === "XY") ? "y" : "z";
+  
+    return almostEqual(this[dim1], v[dim1]) &&
+           almostEqual(this[dim2], v[dim2]);
+  }  
    
   // -------------- MATH.JS METHODS ----------------------- // 
    
