@@ -283,18 +283,20 @@ export class GeomLine {
      const intersection_xz = this._intersection2D(l, "x", "z");
      if(!intersection_xz) return false;
      
-     return intersection_xy;
+     return new GeomPoint(intersection_xy.x, intersection_xy.y, intersection_xz.z);
    }
    
    /**
     * Helper function to determine intersection of line with this one along a plane.
     * As if the line were projected onto the 2-D plane.
-    * @param {GeomLine} l
-    * @param {"XY"|"XZ"|"YZ"} plane
+    * @param {GeomLine}     l
+    * @param {"x"|"y"|"z"}  dim1  First dimension of the plane
+    * @param {"x"|"y"|"z"}  dim2  Second dimension of the plane
+    * @param {boolean}      in2D  If true, get the intersection only for the indicated 
+    *                             dim1 and dim2
     * @return {boolean|GeomPoint|GeomLine} 
     */ 
-   _intersection2D(l, dim1 = "x", dim2 = "y") {
-
+   _intersection(l, {dim1 = "x", dim2 = "y", in2D = false} = {}) {
      // l0 = this
      // l1 = l
      // l0 = (x0 y0) + a (u0 v0)
@@ -339,22 +341,36 @@ export class GeomLine {
      return intersection0;
    }
    
+  /**
+   * Helper function to get a non-zero determinant matrix for _intersection
+   * @param {GeomLine}    l0  First line to use
+   * @param {GeomLine}    l1  Second line to use
+   * @param {"x"|"y"|"z"}  dim1  First dimension of the plane
+   * @param {"x"|"y"|"z"}  dim2  Second dimension of the plane
+   * @param {boolean}      in2D  If true, test only in 2D 
+   * @return {Array|boolean} The valid array or false if determinant is zero
+   */
+   nonZeroDeterminant(l0, l1, {dim1 = "x", dim2 = "y", in2D = false} = {}) {
+     
+   }
+   
    /**
-    * Intersection of another line with this one in XY dimension.
-    * @param {GeomLine} l       Other line to test for intersection
-    * @param {boolean} as_point If true, return a GeomPoint with z set to 0. 
-    *                           If false, return a GeomLine.
+    * Intersection of another line with this one on a plane.
+    * @param {GeomLine}       l         Other line to test for intersection
+    * @param {"XY"|"XZ"|"YZ"} plane   
+    * @param {boolean}        as_point  If true, return a GeomPoint with z set to 0. 
+    *                                   If false, return a GeomLine.
     * @return {GeomPoint|GeomLine}
     */
-    intersectionXY(l, as_point = true) {
-      const intersection = this._intersection2D(l, "x", "y");
+    intersection2D(l, plane, as_point = true) {
+      const l0 = GeomVector.projectToPlane(this, plane);
+      const l1 = GeomVector.projectToPlane(l, plane);
       if(!intersection) return false;
-      
-      intersection.z = 0;
-      return as_point ? intersection :
-                       GeomLine.lineFrom(intersection,
-                                         new GeomVector(intersection.x, intersection.y, 1));
-    } 
+      return as_point ? 
+               intersection :
+               GeomLine.lineFrom(intersection,
+                                 new GeomVector(intersection.x, intersection.y, 1));
+    }
     
    /**
     * Intersection of another line with this one in XZ dimension.
@@ -365,7 +381,7 @@ export class GeomLine {
     */
     intersectionXZ(l, as_point = true) {
       const intersection = this._intersection2D(l, "x", "z");
-      if(!intersection) return false;
+      if(!res) return false;
       
       intersection.y = 0;
       return as_point ? intersection :
@@ -382,7 +398,7 @@ export class GeomLine {
     */
     intersectionYZ(l, as_point = true) {
       const intersection = this._intersection2D(l, "y", "z");
-      if(!intersection) return false;
+      if(!res) return false;
       
       intersection.x = 0;
       return as_point ? intersection :
