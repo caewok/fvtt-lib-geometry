@@ -6,6 +6,12 @@ GeomLine = game.modules.get("libgeometry").api.GeomLine;
 GeomPixelLine = game.modules.get("libgeometry").api.GeomPixelLine;
 COLORS = game.modules.get("libgeometry").api.COLORS;
 
+function drawSegment(p0, p1, color = COLORS.blue, alpha = 1, width = 1) {
+    canvas.controls.debug.lineStyle(width, color, alpha).
+      moveTo(p0.x, p0.y).
+      lineTo(p1.x, p1.y);
+  }
+
 function assert(bool, warning) {
   if(!bool) console.warn(warning);
 }
@@ -59,3 +65,6 @@ vix.draw({x: 0, y: 0}, COLORS.green);
 
 v.draw({x: 1000, y: 100}, COLORS.green);
 vix.draw({x: 1000, y: 1000}, COLORS.green);
+
+l.draw(COLORS.blue)
+lix.draw(COLORS.blue)
