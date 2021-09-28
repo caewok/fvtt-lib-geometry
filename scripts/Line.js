@@ -1,7 +1,7 @@
 import { GeomPoint } from "./Point.js";
 import { GeomVector } from "./Vector.js";
 import { GEOM_CONSTANTS, COLORS } from "./constants.js";
-import { orient2d } from "./lib/orient2d.min.js";
+import { orient2d, orient3d } from "./lib/predicates.min.js";
 import { almostEqual } from "./util.js";
 
 /**
