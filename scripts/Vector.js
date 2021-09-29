@@ -243,19 +243,19 @@ export class GeomVector extends Array {
   static projectToPlane(v, plane) {
     switch(plane) {
       case GEOM.XY:
-        const v_new = new GeomVector(v.x, v.y, 0);
+        const v_new = new this(v.x, v.y, 0);
         v_new._magnitudeSquaredXY = v._magnitudeSquaredXY;
         v_new._magnitudeXY = v._magnitudeXY;
         v_new._angleXY = v._angleXY;
         return v_new;
       case GEOM.XZ:
-        const v_new = new GeomVector(v.x, 0, v.z);
+        const v_new = new this(v.x, 0, v.z);
         v_new._magnitudeSquaredXZ = v._magnitudeSquaredXZ;
         v_new._magnitudeXZ = v._magnitudeXZ;
         v_new._angleXZ = v._angleXZ;
         return v_new;
       case GEOM.YZ:
-        const v_new = new GeomVector(0, v.y, v.z);
+        const v_new = new this(0, v.y, v.z);
         v_new._magnitudeSquaredYZ = v._magnitudeSquaredYZ;
         v_new._magnitudeYZ = v._magnitudeYZ;
         v_new._angleYZ = v._angleYZ;
