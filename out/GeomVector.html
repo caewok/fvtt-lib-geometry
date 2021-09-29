@@ -1412,6 +1412,496 @@ Extended from Array so it can be used with math.js functions.</div>
     
 
     
+    <h4 class="name" id=".ccw2D"><span class="type-signature">(static) </span>ccw2D<span class="signature">(p1, p2, p3, plane, use_robust)</span><span class="type-signature"> &rarr; {GEOM.CLOCKWISE|GEOM.COLLINEAR|GEOM.COUNTERCLOCKWISE}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    CCW for three points or vectors on a plane.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>p1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="GeomPoint.html">GeomPoint</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>p2</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="GeomPoint.html">GeomPoint</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>p3</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="GeomPoint.html">GeomPoint</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>plane</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">GEOM.XY</span>
+|
+
+<span class="param-type">GEOM.XZ</span>
+|
+
+<span class="param-type">GEOM.YZ</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>use_robust</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Use robust or use non-robust, 
+                                             faster orient test.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line331">line 331</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">GEOM.CLOCKWISE</span>
+|
+
+<span class="param-type">GEOM.COLLINEAR</span>
+|
+
+<span class="param-type">GEOM.COUNTERCLOCKWISE</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".ccw3D"><span class="type-signature">(static) </span>ccw3D<span class="signature">(p1, p2, p3, use_robust)</span><span class="type-signature"> &rarr; {GEOM.UP|GEOM.DOWN|GEOM.COPLANAR}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    CCW for four points or vectors in 3D.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>p1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="GeomPoint.html">GeomPoint</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>p2</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="GeomPoint.html">GeomPoint</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>p3</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="GeomPoint.html">GeomPoint</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>use_robust</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Use robust or use non-robust, faster orient test.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line314">line 314</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">GEOM.UP</span>
+|
+
+<span class="param-type">GEOM.DOWN</span>
+|
+
+<span class="param-type">GEOM.COPLANAR</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id=".fromArray"><span class="type-signature">(static) </span>fromArray<span class="signature">(arr)</span><span class="type-signature"> &rarr; {<a href="GeomVector.html">GeomVector</a>}</span></h4>
     
 
@@ -1546,6 +2036,537 @@ Extended from Array so it can be used with math.js functions.</div>
     <dd>
         
 <span class="param-type"><a href="GeomVector.html">GeomVector</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".orient2D"><span class="type-signature">(static) </span>orient2D<span class="signature">(p1, p2, p3, plane, use_robust)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    orientation of three points or vectors on a plane
+p1 --> p2 --> p3
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>p1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="GeomPoint.html">GeomPoint</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>p2</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="GeomPoint.html">GeomPoint</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>p3</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="GeomPoint.html">GeomPoint</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>plane</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">GEOM.XY</span>
+|
+
+<span class="param-type">GEOM.XZ</span>
+|
+
+<span class="param-type">GEOM.YZ</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>use_robust</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line296">line 296</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".orient3D"><span class="type-signature">(static) </span>orient3D<span class="signature">(p1, p2, p3, p4, plane, use_robust)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    orientation of four points or vectors in 3D
+p1 --> p2 --> p3 are CCW as viewed from p4
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>p1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="GeomPoint.html">GeomPoint</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>p2</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="GeomPoint.html">GeomPoint</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>p3</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="GeomPoint.html">GeomPoint</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>p4</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="GeomPoint.html">GeomPoint</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>plane</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">GEOM.XY</span>
+|
+
+<span class="param-type">GEOM.XZ</span>
+|
+
+<span class="param-type">GEOM.YZ</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>use_robust</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line277">line 277</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
 
 
     </dd>
@@ -1852,7 +2873,7 @@ Extended from Array so it can be used with math.js functions.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line402">line 402</a>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line476">line 476</a>
     </li></ul></dd>
     
 
@@ -2031,7 +3052,7 @@ Extended from Array so it can be used with math.js functions.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line344">line 344</a>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line418">line 418</a>
     </li></ul></dd>
     
 
@@ -2245,7 +3266,7 @@ Extended from Array so it can be used with math.js functions.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line362">line 362</a>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line436">line 436</a>
     </li></ul></dd>
     
 
@@ -2430,7 +3451,7 @@ Resulting vector is perpendicular to the first two.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line444">line 444</a>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line518">line 518</a>
     </li></ul></dd>
     
 
@@ -2576,7 +3597,7 @@ Result is a scalar.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line434">line 434</a>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line508">line 508</a>
     </li></ul></dd>
     
 
@@ -2795,7 +3816,7 @@ Result is a scalar.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line471">line 471</a>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line545">line 545</a>
     </li></ul></dd>
     
 
@@ -2932,7 +3953,7 @@ Result is a scalar.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line374">line 374</a>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line448">line 448</a>
     </li></ul></dd>
     
 
@@ -3120,7 +4141,7 @@ Result is a scalar.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line386">line 386</a>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line460">line 460</a>
     </li></ul></dd>
     
 
@@ -3279,7 +4300,7 @@ Result is a scalar.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line416">line 416</a>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line490">line 490</a>
     </li></ul></dd>
     
 
@@ -3385,7 +4406,7 @@ Result is a scalar.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line452">line 452</a>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line526">line 526</a>
     </li></ul></dd>
     
 
@@ -3572,7 +4593,7 @@ In 3D, this tests whether the second vector is counterclockwise or
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line302">line 302</a>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line376">line 376</a>
     </li></ul></dd>
     
 
@@ -3792,7 +4813,7 @@ In 2D, this tests whether the other vector is counterclockwise,
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line325">line 325</a>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line399">line 399</a>
     </li></ul></dd>
     
 
@@ -3952,7 +4973,7 @@ In 2D, this tests whether the other vector is counterclockwise,
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line409">line 409</a>
+        <a href="Vector.js.html">Vector.js</a>, <a href="Vector.js.html#line483">line 483</a>
     </li></ul></dd>
     
 
@@ -4016,13 +5037,13 @@ In 2D, this tests whether the other vector is counterclockwise,
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="GeomLine.html">GeomLine</a></li><li><a href="GeomPixelLine.html">GeomPixelLine</a></li><li><a href="GeomPixelPoint.html">GeomPixelPoint</a></li><li><a href="GeomPixelVector.html">GeomPixelVector</a></li><li><a href="GeomPoint.html">GeomPoint</a></li><li><a href="GeomRay.html">GeomRay</a></li><li><a href="GeomVector.html">GeomVector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#clearDrawings">clearDrawings</a></li><li><a href="global.html#COLORS">COLORS</a></li><li><a href="global.html#GEOM">GEOM</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="GeomLine.html">GeomLine</a></li><li><a href="GeomPixelLine.html">GeomPixelLine</a></li><li><a href="GeomPixelPoint.html">GeomPixelPoint</a></li><li><a href="GeomPixelRay.html">GeomPixelRay</a></li><li><a href="GeomPixelSegment.html">GeomPixelSegment</a></li><li><a href="GeomPixelVector.html">GeomPixelVector</a></li><li><a href="GeomPoint.html">GeomPoint</a></li><li><a href="GeomRay.html">GeomRay</a></li><li><a href="GeomSegment.html">GeomSegment</a></li><li><a href="GeomVector.html">GeomVector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#clearDrawings">clearDrawings</a></li><li><a href="global.html#COLORS">COLORS</a></li><li><a href="global.html#GEOM">GEOM</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Sep 29 2021 03:52:56 GMT-0700 (Pacific Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Sep 29 2021 16:14:47 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

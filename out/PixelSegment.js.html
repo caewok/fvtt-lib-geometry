@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: PixelPoint.js</title>
+    <title>JSDoc: Source: PixelSegment.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: PixelPoint.js</h1>
+    <h1 class="page-title">Source: PixelSegment.js</h1>
 
     
 
@@ -26,33 +26,36 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { GeomPixelVector } from "./PixelVector.js";
-import { COLORS } from "./constants.js";
+            <pre class="prettyprint source linenums"><code>import { GeomRay } from "./Line.js";
+
 
 /**
- * Represents a point in 3-D Euclidean space.
- * Technically equivalent to a vector, but conceptually different.
- * This version uses only integer coordinates, representing pixel locations.
- * @param {number[]}  p  x, y, z coordinates
+ * An line from one point to a second point
+ * Represented by the parametric form of the equation for a line,
+ *   p + t*v
+ * t is constrained to be only between 0 and 1, where 0 gives p and 1 gives the endpoint.
+ * v magnitude gives the end point.
+ * This version uses GeomPixel classes for p and v.
+ * @param {GeomPixelPoint}  p  Origination point for the ray.
+ * @param {GeomPixelVector} v  Direction vector of the ray.
  */ 
-export class GeomPixelPoint extends GeomPixelVector {
-
-  // -------------- GETTERS/SETTERS ------------- //
+export class GeomPixelSegment extends GeomSegment {
+  constructor(p, v) {
+    if(!(p instanceof GeomPixelPoint)) {
+      p = new GeomPixelPoint(p.x, p.y, p.z);
+    }
+    
+    if(!(v instanceof GeomPixelVector)) {
+      v = new GeomPixelVector(p.x, p.y, p.z);
+    }
   
-  
-  // -------------- METHODS --------------------- //    
-  
- /**
-  * Draw a filled circular point of given radius. Only drawn in x,y dimensions
-  * @param {number} color
-  * @param {number} alpha
-  * @param {number} radius
-  */
-  draw(color = COLORS.gray, alpha = 1, radius = 5) {
-   GeomPoint.prototype.draw.call(this, color, alpha, radius);
+    super(p, v);  
   }
-}
-</code></pre>
+
+  // -------------- METHODS --------------------- // 
+
+
+}</code></pre>
         </article>
     </section>
 

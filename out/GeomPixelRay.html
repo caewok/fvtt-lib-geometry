@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: GeomPixelLine</title>
+    <title>JSDoc: Class: GeomPixelRay</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: GeomPixelLine</h1>
+    <h1 class="page-title">Class: GeomPixelRay</h1>
 
     
 
@@ -28,11 +28,13 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>GeomPixelLine<span class="signature">(p, v)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>GeomPixelRay<span class="signature">(p, v)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Represents a line with infinite length in either direction.
-Defined by the parametric form of the equation for a line:
-  A Vector and a point on the line.</div>
+            <div class="class-description">An infinite line in one direction from a point
+Represented by the parametric form of the equation for a line,
+  p + t*v
+t is constrained to be only positive. 
+In this version, the ray is further constrained to begin on a pixel point.</div>
         
     
 </header>
@@ -47,7 +49,7 @@ Defined by the parametric form of the equation for a line:
     
 
     
-    <h4 class="name" id="GeomPixelLine"><span class="type-signature"></span>new GeomPixelLine<span class="signature">(p, v)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="GeomPixelRay"><span class="type-signature"></span>new GeomPixelRay<span class="signature">(p, v)</span><span class="type-signature"></span></h4>
     
 
     
@@ -93,7 +95,7 @@ Defined by the parametric form of the equation for a line:
             <td class="type">
             
                 
-<span class="param-type"><a href="GeomPixelPoint.html">GeomPixelPoint</a></span>
+<span class="param-type"><a href="GeomPoint.html">GeomPoint</a></span>
 
 
             
@@ -103,7 +105,7 @@ Defined by the parametric form of the equation for a line:
 
             
 
-            <td class="description last">Point on the line</td>
+            <td class="description last">Origination point for the ray.</td>
         </tr>
 
     
@@ -116,7 +118,7 @@ Defined by the parametric form of the equation for a line:
             <td class="type">
             
                 
-<span class="param-type"><a href="GeomPixelVector.html">GeomPixelVector</a></span>
+<span class="param-type"><a href="GeomVector.html">GeomVector</a></span>
 
 
             
@@ -126,7 +128,7 @@ Defined by the parametric form of the equation for a line:
 
             
 
-            <td class="description last">Vector</td>
+            <td class="description last">Direction vector of the ray.</td>
         </tr>
 
     
@@ -167,7 +169,7 @@ Defined by the parametric form of the equation for a line:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PixelLine.js.html">PixelLine.js</a>, <a href="PixelLine.js.html#line12">line 12</a>
+        <a href="PixelRay.js.html">PixelRay.js</a>, <a href="PixelRay.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -208,7 +210,7 @@ Defined by the parametric form of the equation for a line:
         <h3 class="subsection-title">Classes</h3>
 
         <dl>
-            <dt><a href="GeomPixelLine.html">GeomPixelLine</a></dt>
+            <dt><a href="GeomPixelRay.html">GeomPixelRay</a></dt>
             <dd></dd>
         </dl>
     

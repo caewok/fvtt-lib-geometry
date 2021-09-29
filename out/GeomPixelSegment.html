@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: GeomPixelLine</title>
+    <title>JSDoc: Class: GeomPixelSegment</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: GeomPixelLine</h1>
+    <h1 class="page-title">Class: GeomPixelSegment</h1>
 
     
 
@@ -28,11 +28,14 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>GeomPixelLine<span class="signature">(p, v)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>GeomPixelSegment<span class="signature">(p, v)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Represents a line with infinite length in either direction.
-Defined by the parametric form of the equation for a line:
-  A Vector and a point on the line.</div>
+            <div class="class-description">An line from one point to a second point
+Represented by the parametric form of the equation for a line,
+  p + t*v
+t is constrained to be only between 0 and 1, where 0 gives p and 1 gives the endpoint.
+v magnitude gives the end point.
+This version uses GeomPixel classes for p and v.</div>
         
     
 </header>
@@ -47,7 +50,7 @@ Defined by the parametric form of the equation for a line:
     
 
     
-    <h4 class="name" id="GeomPixelLine"><span class="type-signature"></span>new GeomPixelLine<span class="signature">(p, v)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="GeomPixelSegment"><span class="type-signature"></span>new GeomPixelSegment<span class="signature">(p, v)</span><span class="type-signature"></span></h4>
     
 
     
@@ -103,7 +106,7 @@ Defined by the parametric form of the equation for a line:
 
             
 
-            <td class="description last">Point on the line</td>
+            <td class="description last">Origination point for the ray.</td>
         </tr>
 
     
@@ -126,7 +129,7 @@ Defined by the parametric form of the equation for a line:
 
             
 
-            <td class="description last">Vector</td>
+            <td class="description last">Direction vector of the ray.</td>
         </tr>
 
     
@@ -167,7 +170,7 @@ Defined by the parametric form of the equation for a line:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="PixelLine.js.html">PixelLine.js</a>, <a href="PixelLine.js.html#line12">line 12</a>
+        <a href="PixelSegment.js.html">PixelSegment.js</a>, <a href="PixelSegment.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -208,7 +211,7 @@ Defined by the parametric form of the equation for a line:
         <h3 class="subsection-title">Classes</h3>
 
         <dl>
-            <dt><a href="GeomPixelLine.html">GeomPixelLine</a></dt>
+            <dt><a href="GeomPixelSegment.html">GeomPixelSegment</a></dt>
             <dd></dd>
         </dl>
     
