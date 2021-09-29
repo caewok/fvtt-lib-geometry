@@ -8,15 +8,6 @@ export class GeomPoint extends GeomVector {
    * Technically equivalent to a vector, but conceptually different
    */   
 
-  // -------------- GETTERS/SETTERS ------------- //
-  
-  // -------------- FACTORY FUNCTIONS ----------- //
- /**
-  * @param {Array} arr
-  * @return {GeomPoint}
-  */
-  static fromArray(arr) { return new GeomPoint(...arr); } // use this instead of GeomPoint?
-  
   // -------------- METHODS --------------------- // 
   
  /**
