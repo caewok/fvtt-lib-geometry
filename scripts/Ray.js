@@ -19,6 +19,7 @@ export class GeomRay extends GeomLine {
   get x0() { return this.p.x; }
   get y0() { return this.p.y; }
   get z0() { return this.p.z; }
+    
 
    // ccw & orient for points: same as lines  
    
@@ -33,15 +34,12 @@ export class GeomRay extends GeomLine {
   * Each increment of t by 1 is equal to adding the line vector magnitude 
   * to the line point. So if this.p = {0, 0, 0} and this.v = {10, 20, -10}, 
   * this.point(2) returns {20, 40, -20}. 
-  * For rays, only positive t are permitted. Negative t will be changed to absolute
-  *   value with a warning
+  * For rays, only positive t are permitted. Negative t values are undefined.
   * @override
   */
   point(t) {
-    if(t < 0) {
-      console.warn(`libgeometry|GeomRay.point parameters "t" is less than 0. Taking absolute value.`);
-      t = Math.abs(t);
-    }
+    if(almostEqual(t, 0)) { t = 0; }
+    if(t < 0) { return undefined; }
     return GeomLine.prototype.point.call(this, t);
   }
    
@@ -49,14 +47,15 @@ export class GeomRay extends GeomLine {
   
   // parallel: just like lines
   // perpendicular: just like lines 
+  // intersection: handled by Line: point returns undefined if outside the ray
     
  /**
   * Does this ray intersect another ray or a line?
   * @override
   */
-  intersects(r) {
-    if(r.constructor !== GeomLine && 
-       r.constructor !== GeomRay) { return r._intersects(this); }
+  intersects(l) {
+    if(l.constructor !== GeomLine && 
+       l.constructor !== GeomRay) { return l._intersects(this); }
     return this._intersects(r);
   }
   
@@ -65,25 +64,32 @@ export class GeomRay extends GeomLine {
   * @override
   * @private 
   */
-  _intersects(r) {
-    const t_values = this._intersectionTValues(r);
-    if(!t_values) return false;
+  _intersects(l) {
+    if(!GeomLine.prototype._intersects.call(this, l)) return false;
+  
+    // determine if the intersection is within the ray
+    const t_values = this._intersectionTValues(l);
+    if(!t_values) { return false; }
     
     // t values must be positive for rays
     // otherwise, the intersection happens before the ray starts
-    if(t_values.t0 < 0) return false;
-    if(r instanceof GeomRay && t_values.t1 < 0) return false;
+    if(t_values.t0 < 0) { return false; }
+    if(l instanceof GeomRay && t_values.t1 < 0) { return false; }
     return true;
   }
+  
+ /**
+  * Alternative intersection for testing
+  * Treat like a segment  
   
  /**
   * Does this ray intersect another ray or a line in 2D?
   * @override
   */
-  intersects2D(r, { plane = GEOM.XY } = {}) {
-    if(r.constructor !== GeomLine && 
-       r.constructor !== GeomRay) { return r._intersects(this, { plane }); }
-    return this._intersects2D(r, { plane });
+  intersects2D(l, { plane = GEOM.XY } = {}) {
+    if(l.constructor !== GeomLine && 
+       l.constructor !== GeomRay) { return l._intersects(this, { plane }); }
+    return this._intersects2D(l, { plane });
   }
   
  /**
@@ -91,78 +97,14 @@ export class GeomRay extends GeomLine {
   * @override
   * @private 
   */
-  _intersects2D(r, { plane = GEOM.XY } = {}) {
-     const r0 = this.constructor.projectToPlane(this, plane);
-     const r1 = r.constructor.projectToPlane(r, plane);
-     return r0._intersects(r1);
+  _intersects2D(l, { plane = GEOM.XY } = {}) {
+     const l0 = this.constructor.projectToPlane(this, plane);
+     const l1 = l.constructor.projectToPlane(l, plane);
+     return l0._intersects(l1);
   }
    
    
- /**
-  * What is the intersection point, if any, between this ray and another ray or a line?
-  * @override
-  */
-  intersection(r) {
-    if(r.constructor !== GeomLine && 
-       r.constructor !== GeomRay) { return r._intersection(this); }
-    return this._intersection(r);
-  
-  }
-  
- /**
-  * Private version of {@link intersection}.
-  * @override
-  */
-  _intersection(r) {    
-    const t_values = this._intersectionTValues(r);
-    if(t_values === undefined) return false;
-    if(t_values.t0 < 0) return false;
-    
-    if(r instanceof GeomRay && t_values.t1 < 0) return false;
-    
-    const i0 = this.point(t_values.t0);
-    const i1 = r.point(t_values.t1);
-                 
-    return i0.equivalent(i1) ? i0 : false;                  
-  }  
-
- /**
-  * What is the intersection point, if any, between this ray and another ray or a line
-  *   projected on a 2D plane?
-  * @override
-  */
-  intersection2D(r) {
-    if(r.constructor !== GeomLine && 
-       r.constructor !== GeomRay) { return r._intersection2D(this); }
-    return this._intersection2D(r);
-  }
-  
-  
-  _intersection2D(r, { plane = GEOM.XY, as_point = true } = {}) {
-    const t_values = this._intersectionTValues(r, { in2D: true, plane: plane} );
-    if(t_values === undefined) return false;
-    if(t_values.t0 < 0) return false;
-    
-    if(r instanceof GeomRay && t_values.t1 < 0) return false;
-    
-    const i0 = r0.point(t_values.t0);
-    const i1 = r1.point(t_values.t1);
-     
-    const intersections_match = in2D ? 
-           i0.equivalent2D(i1, plane) : i0.equivalent(i1)
-             
-    if(!intersections_match) return false;
-    
-    if(as_point) return intersection;
-
-    // make a line, infinite in the non-plane direction
-    const x = (plane === "YZ") ? 1 : intersection.x;
-    const y = (plane === "XZ") ? 1 : intersection.y;
-    const z = (plane === "XY") ? 1 : intersection.z;
-
-    return GeomLine.fromPoints(intersection, new GeomPoint(x, y, z));
-  }
-  
+ 
  
   // -------------- DRAWING METHOD -------------- // 
        

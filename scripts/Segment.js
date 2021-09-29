@@ -89,11 +89,11 @@ export class GeomSegment extends GeomRay {
   * Does this segment intersect another segment, ray or a line?
   * @override
   */
-  intersects(s) {
-    if(s.constructor !== GeomLine &&
-       s.constructor !== GeomRay &&
-       s.constructor !== GeomSegment) { return s._intersects(this); }
-    return this._intersects(s);   
+  intersects(sl) {
+    if(l.constructor !== GeomLine &&
+       l.constructor !== GeomRay &&
+       l.constructor !== GeomSegment) { return l._intersects(this); }
+    return this._intersects(l);   
   }
   
  /**
@@ -102,18 +102,18 @@ export class GeomSegment extends GeomRay {
   * @override
   * @private 
   */
-  _intersects(s) {
+  _intersects(l) {
     const t_values = this._intersectionTValues(r);
     if(!t_values) { return false; }
     
     // t values must be between 0 and 1 for segments
     // otherwise, the intersection happens before the ray starts
     if(t_values.t0 < 0 || t_values.t0 > 1) { return false; }
-    if(r instance of GeomSegment && 
+    if(l instance of GeomSegment && 
        (t_values.t1 < 0 || t_values.t1 > 1)) { return false; }
   
     // could call GeomRay.prototype._intersect but it would repeat _intersectionTValues
-    if(r instanceof GeomRay && t_values.t1 < 0) { return false; }
+    if(l instanceof GeomRay && t_values.t1 < 0) { return false; }
     
     return true;
   }
@@ -122,52 +122,22 @@ export class GeomSegment extends GeomRay {
   * Does this ray intersect another ray or a line in 2D?
   * @override
   */
-  intersects2D(s, { plane = GEOM.XY } = {}) {
+  intersects2D(l, { plane = GEOM.XY } = {}) {
     // if two segments, can use ccw to test for intersection
-    if(s instanceof GeomSegment) {
+    if(l instanceof GeomSegment) {
       // this.A --> this.B --> s.A !== this.A --> B --> s.B &&
       // s.A --> s.B --> this.A !== s.A --> s.b --> this.B
-      return this.ccw2D(s.A, { plane }) !== this.ccw2D(s.B, { plane }) && 
-             s.ccw2D(this.A, { plane }) !== s.ccw2D(this.B, { plane });    
+      return this.ccw2D(l.A, { plane }) !== this.ccw2D(l.B, { plane }) && 
+             l.ccw2D(this.A, { plane }) !== l.ccw2D(this.B, { plane });    
     }
   
-    if(s.constructor !== GeomLine &&
-       s.constructor !== GeomRay &&
-       s.constructor !== GeomSegment) { return s._intersects(this, { plane }); }
+    if(l.constructor !== GeomLine &&
+       l.constructor !== GeomRay &&
+       l.constructor !== GeomSegment) { return l._intersects(this, { plane }); }
        
-    return this._intersects2D(s, { plane });    
+    return this._intersects2D(l, { plane });    
   }
   
- /**
-  * What is the intersection point, if any, between this segment and 
-  *   another segment, ray, or line?
-  * @override
-  */
-  intersection(r) {
-    if(r.constructor !== GeomLine && 
-       r.constructor !== GeomRay && 
-       r.consturctor !== GeomSegment) { return r._intersection(this); }
-    return this._intersection(r);
-  }
-  
- /**
-  * Private version of {@link intersection}.
-  * @override
-  */
-  _intersection(r) {    
-    // to avoid calling _intersectionTValues twice, handle rays here
-    const t_values = this._intersectionTValues(r);
-    if(t_values === undefined) return false;
-    if(t_values.t0 < 0 || t_values.t0 > 1) { return false; }
-    
-    if(r instance of GeomSegment && 
-       (t_values.t1 < 0 || t_values.t1 > 1)) { return false; }
-    if(r instanceof GeomRay && t_values.t1 < 0) { return false; }
-    
-    const i0 = this.point(t_values.t0);
-    const i1 = r.point(t_values.t1);
-                 
-    return i0.equivalent(i1) ? i0 : false;                  
-  }  
+
   
 }

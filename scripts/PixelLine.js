@@ -28,19 +28,7 @@ export class GeomPixelLine extends GeomLine {
     
   
   // -------------- METHODS --------------------- // 
-  /**
-   * Get arbitrary pixel point on the line.
-   * Note: Point will be rounded to nearest pixel and thus may fall slightly outside the line.
-   * @param {number} t	Portion of the vector to move along the line, from p.
-   * @return {GeomPixelPoint} Pixel nearest to the point on the line.
-   */
-  pixelPoint(t) {
-    // return new GeomPixelPoint(this.p.x + t * this.v.x,
-//                               this.p.y + t * this.v.y,
-//                               this.p.z + t * this.v.z);
-    return new GeomPixelPoint(math.add(this.p, math.dotMultiply(this.v, t)));
-  }
-  
+
 
   
 }

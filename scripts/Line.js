@@ -8,6 +8,11 @@ import { almostEqual } from "./util.js";
  * An infinite line in either direction.
  * Represented by the parametric form of the equation for a line,
  *   p + t*v
+ * To be part of the line class, the child class must:
+ * 1. Have at least two points, such that t = 0 and t = 1 return valid points.
+ *    (Other values of t should return a point or undefined)
+ * 2. Be represented by a vector and a point "anchoring" that vector in space.
+ *
  * @param {GeomPoint}  p  Point through which the line passes.
  * @param {GeomVector} v  Direction vector of the line.
  */ 
@@ -16,92 +21,138 @@ export class GeomLine {
     this.p = p;
     this.v = v;
 
-    /*
+    /**
      * @type {number} _x_intercept
      * @private
      */
      this._x_intercept = undefined;
     
-    /*
+    /**
      * @type {number} _y_intercept
      * @private
      */
      this._y_intercept = undefined; 
     
-    /*
+    /**
      * @type {number} _z_intercept
      * @private
      */
      this._z_intercept = undefined; 
      
-    /*
+    /**
      * @type {number} angleXY   In radians
      * @private
      */
      this._angleXY = undefined; 
      
-    /*
+    /**
      * @type {number} angleYZ   In radians
      * @private
      */
      this._angleYZ = undefined; 
      
-    /*
+    /**
      * @type {number} angleXZ   In radians
      * @private
      */
      this._angleXZ = undefined;   
+     
+    /**
+     * @type {GeomPoint[]}
+     * @private 
+     */
+     this._canvasIntersectionsXY;
   }
   
   // -------------- GETTERS/SETTERS ------------- //
   
-  /**
-   * @type {number}
-   */
-   get x_intercept() {
-     if(this._x_intercept === undefined) {
-       const t = almostEqual(v.y, 0) ? -p.z / v.z : -p.y / v.y;
-       this._x_intercept = p.x + t * v.x;
-     }
-     return this._x_intercept;
+ /**
+  * @type {number}
+  */
+  get x_intercept() {
+   if(this._x_intercept === undefined) {
+     const t = almostEqual(v.y, 0) ? -p.z / v.z : -p.y / v.y;
+     this._x_intercept = p.x + t * v.x;
    }
+   return this._x_intercept;
+  }
    
-  /**
-   * @type {number}
-   */
-   get y_intercept() { 
-     if(this._y_intercept === undefined) {
-       const t = almostEqual(v.x, 0) ? -p.z / v.z : -p.x / v.x;
-       this._y_intercept = p.y + t * v.y;
-     }
-     return this._y_intercept;
-   } 
+ /**
+  * @type {number}
+  */
+  get y_intercept() { 
+   if(this._y_intercept === undefined) {
+     const t = almostEqual(v.x, 0) ? -p.z / v.z : -p.x / v.x;
+     this._y_intercept = p.y + t * v.y;
+   }
+   return this._y_intercept;
+  } 
    
-  /**
-   * @type {number}
-   */
-   get z_intercept() {
-     if(this._z_intercept === undefined) {
-       const t = almostEqual(v.y, 0) ? -p.x / v.x : -p.y / v.y;
-       this._z_intercept = p.z + t * v.z;
-     }
-     return this._z_intercept;
-   } 
+ /**
+  * @type {number}
+  */
+  get z_intercept() {
+   if(this._z_intercept === undefined) {
+     const t = almostEqual(v.y, 0) ? -p.x / v.x : -p.y / v.y;
+     this._z_intercept = p.z + t * v.z;
+   }
+   return this._z_intercept;
+  } 
     
-  /**
-   * @type {number}
-   */
-   get angleXY() { return v.angleXY; }
+ /**
+  * @type {number}
+  */
+  get angleXY() { return v.angleXY; }
    
-  /**
-   * @type {number}
-   */
-   get angleYZ() { return v.angleYZ; }
+ /**
+  * @type {number}
+  */
+  get angleYZ() { return v.angleYZ; }
    
-  /**
-   * @type {number}
-   */
-   get angleXZ() { return v.angleXZ; }
+ /**
+  * @type {number}
+  */
+  get angleXZ() { return v.angleXZ; }
+   
+ /**
+  * 2D Intersections of the line with the canvas
+  * @type {GeomPoint[]} 0, 1 or 2 points. 
+  */
+  get canvasIntersectionsXY() {
+    if(this._canvasIntersectionsXY === undefined) {
+      const canvas_edges = GeomLine.canvasEdges().filter(e => this.intersects2D(e, GEOM.XY));
+      let intersections = canvas_edges.map(e => this.intersection2D(e, GEOM.XY) );
+
+      // find the intersections on the line that are within the canvas
+      // a typical line has two. This could vary for child classes.
+      // also need to avoid doubling up intersections at the corners.
+      const intersections = [];
+      canvas_edges.map(e => {
+        const intersection = this.intersection2D(e, GEOM.XY); 
+        if(Boolean(intersection)) {         
+          const x_in = (i.x > 0 && i.x < canvas.dimensions.width) || 
+                        almostEqual(i.x, 0) || 
+                        almostEqual(i.x, canvas.dimensions.width);
+          if(!x_in) { return; }
+
+          const y_in = (i.y > 0 && i.y < canvas.dimensions.height) || 
+                        almostEqual(i.y, 0) || 
+                        almostEqual(i.y, canvas.dimensions.height);
+          if(!y_in) { return; }    
+
+          if(intersections.length !== 0) {
+            const i_is_new = intersections.every(i => {
+              return !i.equivalent(intersection);
+            });
+            if(!i_is_new) { return; }
+          }     
+          intersections.push(intersection);
+        }
+      });
+      this._canvasIntersectionsXY = intersections;
+    }
+    return this._canvasIntersectionsXY;
+  }  
   
   // -------------- FACTORY FUNCTIONS ----------- // 
   /**
@@ -452,6 +503,46 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
      const l1 = l.constructor.projectToPlane(l, plane);
      return l0._intersects(l1);
   }
+  
+ /**
+  * Alternative version of intersect2D for testing
+  * Treat lines as segments with intersections at the canvas edge
+  * TO-DO: Handle lines that are vertical in z-direction, so do not intersect canvas edge
+  */
+  _intersects2DAlt(l, { plane = GEOM.XY } = {}) {
+    let l0_A;
+    let l0_B;
+    let l1_A;
+    let l2_A;
+    
+    if(this.canvasIntersectionsXY.length > 1) {
+      // use the two intersection points
+      l0_A = this.canvasIntersectionsXY[0];
+      l0_B = this.canvasIntersectionsXY[1];
+    } else if(this.canvasIntersectionsXY.length === 1) {
+      l0_A = this.point(0);
+      l0_B = this.canvasIntersectionsXY[0];
+    } else {
+      l0_A = this.point(0);
+      l0_B = this.point(1);
+    }
+    
+    if(this.canvasIntersectionsXY.length > 1) {
+      // use the two intersection points
+      l1_A = l.canvasIntersectionsXY[0];
+      l1_B = l.canvasIntersectionsXY[1];
+    } else if(this.canvasIntersectionsXY.length === 1) {
+      l1_A = l.point(0);
+      l1_B = l.canvasIntersectionsXY[0];
+    } else {
+      l1_A = l.point(0);
+      l1_B = l.point(1);
+    }
+      
+    return this.ccw2D(s.A, { plane }) !== this.ccw2D(s.B, { plane }) && 
+             s.ccw2D(this.A, { plane }) !== s.ccw2D(this.B, { plane });  
+  
+  }
       
  /**
   * Intersection point of this line with another
@@ -540,10 +631,11 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
    if(t_values === undefined) return false;
       
    const i0 = l0.point(t_values.t0);
-   const i1 = l1.point(t_values.t1);
+   if(!i0) return false;
    
-   if(!i0 || !i1) return false;
- 
+   const i1 = l1.point(t_values.t1);
+   if(!i1) return false;
+    
    const intersections_match = in2D ? 
            i0.equivalent2D(i1, plane) : i0.equivalent(i1)
          
