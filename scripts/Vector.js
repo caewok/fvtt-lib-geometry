@@ -337,10 +337,9 @@ export class GeomVector extends Array {
   *   See {@link orientation}
   * @param {GeomVector}     v
   * @param {boolean}        use_robust  If false, use a fast, non-robust orient function
-  * @return 
-  *   3D: { GEOM.UP,
-  *         GEOM.COPLANAR,
-  *         GEOM.DOWN }
+  * @return { GEOM.UP|
+  *           GEOM.COPLANAR|
+  *           GEOM.DOWN }
   */
   ccw(v, { use_robust = true } = {}) {  
     const res = this.orientation(v, { use_robust });

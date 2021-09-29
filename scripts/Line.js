@@ -366,7 +366,6 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
   * Perpendicular if A•B === 0
   * @param {GeomLine} l
   * @param {GEOM.XY|GEOM.XZ|GEOM.YZ} plane
-  * @param 
   * @return {boolean} True if perpendicular
   */
   perpendicular2D(l, { plane = GEOM.XY } = {}) {
