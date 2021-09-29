@@ -48,7 +48,7 @@ export class GeomPixelVector extends GeomVector {
   */
   orientation(v, { use_robust = true } = {}) {
     if(v instanceof GeomPixelVector) { use_robust = false; }
-    return GeomVector.prototype.orientation.call(this, v, { use_robust }):
+    return GeomVector.prototype.orientation.call(this, v, { use_robust });
   }    
   
  /**
