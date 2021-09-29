@@ -13,20 +13,7 @@ export class GeomPixelLine extends GeomLine {
 
   // -------------- GETTERS/SETTERS ------------- //
   
-  
-   
-  
-  // -------------- FACTORY FUNCTIONS ----------- // 
-  /**
-   * Construct a line given two points
-   * @param {GeomPixelPoint} A  First point
-   * @param {GeomPixelPoint} B  Second point.
-   * @return {GeomPixelLine} 
-   */
-  static fromPoints(A, B) {
-    return new GeomPixelLine(A, B.subtract(A));
-  }
-  
+    
   
   // -------------- METHODS --------------------- // 
   /**
