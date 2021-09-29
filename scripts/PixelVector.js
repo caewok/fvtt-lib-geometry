@@ -1,6 +1,5 @@
 import { GeomVector } from "./Vector.js";
-import { GeomPixelPoint } from "./PixelPoint.js";
-import { GEOM_CONSTANTS } from "./constants.js";
+import { GEOM } from "./constants.js";
 
 
 /**

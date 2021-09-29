@@ -1,5 +1,6 @@
-import { GeomRay } from "./Line.js";
-
+import { GeomSegment } from "./Segment.js";
+import { GeomPixelPoint } from "./PixelPoint.js";
+import { GeomPixelVector } from "./PixelVector.js";
 
 /**
  * An line from one point to a second point

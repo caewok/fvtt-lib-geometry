@@ -1,5 +1,8 @@
-import { GeomLine } from "./Line.js";
+/* globals canvas, ui */
 
+import { GeomLine } from "./Line.js";
+import { almostEqual } from "./util.js";
+import { GEOM, COLORS } from "./constants.js";
 
 /**
  * An infinite line in one direction from a point
@@ -56,7 +59,7 @@ export class GeomRay extends GeomLine {
   intersects(l) {
     if(l.constructor !== GeomLine && 
        l.constructor !== GeomRay) { return l._intersects(this); }
-    return this._intersects(r);
+    return this._intersects(l);
   }
   
  /**

@@ -1,6 +1,9 @@
+/* globals foundry, math, canvas */
+
 import { GEOM, COLORS } from "./constants.js";
 import { orient2d, orient2dfast, orient3d, orient3dfast } from "./lib/predicates.min.js";
 import { almostEqual } from "./util.js";
+import { GeomPoint } from "Point.js";
 
 /**
  * Vector defines a direction and magnitude (size, or length) in 3D space.

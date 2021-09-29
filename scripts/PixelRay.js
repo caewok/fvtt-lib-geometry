@@ -1,4 +1,6 @@
 import { GeomRay } from "./Ray.js";
+import { GeomPixelPoint } from "./PixelPoint.js";
+import { GeomPixelVector } from "./PixelVector.js";
 
 /**
  * An infinite line in one direction from a point

@@ -1,3 +1,4 @@
+import { GeomPoint } from "./Point.js";
 import { GeomPixelVector } from "./PixelVector.js";
 import { COLORS } from "./constants.js";
 

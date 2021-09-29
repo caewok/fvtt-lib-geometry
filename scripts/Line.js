@@ -1,7 +1,9 @@
-import { GeomPoint } from "./Point.js";
+/* globals canvas, math, ui */
+
 import { GeomVector } from "./Vector.js";
-import { GEOM_CONSTANTS, COLORS } from "./constants.js";
-import { orient2d, orient3d } from "./lib/predicates.min.js";
+import { GeomPoint } from "./Point.js";
+import { GeomPixelPoint } from "./PixelPoint.js";
+import { GEOM, COLORS } from "./constants.js";
 import { almostEqual } from "./util.js";
 
 /**
@@ -71,8 +73,8 @@ export class GeomLine {
   */
   get x_intercept() {
    if(this._x_intercept === undefined) {
-     const t = almostEqual(v.y, 0) ? -p.z / v.z : -p.y / v.y;
-     this._x_intercept = p.x + t * v.x;
+     const t = almostEqual(this.v.y, 0) ? -this.p.z / this.v.z : -this.p.y / this.v.y;
+     this._x_intercept = this.p.x + t * this.v.x;
    }
    return this._x_intercept;
   }
@@ -82,8 +84,8 @@ export class GeomLine {
   */
   get y_intercept() { 
    if(this._y_intercept === undefined) {
-     const t = almostEqual(v.x, 0) ? -p.z / v.z : -p.x / v.x;
-     this._y_intercept = p.y + t * v.y;
+     const t = almostEqual(this.v.x, 0) ? -this.p.z / this.v.z : -this.p.x / this.v.x;
+     this._y_intercept = this.p.y + t * this.v.y;
    }
    return this._y_intercept;
   } 
@@ -93,8 +95,8 @@ export class GeomLine {
   */
   get z_intercept() {
    if(this._z_intercept === undefined) {
-     const t = almostEqual(v.y, 0) ? -p.x / v.x : -p.y / v.y;
-     this._z_intercept = p.z + t * v.z;
+     const t = almostEqual(this.v.y, 0) ? -this.p.x / this.v.x : -this.p.y / this.v.y;
+     this._z_intercept = this.p.z + t * this.v.z;
    }
    return this._z_intercept;
   } 
@@ -102,17 +104,17 @@ export class GeomLine {
  /**
   * @type {number}
   */
-  get angleXY() { return v.angleXY; }
+  get angleXY() { return this.v.angleXY; }
    
  /**
   * @type {number}
   */
-  get angleYZ() { return v.angleYZ; }
+  get angleYZ() { return this.v.angleYZ; }
    
  /**
   * @type {number}
   */
-  get angleXZ() { return v.angleXZ; }
+  get angleXZ() { return this.v.angleXZ; }
    
  /**
   * 2D Intersections of the line with the canvas
@@ -121,22 +123,21 @@ export class GeomLine {
   get canvasIntersectionsXY() {
     if(this._canvasIntersectionsXY === undefined) {
       const canvas_edges = GeomLine.canvasEdges().filter(e => this.intersects2D(e, GEOM.XY));
-
       // find the intersections on the line that are within the canvas
       // a typical line has two. This could vary for child classes.
       // also need to avoid doubling up intersections at the corners.
       const intersections = [];
       canvas_edges.map(e => {
         const intersection = this.intersection2D(e, GEOM.XY); 
-        if(Boolean(intersection)) {         
-          const x_in = (i.x > 0 && i.x < canvas.dimensions.width) || 
-                        almostEqual(i.x, 0) || 
-                        almostEqual(i.x, canvas.dimensions.width);
+        if(intersection) {         
+          const x_in = (intersection.x > 0 && intersection.x < canvas.dimensions.width) || 
+                        almostEqual(intersection.x, 0) || 
+                        almostEqual(intersection.x, canvas.dimensions.width);
           if(!x_in) { return; }
 
-          const y_in = (i.y > 0 && i.y < canvas.dimensions.height) || 
-                        almostEqual(i.y, 0) || 
-                        almostEqual(i.y, canvas.dimensions.height);
+          const y_in = (intersection.y > 0 && intersection.y < canvas.dimensions.height) || 
+                        almostEqual(intersection.y, 0) || 
+                        almostEqual(intersection.y, canvas.dimensions.height);
           if(!y_in) { return; }    
 
           if(intersections.length !== 0) {
@@ -171,10 +172,12 @@ export class GeomLine {
    */
   static canvasEdges() {
     // clockwise from 0,0
+    const canvas_w = canvas.dimensions.width;
+    const canvas_h = canvas.dimensions.height;
     let canvas_pts = [{ x: 0, y: 0 }, 
-                      { x: canvas.dimensions.width, y: 0 },
-                      { x: canvas.dimensions.width, y: canvas.dimensions.height },
-                      { x: 0, y: canvas.dimensions.height }];
+                      { x: canvas_w, y: 0 },
+                      { x: canvas_w, y: canvas_h },
+                      { x: 0, y: canvas_h }];
   
    canvas_pts = canvas_pts.map(pt => new GeomPoint(pt.x, pt.y));
   
@@ -195,8 +198,8 @@ export class GeomLine {
   * @return {GeomLine} New line with third dimension zeroed out
   */ 
   static projectToPlane(l, plane) {
-    const l_new = new this(l.p.constructor.projectToPlane(l.p),
-                     l.v.constructor.projectToPlane(l.v));
+    const l_new = new this(l.p.constructor.projectToPlane(l.p, plane),
+                     l.v.constructor.projectToPlane(l.v, plane));
     return l_new;
   }
 
@@ -237,9 +240,9 @@ export class GeomLine {
   equivalent(l) {
     // lines share the same vector and the point of one is collinear to the other line
     if(!this.v.equivalent(l.v)) return false;
-    return l.ccw2D(p, GEOM.XY) === GEOM.COLLINEAR && 
-           l.ccw2D(p, GEOM.XZ) === GEOM.COLLINEAR && 
-           l.ccw2D(p, GEOM.YZ) === GEOM.COLLINEAR; // do we need to test all three?
+    return l.ccw2D(this.p, GEOM.XY) === GEOM.COLLINEAR && 
+           l.ccw2D(this.p, GEOM.XZ) === GEOM.COLLINEAR && 
+           l.ccw2D(this.p, GEOM.YZ) === GEOM.COLLINEAR; // do we need to test all three?
   }
   
  /**
@@ -248,9 +251,9 @@ export class GeomLine {
   * @param {GEOM.XY|GEOM.XZ|GEOM.YZ}  plane
   * @return {boolean} True if equivalent in two dimensions
   */
-  equivalent2D(v, { plane = GEOM.XY } = {}) {
+  equivalent2D(l, { plane = GEOM.XY } = {}) {
     if(!this.v.equivalent2D(l.v, { plane })) return false;
-    return l.ccw2D(p, { plane }) === GEOM.COLLINEAR;
+    return l.ccw2D(this.p, { plane }) === GEOM.COLLINEAR;
   }  
     
   
@@ -287,9 +290,9 @@ export class GeomLine {
   * @return {boolean} True if the point lies on the line
   */
   contains(p) {
-    return l.ccw2D(p, GEOM.XY) === GEOM.COLLINEAR && 
-           l.ccw2D(p, GEOM.XZ) === GEOM.COLLINEAR && 
-           l.ccw2D(p, GEOM.YZ) === GEOM.COLLINEAR; // do we need to test all three?           
+    return this.ccw2D(p, GEOM.XY) === GEOM.COLLINEAR && 
+           this.ccw2D(p, GEOM.XZ) === GEOM.COLLINEAR && 
+           this.ccw2D(p, GEOM.YZ) === GEOM.COLLINEAR; // do we need to test all three?           
   }
   
  /**
@@ -411,8 +414,8 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
   * @return {boolean} True if perpendicular
   */
   perpendicular(l) {
-   if(l.constructor !== GeomLine) return l._perpendicular(this, { plane });
-   return this._perpendicular(l, { plane });
+   if(l.constructor !== GeomLine) return l._perpendicular(this);
+   return this._perpendicular(l);
   } 
   
  /**
@@ -509,38 +512,37 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
   * TO-DO: Handle lines that are vertical in z-direction, so do not intersect canvas edge
   */
   _intersects2DAlt(l, { plane = GEOM.XY } = {}) {
-    let l0_A;
-    let l0_B;
-    let l1_A;
-    let l2_A;
+    let l0 = { A: undefined, B: undefined };
+    let l1 = { A: undefined, B: undefined };
     
     if(this.canvasIntersectionsXY.length > 1) {
       // use the two intersection points
-      l0_A = this.canvasIntersectionsXY[0];
-      l0_B = this.canvasIntersectionsXY[1];
+      l0.A = this.canvasIntersectionsXY[0];
+      l0.B = this.canvasIntersectionsXY[1];
     } else if(this.canvasIntersectionsXY.length === 1) {
-      l0_A = this.point(0);
-      l0_B = this.canvasIntersectionsXY[0];
+      l0.A = this.point(0);
+      l0.B = this.canvasIntersectionsXY[0];
     } else {
-      l0_A = this.point(0);
-      l0_B = this.point(1);
+      l0.A = this.point(0);
+      l0.B = this.point(1);
     }
     
     if(this.canvasIntersectionsXY.length > 1) {
       // use the two intersection points
-      l1_A = l.canvasIntersectionsXY[0];
-      l1_B = l.canvasIntersectionsXY[1];
+      l1.A = l.canvasIntersectionsXY[0];
+      l1.B = l.canvasIntersectionsXY[1];
     } else if(this.canvasIntersectionsXY.length === 1) {
-      l1_A = l.point(0);
-      l1_B = l.canvasIntersectionsXY[0];
+      l1.A = l.point(0);
+      l1.B = l.canvasIntersectionsXY[0];
     } else {
-      l1_A = l.point(0);
-      l1_B = l.point(1);
+      l1.A = l.point(0);
+      l1.B = l.point(1);
     }
       
-    return this.ccw2D(s.A, { plane }) !== this.ccw2D(s.B, { plane }) && 
-             s.ccw2D(this.A, { plane }) !== s.ccw2D(this.B, { plane });  
-  
+    return GeomVector.ccw2D(l0.A, l0.B, l1.A, { plane }) !== 
+             GeomVector.ccw2D(l0.A, l0.B, l1.B, { plane }) &&
+           GeomVector.ccw2D(l1.A, l1.B, l0.A, { plane }) !== 
+             GeomVector.ccw2D(l1.A, l1.B, l0.B, { plane });  
   }
       
  /**
@@ -567,7 +569,7 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
     const intersection = this._findIntersection(l);
     if(!intersection) return false;
    
-    return new GeomPoint(intersection_xy.x, intersection_xy.y, intersection_xz.z);
+    return new GeomPoint(intersection.x, intersection.y, intersection.z);
   }
   
   /**
@@ -629,10 +631,10 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
    const t_values = this._intersectionTValues(l, { in2D: in2D, plane: plane} );
    if(t_values === undefined) return false;
       
-   const i0 = l0.point(t_values.t0);
+   const i0 = this.point(t_values.t0);
    if(!i0) return false;
    
-   const i1 = l1.point(t_values.t1);
+   const i1 = l.point(t_values.t1);
    if(!i1) return false;
     
    const intersections_match = in2D ? 

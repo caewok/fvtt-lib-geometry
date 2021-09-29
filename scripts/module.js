@@ -1,3 +1,5 @@
+/* globals Hooks, game */
+
 export const MODULE_ID = 'libgeometry';
 
 import { GEOM_CONSTANTS, COLORS } from "./constants.js";

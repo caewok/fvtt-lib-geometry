@@ -1,5 +1,9 @@
-import { GeomRay } from "./Line.js";
+/* globals NormalizedRectangle */
 
+import { GeomRay } from "./Line.js";
+import { almostEqual} from "./util.js";
+import { GEOM } from "./constants.js";
+import { GeomLine } from "./Line.js";
 
 /**
  * An line from one point to a second point
@@ -89,7 +93,7 @@ export class GeomSegment extends GeomRay {
   * Does this segment intersect another segment, ray or a line?
   * @override
   */
-  intersects(sl) {
+  intersects(l) {
     if(l.constructor !== GeomLine &&
        l.constructor !== GeomRay &&
        l.constructor !== GeomSegment) { return l._intersects(this); }
@@ -103,7 +107,7 @@ export class GeomSegment extends GeomRay {
   * @private 
   */
   _intersects(l) {
-    const t_values = this._intersectionTValues(r);
+    const t_values = this._intersectionTValues(l);
     if(!t_values) { return false; }
     
     // t values must be between 0 and 1 for segments

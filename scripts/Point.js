@@ -1,4 +1,5 @@
-import { almostEqual } from "./util.js";
+/* globals canvas */
+
 import { COLORS } from "./constants.js";
 import { GeomVector } from "./Vector.js";
 

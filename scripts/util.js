@@ -1,3 +1,5 @@
+/* globals canvas */
+
 const PRESET_EPSILON = 1e-8;
 
  /*
