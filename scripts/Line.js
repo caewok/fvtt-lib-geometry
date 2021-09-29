@@ -550,11 +550,8 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
    let l0 = this;
    let l1 = l;
    if(in2D) {
-     l0.v = GeomVector.projectToPlane(l0.v, plane);
-     l1.v = GeomVector.projectToPlane(l1.v, plane);
-
-     l0.p = GeomVector.projectToPlane(l0.p, plane);
-     l1.p = GeomVector.projectToPlane(l1.p, plane);
+     l0 = l0.constructor.projectToPlane(l0, plane);
+     l1 = l1.constructor.projectToPlane(l1, plane);
    }
  
    const nzd = this._nonZeroDeterminant(l0, l1, { in2D: in2D, plane: plane });
