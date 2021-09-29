@@ -86,14 +86,14 @@
 
   <meta name="viewport" content="width=device-width">
   
-  <title>robust-predicates/orient2d.js at master · mourner/robust-predicates</title>
-    <meta name="description" content="Fast robust predicates for computational geometry in JavaScript - robust-predicates/orient2d.js at master · mourner/robust-predicates">
+  <title>robust-predicates/orient3d.js at master · mourner/robust-predicates</title>
+    <meta name="description" content="Fast robust predicates for computational geometry in JavaScript - robust-predicates/orient3d.js at master · mourner/robust-predicates">
     <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
   <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
   <meta property="fb:app_id" content="1401488693436528">
   <meta name="apple-itunes-app" content="app-id=1477376905" />
-    <meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/205561091/d9cfd200-cd89-11e9-8468-e5691ca40897" /><meta name="twitter:site" content="@github" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="robust-predicates/orient2d.js at master · mourner/robust-predicates" /><meta name="twitter:description" content="Fast robust predicates for computational geometry in JavaScript - robust-predicates/orient2d.js at master · mourner/robust-predicates" />
-    <meta property="og:image" content="https://repository-images.githubusercontent.com/205561091/d9cfd200-cd89-11e9-8468-e5691ca40897" /><meta property="og:image:alt" content="Fast robust predicates for computational geometry in JavaScript - robust-predicates/orient2d.js at master · mourner/robust-predicates" /><meta property="og:site_name" content="GitHub" /><meta property="og:type" content="object" /><meta property="og:title" content="robust-predicates/orient2d.js at master · mourner/robust-predicates" /><meta property="og:url" content="https://github.com/mourner/robust-predicates" /><meta property="og:description" content="Fast robust predicates for computational geometry in JavaScript - robust-predicates/orient2d.js at master · mourner/robust-predicates" />
+    <meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/205561091/d9cfd200-cd89-11e9-8468-e5691ca40897" /><meta name="twitter:site" content="@github" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="robust-predicates/orient3d.js at master · mourner/robust-predicates" /><meta name="twitter:description" content="Fast robust predicates for computational geometry in JavaScript - robust-predicates/orient3d.js at master · mourner/robust-predicates" />
+    <meta property="og:image" content="https://repository-images.githubusercontent.com/205561091/d9cfd200-cd89-11e9-8468-e5691ca40897" /><meta property="og:image:alt" content="Fast robust predicates for computational geometry in JavaScript - robust-predicates/orient3d.js at master · mourner/robust-predicates" /><meta property="og:site_name" content="GitHub" /><meta property="og:type" content="object" /><meta property="og:title" content="robust-predicates/orient3d.js at master · mourner/robust-predicates" /><meta property="og:url" content="https://github.com/mourner/robust-predicates" /><meta property="og:description" content="Fast robust predicates for computational geometry in JavaScript - robust-predicates/orient3d.js at master · mourner/robust-predicates" />
     
 
 
@@ -101,11 +101,11 @@
     
 
   <link rel="assets" href="https://github.githubassets.com/">
-    <link rel="shared-web-socket" href="wss://alive.github.com/_sockets/u/1267134/ws?session=eyJ2IjoiVjMiLCJ1IjoxMjY3MTM0LCJzIjo3NTYzNzk0OTIsImMiOjk3Mzc1NzU1MywidCI6MTYzMjg2ODU5M30=--2c7ff904ead0204474eac78bd48bc77910663865f26c431b0d09ba91ac4e053c" data-refresh-url="/_alive" data-session-id="7ba115b885a23e28dbea4961e47fb40cc5d141dcf4b9bbc132985760b103cb87">
+    <link rel="shared-web-socket" href="wss://alive.github.com/_sockets/u/1267134/ws?session=eyJ2IjoiVjMiLCJ1IjoxMjY3MTM0LCJzIjo3NTYzNzk0OTIsImMiOjE2Mjk5NzQ5NzgsInQiOjE2MzI4Njg1MjN9--5f6c27bc04e09f496e4989f4a1c1a83f82387c03f1d8161151494bf8204c166a" data-refresh-url="/_alive" data-session-id="7ba115b885a23e28dbea4961e47fb40cc5d141dcf4b9bbc132985760b103cb87">
     <link rel="shared-web-socket-src" href="/socket-worker-0af8a29d.js">
   <link rel="sudo-modal" href="/sessions/sudo_modal">
 
-  <meta name="request-id" content="8621:8B75:59354:74EBE:615398F0" data-pjax-transient="true" /><meta name="html-safe-nonce" content="4acfd086a28a7a833e75b4db0a849e84d0783eb97b5376bd7f536408f9e278f8" data-pjax-transient="true" /><meta name="visitor-payload" content="eyJyZWZlcnJlciI6Imh0dHBzOi8vZ2l0aHViLmNvbS9tb3VybmVyL3JvYnVzdC1wcmVkaWNhdGVzL3RyZWUvbWFzdGVyL3NyYyIsInJlcXVlc3RfaWQiOiI4NjIxOjhCNzU6NTkzNTQ6NzRFQkU6NjE1Mzk4RjAiLCJ2aXNpdG9yX2lkIjoiNjI0MjI0NzU0MzQxMzUzNTgyMCIsInJlZ2lvbl9lZGdlIjoic2VhIiwicmVnaW9uX3JlbmRlciI6ImlhZCJ9" data-pjax-transient="true" /><meta name="visitor-hmac" content="5bc2e1d21ba5ca1069b82928a6f171435fff78310fe31a78368377a10d06a429" data-pjax-transient="true" />
+  <meta name="request-id" content="8621:8B75:58B74:74445:615398A9" data-pjax-transient="true" /><meta name="html-safe-nonce" content="4acfd086a28a7a833e75b4db0a849e84d0783eb97b5376bd7f536408f9e278f8" data-pjax-transient="true" /><meta name="visitor-payload" content="eyJyZWZlcnJlciI6Imh0dHBzOi8vZ2l0aHViLmNvbS9tb3VybmVyL3JvYnVzdC1wcmVkaWNhdGVzL3RyZWUvbWFzdGVyL3NyYyIsInJlcXVlc3RfaWQiOiI4NjIxOjhCNzU6NThCNzQ6NzQ0NDU6NjE1Mzk4QTkiLCJ2aXNpdG9yX2lkIjoiNjI0MjI0NzU0MzQxMzUzNTgyMCIsInJlZ2lvbl9lZGdlIjoic2VhIiwicmVnaW9uX3JlbmRlciI6ImlhZCJ9" data-pjax-transient="true" /><meta name="visitor-hmac" content="a48939fd10e4f45dadc781be4161bd3603d12dea467f5ffa40d7c98f629f196d" data-pjax-transient="true" />
 
     <meta name="hovercard-subject-tag" content="repository:205561091" data-pjax-transient>
 
@@ -144,7 +144,7 @@
 
       <meta name="expected-hostname" content="github.com">
 
-      <meta name="js-proxy-site-detection-payload" content="NzQ4MzcxMWMzYmYzZDQ4YzQwNjFjNWM4ZWMzMjdjNDI0NGY0ZDVjZWU5Y2JiZTJmYzRkZWMwZjllMjU0MjUxZXx7InJlbW90ZV9hZGRyZXNzIjoiMTA0LjIyMC4xNzMuMTM5IiwicmVxdWVzdF9pZCI6Ijg2MjE6OEI3NTo1OTM1NDo3NEVCRTo2MTUzOThGMCIsInRpbWVzdGFtcCI6MTYzMjg2ODU5MywiaG9zdCI6ImdpdGh1Yi5jb20ifQ==">
+      <meta name="js-proxy-site-detection-payload" content="YzYxZGQ2MmEyN2M2NjM3NmYwODM4YjQwYmM4N2VkMTVlZDc3MDBmMTczMDM4ODQ1YmYxZGYwOGMxOTczNDhhNnx7InJlbW90ZV9hZGRyZXNzIjoiMTA0LjIyMC4xNzMuMTM5IiwicmVxdWVzdF9pZCI6Ijg2MjE6OEI3NTo1OEI3NDo3NDQ0NTo2MTUzOThBOSIsInRpbWVzdGFtcCI6MTYzMjg2ODUyMywiaG9zdCI6ImdpdGh1Yi5jb20ifQ==">
       <meta name="keyboard-shortcuts-preference" content="all">
 
     <meta name="enabled-features" content="BRANCH_PROTECTION_RULE_WEBHOOK,MARKETPLACE_PENDING_INSTALLATIONS,FILE_UPLOAD_CURSOR_POSITION">
@@ -162,7 +162,7 @@
 
 
 
-    <link rel="canonical" href="https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js" data-pjax-transient>
+    <link rel="canonical" href="https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js" data-pjax-transient>
 
 
   <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
@@ -202,7 +202,7 @@
   href="https://github.com/"
   data-hotkey="g d"
   aria-label="Homepage "
-  data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Header&quot;,&quot;action&quot;:&quot;go to dashboard&quot;,&quot;label&quot;:&quot;icon:logo&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="731c9a15eb128bab1b7bd60d28e5eba70d020497468e52f501c42c89f9901254"
+  data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Header&quot;,&quot;action&quot;:&quot;go to dashboard&quot;,&quot;label&quot;:&quot;icon:logo&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="569674445b9317ca2554d4f402b1dbce2d5841f23d27b128d05775cd612fd4a6"
 >
   <svg height="32" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github v-align-middle">
     <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
@@ -252,7 +252,7 @@
           spellcheck="false"
           autocomplete="off"
         >
-        <input type="hidden" value="PIXuxaES3I8tELGeIF4vDD7dRxqIb06nqkbIFdZqkAy4ByomBmpozWr9rq6d5fR5OuF0tcJhG2mLqlKHYJhLaA==" data-csrf="true" class="js-data-jump-to-suggestions-path-csrf" />
+        <input type="hidden" value="LNQX8rGv5/QStGMdZnSywRvpbTFx/JlmmpCYxdR7YNOoVtMRFtdTtlVZfC3bz2m0H9VenjvyzKi7fAJXYom7tw==" data-csrf="true" class="js-data-jump-to-suggestions-path-csrf" />
         <input type="hidden" class="js-site-search-type-field" name="type" >
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" aria-hidden="true" class="mr-1 header-search-key-slash"><path fill="none" stroke="#979A9C" opacity=".4" d="M3.5.5h12c1.7 0 3 1.3 3 3v13c0 1.7-1.3 3-3 3h-12c-1.7 0-3-1.3-3-3v-13c0-1.7 1.3-3 3-3z"></path><path fill="#979A9C" d="M11.8 6L8 15.1h-.9L10.8 6h1z"></path></svg>
 
@@ -456,7 +456,7 @@
     <a class="js-selected-navigation-item Header-link d-block d-md-none py-2 py-md-3 border-top border-md-top-0 border-white-fade" data-ga-click="Header, click, Nav menu - item:workspaces context:user" data-selected-links="/codespaces /codespaces" href="/codespaces">
       Codespaces
 </a>
-      <a class="js-selected-navigation-item Header-link d-block d-md-none py-2 py-md-3 border-top border-md-top-0 border-white-fade" data-ga-click="Header, click, Nav menu - item:Sponsors" data-hydro-click="{&quot;event_type&quot;:&quot;sponsors.button_click&quot;,&quot;payload&quot;:{&quot;button&quot;:&quot;HEADER_SPONSORS_DASHBOARD&quot;,&quot;sponsorable_login&quot;:&quot;caewok&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="61cf6f56ddb36435a62292bea8b6b4c89d0987f30a15ad35e6d3692bf63045ba" data-selected-links=" /sponsors/accounts" href="/sponsors/accounts">Sponsors</a>
+      <a class="js-selected-navigation-item Header-link d-block d-md-none py-2 py-md-3 border-top border-md-top-0 border-white-fade" data-ga-click="Header, click, Nav menu - item:Sponsors" data-hydro-click="{&quot;event_type&quot;:&quot;sponsors.button_click&quot;,&quot;payload&quot;:{&quot;button&quot;:&quot;HEADER_SPONSORS_DASHBOARD&quot;,&quot;sponsorable_login&quot;:&quot;caewok&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="504afe1538a1564c64481509689e5a624dc1b1b2d9ee1f2be558c69c14d21815" data-selected-links=" /sponsors/accounts" href="/sponsors/accounts">Sponsors</a>
 
     <a class="Header-link d-block d-md-none mr-0 mr-md-3 py-2 py-md-3 border-top border-md-top-0 border-white-fade" href="/settings/profile">
       Settings
@@ -465,12 +465,12 @@
       <img class="avatar avatar-user" loading="lazy" decoding="async" src="https://avatars.githubusercontent.com/u/1267134?s=40&amp;v=4" width="20" height="20" alt="@caewok" />
       caewok
 </a>
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form action="/logout" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="amgLZ+aitGf6VPjjwEB5RfxDmpiSHL6VLgUjoxV9ZUnhCbNhIPL+Wv+fBdKOR3rjBDl4XfGbdUG3d3nwMFTjVg==" />
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form action="/logout" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="m2jCK66wZSb86woT0qlLMi9LxgK7zZ/+V34dK1juobAQCXotaOAvG/kg9yKcrkiU1zEkx9hKVCrODEd4fccnrw==" />
       <button
         type="submit"
         class="Header-link mr-0 mr-md-3 py-2 py-md-3 border-top border-md-top-0 border-white-fade d-md-none btn-link d-block width-full text-left"
         style="padding-left: 2px;"
-        data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Header&quot;,&quot;action&quot;:&quot;sign out&quot;,&quot;label&quot;:&quot;icon:logout&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="cdc2980034837644783a42fb8831f110a0cd9fdf5bf41004e57e5310d03f2e68"
+        data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Header&quot;,&quot;action&quot;:&quot;sign out&quot;,&quot;label&quot;:&quot;icon:logout&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="1e050eb1200c6d88254d75e14a4ee19392d3e168740363ef68bed8af3c1f9543"
       >
         <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sign-out v-align-middle">
     <path fill-rule="evenodd" d="M2 2.75C2 1.784 2.784 1 3.75 1h2.5a.75.75 0 010 1.5h-2.5a.25.25 0 00-.25.25v10.5c0 .138.112.25.25.25h2.5a.75.75 0 010 1.5h-2.5A1.75 1.75 0 012 13.25V2.75zm10.44 4.5H6.75a.75.75 0 000 1.5h5.69l-1.97 1.97a.75.75 0 101.06 1.06l3.25-3.25a.75.75 0 000-1.06l-3.25-3.25a.75.75 0 10-1.06 1.06l1.97 1.97z"></path>
@@ -487,7 +487,7 @@
   href="https://github.com/"
   data-hotkey="g d"
   aria-label="Homepage "
-  data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Header&quot;,&quot;action&quot;:&quot;go to dashboard&quot;,&quot;label&quot;:&quot;icon:logo&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="731c9a15eb128bab1b7bd60d28e5eba70d020497468e52f501c42c89f9901254"
+  data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Header&quot;,&quot;action&quot;:&quot;go to dashboard&quot;,&quot;label&quot;:&quot;icon:logo&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="569674445b9317ca2554d4f402b1dbce2d5841f23d27b128d05775cd612fd4a6"
 >
   <svg height="32" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github v-align-middle">
     <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
@@ -503,7 +503,7 @@
       <notification-indicator
         class="js-socket-channel"
         data-test-selector="notifications-indicator"
-        data-channel="eyJjIjoibm90aWZpY2F0aW9uLWNoYW5nZWQ6MTI2NzEzNCIsInQiOjE2MzI4Njg1OTN9--411fce4f1a25429b31172e3b24439ca855d283876ca98b378c8399441cc33a87">
+        data-channel="eyJjIjoibm90aWZpY2F0aW9uLWNoYW5nZWQ6MTI2NzEzNCIsInQiOjE2MzI4Njg1MjN9--c1ff3c3f1e3218e814fb7960a38bcae59153dbaaa3a838861d642df5ae74a7dc">
         <a href="/notifications"
           class="Header-link notification-indicator position-relative tooltipped tooltipped-sw"
           
@@ -526,7 +526,7 @@
   <summary
     class="Header-link"
     aria-label="Create new…"
-    data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Header&quot;,&quot;action&quot;:&quot;create new&quot;,&quot;label&quot;:&quot;icon:add&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="2c13739b8cd3bcb5cdcb1679bf975f5036701c526091a81d05568ae6f2ff6ea4"
+    data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Header&quot;,&quot;action&quot;:&quot;create new&quot;,&quot;label&quot;:&quot;icon:add&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="d5394b614321e36191ec480c681226790f806535a8f5f74afefbfb8e43ec826a"
   >
       <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-plus">
     <path fill-rule="evenodd" d="M7.75 2a.75.75 0 01.75.75V7h4.25a.75.75 0 110 1.5H8.5v4.25a.75.75 0 11-1.5 0V8.5H2.75a.75.75 0 010-1.5H7V2.75A.75.75 0 017.75 2z"></path>
@@ -564,7 +564,7 @@
   <summary
     class="Header-link"
     aria-label="View profile and more"
-    data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Header&quot;,&quot;action&quot;:&quot;show menu&quot;,&quot;label&quot;:&quot;icon:avatar&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="c3f991f1e78c2cda38ca4a86b0edc78055a17bbdc54c0f22fcf1739c285c8bf9"
+    data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Header&quot;,&quot;action&quot;:&quot;show menu&quot;,&quot;label&quot;:&quot;icon:avatar&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="05ddfaec2450721018e0a2b5ec696d4ec250df9823ebb8948f400e5dddf7aa41"
   >
     <img src="https://avatars.githubusercontent.com/u/1267134?s=40&amp;v=4" alt="@caewok" size="20" height="20" width="20" data-view-component="true" class="avatar-user avatar avatar-small"></img>
       <span class="feature-preview-indicator js-feature-preview-indicator" style="top: 1px;" hidden></span>
@@ -680,7 +680,7 @@
         data-action="toggle:notifications-list-subscription-form#detailsToggled"
       >
 
-      <summary class="btn btn-sm rounded-right-0" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;WATCH_BUTTON&quot;,&quot;repository_id&quot;:205561091,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="a71d75d7f1ecd40b696b04e7dfc213f2da6618b729c8d611f507054f2981e6e8" data-ga-click="Repository, click Watch settings, action:blob#show" aria-label="Notifications settings">
+      <summary class="btn btn-sm rounded-right-0" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;WATCH_BUTTON&quot;,&quot;repository_id&quot;:205561091,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="5da596c45314a59bbe143c40c16c8e2d8069976751dec95fd888349a97274f51" data-ga-click="Repository, click Watch settings, action:blob#show" aria-label="Notifications settings">
           <span data-menu-button>
             <span
               hidden
@@ -732,7 +732,7 @@
             </header>
 
             <div class="SelectMenu-list">
-              <form data-target="notifications-list-subscription-form.form" data-action="submit:notifications-list-subscription-form#submitForm" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="eb1egOVjWwwlWfzaI8VrB1R8NQoJV26fEVDliJt6ZRXoTLu0g6WYmTi3F7DJy9Fx9hR3CpeBRftI3KvJxmmiww==" />
+              <form data-target="notifications-list-subscription-form.form" data-action="submit:notifications-list-subscription-form#submitForm" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="yNzS0FzpUJiw0K2K4XnBKuAu/mVB4BTX/d++tZ5BBnJZLTfkOi+TDa0+RuALd3tcQka8Zd82P7OkU/D0w1LBpA==" />
 
                 <input type="hidden" name="repository_id" value="205561091">
 
@@ -845,7 +845,7 @@
 
         <details-dialog class="notifications-component-dialog " data-target="notifications-list-subscription-form.customDialog" hidden>
           <div class="SelectMenu-modal notifications-component-dialog-modal overflow-visible">
-            <form data-target="notifications-list-subscription-form.customform" data-action="submit:notifications-list-subscription-form#submitCustomForm" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="IJ5B7stN/nMcXeGSXz9BSqCmfqOswDykIUMuCPn1iTaxb6TarYs95gGzCvi1Mfs8As48ozIWF8B4z2BJpOZO4A==" />
+            <form data-target="notifications-list-subscription-form.customform" data-action="submit:notifications-list-subscription-form#submitCustomForm" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="ZScVOPEMUSr84IoC8lPOkvaOwnOUzGbbN4jN1W6JzZH01vAMl8qSv+EOYWgYXXTkVOaAcwoaTb9uBIOUM5oKRw==" />
 
               <input type="hidden" name="repository_id" value="205561091">
 
@@ -1004,9 +1004,9 @@
 
   <li>
         <div class="d-block js-toggler-container js-social-container starring-container ">
-    <form class="starred js-social-form" action="/mourner/robust-predicates/unstar" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="E0sTrxXePlVJ8jTKrNp6eqCZin9FUAt9axlFkj0G2/mZ3uWMue4hnumbB7gQvbUHGS6AquiChGdqILKbYOweVA==" />
+    <form class="starred js-social-form" action="/mourner/robust-predicates/unstar" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="K6gKGp2C2MCixC4RvDWl4kuHcgbOt5Oxdrx4fivlK9yhPfw5MbLHCwKtHWMAUmqf8jB402NlHKt3hY93dg/ucQ==" />
       <input type="hidden" name="context" value="repository">
-      <button type="submit" class="btn btn-sm btn-with-count  js-toggler-target" aria-label="Unstar this repository" title="Unstar mourner/robust-predicates" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;UNSTAR_BUTTON&quot;,&quot;repository_id&quot;:205561091,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="88bf57e15c7d1bbf46c5558e66549884af01cd3e061a1bdda248619f6195005d" data-ga-click="Repository, click unstar button, action:blob#show; text:Unstar">        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-star-fill mr-1">
+      <button type="submit" class="btn btn-sm btn-with-count  js-toggler-target" aria-label="Unstar this repository" title="Unstar mourner/robust-predicates" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;UNSTAR_BUTTON&quot;,&quot;repository_id&quot;:205561091,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="7c1463d1ed6c3cfa02bc87bd09ea23354093782ed5e9c2bf9f68a78da9c48c33" data-ga-click="Repository, click unstar button, action:blob#show; text:Unstar">        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-star-fill mr-1">
     <path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"></path>
 </svg>
         <span data-view-component="true">
@@ -1016,9 +1016,9 @@
            191
         </a>
 </form>
-    <form class="unstarred js-social-form" action="/mourner/robust-predicates/star" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="J7mrM7hO68weEMaBPNMVdtQo/gQiF70IfqMEoYNqmfxtIMLVPAwkGybAQeDCTpY09w+4HG54b+vZ8xgZjvXq8g==" />
+    <form class="unstarred js-social-form" action="/mourner/robust-predicates/star" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="ys6MpguBjvqGFa3HRxiYXsMFOUEgiuOCM4hJUnN0nDaAV+VAj8NBLb7FKqa5hRsc4CJ/WWzlMWGU2FXqfuvvOA==" />
       <input type="hidden" name="context" value="repository">
-      <button type="submit" class="btn btn-sm btn-with-count  js-toggler-target" aria-label="Star this repository" title="Star mourner/robust-predicates" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;STAR_BUTTON&quot;,&quot;repository_id&quot;:205561091,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="8131dfc5cd3216244d45a1fdd9bdf451b15d736759254b4e94461f6ac59bba71" data-ga-click="Repository, click star button, action:blob#show; text:Star">        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-star mr-1">
+      <button type="submit" class="btn btn-sm btn-with-count  js-toggler-target" aria-label="Star this repository" title="Star mourner/robust-predicates" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;STAR_BUTTON&quot;,&quot;repository_id&quot;:205561091,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="8eeb36dca876778aa56d5bf767f34bcb268e61e2cd635eaf8cf5211deae7ab3d" data-ga-click="Repository, click star button, action:blob#show; text:Star">        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-star mr-1">
     <path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5a.75.75 0 01-.564.41l-3.097.45 2.24 2.184a.75.75 0 01.216.664l-.528 3.084 2.769-1.456a.75.75 0 01.698 0l2.77 1.456-.53-3.084a.75.75 0 01.216-.664l2.24-2.183-3.096-.45a.75.75 0 01-.564-.41L8 2.694v.001z"></path>
 </svg>
         <span data-view-component="true">
@@ -1032,8 +1032,8 @@
   </li>
 
   <li>
-            <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="btn-with-count" action="/mourner/robust-predicates/fork" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="hxN3JJeHo9j+FXmDswDOxLRDKnGnwlmOjY77ySQ76rMdWGtahhWTbWNDkRPP92gpBaLZbkcF9GMPGcO52Li2JA==" />
-              <button class="btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;FORK_BUTTON&quot;,&quot;repository_id&quot;:205561091,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="e45e45dd07dd94d266b49b42f4f26648cf3f5269aae6cb817fe9f1c5408b3db9" data-ga-click="Repository, show fork modal, action:blob#show; text:Fork" type="submit" title="Fork your own copy of mourner/robust-predicates to your account" aria-label="Fork your own copy of mourner/robust-predicates to your account">                <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-repo-forked">
+            <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="btn-with-count" action="/mourner/robust-predicates/fork" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="JQ7a4EeiGL2/NoxORBXZXesQd4oAeQkz/BAK/ZAX76K/RcaeVjAoCCJgZN444n+wWvGEleC+pN5+hzKNbJSzNQ==" />
+              <button class="btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;FORK_BUTTON&quot;,&quot;repository_id&quot;:205561091,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="588e36fc167e28bb6c063937dce9f80b639de609d9ad9093c01a1e4350d12f03" data-ga-click="Repository, show fork modal, action:blob#show; text:Fork" type="submit" title="Fork your own copy of mourner/robust-predicates to your account" aria-label="Fork your own copy of mourner/robust-predicates to your account">                <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-repo-forked">
     <path fill-rule="evenodd" d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 100-1.5.75.75 0 000 1.5z"></path>
 </svg>
                 Fork
@@ -1181,9 +1181,9 @@
   
 
 
-    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="/mourner/robust-predicates/blob/38c44780b11205aabb66d990e14714289b03d500/src/orient2d.js">Permalink</a>
+    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="/mourner/robust-predicates/blob/38c44780b11205aabb66d990e14714289b03d500/src/orient3d.js">Permalink</a>
 
-    <!-- blob contrib key: blob_contributors:v22:04900d63fb9f85f3484b74c0db7c7bc45dc324c8e2a141b1710b8a8bc3440e93 -->
+    <!-- blob contrib key: blob_contributors:v22:c8dd110d6c56ec548b9e7f8e14e7010cf7170af35795c41c48f03561a3131bb6 -->
 
     <div class="d-flex flex-items-start flex-shrink-0 pb-3 flex-wrap flex-md-nowrap flex-justify-between flex-md-justify-start">
       
@@ -1268,7 +1268,7 @@
             </div>
 
               <template data-target="ref-selector.itemTemplate">
-  <a href="https://github.com/mourner/robust-predicates/blob/{{ urlEncodedRefName }}/src/orient2d.js" class="SelectMenu-item" role="menuitemradio" rel="nofollow" aria-checked="{{ isCurrent }}" data-index="{{ index }}">
+  <a href="https://github.com/mourner/robust-predicates/blob/{{ urlEncodedRefName }}/src/orient3d.js" class="SelectMenu-item" role="menuitemradio" rel="nofollow" aria-checked="{{ isCurrent }}" data-index="{{ index }}">
     <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check SelectMenu-icon SelectMenu-icon--check">
     <path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>
 </svg>
@@ -1308,7 +1308,7 @@
             </template>
 
               <template data-target="ref-selector.itemTemplate">
-  <a href="https://github.com/mourner/robust-predicates/blob/{{ urlEncodedRefName }}/src/orient2d.js" class="SelectMenu-item" role="menuitemradio" rel="nofollow" aria-checked="{{ isCurrent }}" data-index="{{ index }}">
+  <a href="https://github.com/mourner/robust-predicates/blob/{{ urlEncodedRefName }}/src/orient3d.js" class="SelectMenu-item" role="menuitemradio" rel="nofollow" aria-checked="{{ isCurrent }}" data-index="{{ index }}">
     <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check SelectMenu-icon SelectMenu-icon--check">
     <path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>
 </svg>
@@ -1339,9 +1339,9 @@
 </div>
 
       <h2 id="blob-path" class="breadcrumb flex-auto flex-self-center min-width-0 text-normal mx-2 width-full width-md-auto flex-order-1 flex-md-order-none mt-3 mt-md-0">
-        <span class="js-repo-root text-bold"><span class="js-path-segment d-inline-block wb-break-all"><a data-pjax="#repo-content-pjax-container" href="/mourner/robust-predicates"><span>robust-predicates</span></a></span></span><span class="separator">/</span><span class="js-path-segment d-inline-block wb-break-all"><a data-pjax="#repo-content-pjax-container" href="/mourner/robust-predicates/tree/master/src"><span>src</span></a></span><span class="separator">/</span><strong class="final-path">orient2d.js</strong>
+        <span class="js-repo-root text-bold"><span class="js-path-segment d-inline-block wb-break-all"><a data-pjax="#repo-content-pjax-container" href="/mourner/robust-predicates"><span>robust-predicates</span></a></span></span><span class="separator">/</span><span class="js-path-segment d-inline-block wb-break-all"><a data-pjax="#repo-content-pjax-container" href="/mourner/robust-predicates/tree/master/src"><span>src</span></a></span><span class="separator">/</span><strong class="final-path">orient3d.js</strong>
           <span class="separator">/</span><details class="details-reset details-overlay d-inline" id="jumpto-symbol-select-menu">
-  <summary aria-haspopup="true" data-hotkey="r" data-hydro-click="{&quot;event_type&quot;:&quot;code_navigation.click_on_blob_definitions&quot;,&quot;payload&quot;:{&quot;action&quot;:&quot;click_on_blob_definitions&quot;,&quot;repository_id&quot;:205561091,&quot;ref&quot;:&quot;master&quot;,&quot;language&quot;:&quot;JavaScript&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="fc81b3ac1bda17168b9a32bd4267d578328456795c800ed774dd1b9dacb96831" role="button" data-view-component="true" class="Link--secondary css-truncate btn-link">
+  <summary aria-haspopup="true" data-hotkey="r" data-hydro-click="{&quot;event_type&quot;:&quot;code_navigation.click_on_blob_definitions&quot;,&quot;payload&quot;:{&quot;action&quot;:&quot;click_on_blob_definitions&quot;,&quot;repository_id&quot;:205561091,&quot;ref&quot;:&quot;master&quot;,&quot;language&quot;:&quot;JavaScript&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="b20070c895246085cf6374394e6df960506810c15fec9d32dcfc8d0313b0a266" role="button" data-view-component="true" class="Link--secondary css-truncate btn-link">
   
   
       <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-code">
@@ -1375,23 +1375,41 @@
         </div>
       <div class="SelectMenu-list">
         <div data-filterable-for="jumpto-symbols-filter-field" data-filterable-type="substring">
-            <a class="SelectMenu-item d-flex flex-justify-between css-truncate" role="menuitemradio" aria-checked="false" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;code_navigation.navigate_to_blob_definition&quot;,&quot;payload&quot;:{&quot;action&quot;:&quot;navigate_to_blob_definition&quot;,&quot;repository_id&quot;:205561091,&quot;ref&quot;:&quot;master&quot;,&quot;language&quot;:&quot;JavaScript&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="b4e8769ac6e51f15b209bf03b87227c3a9718a641c9ab4265b82affad71e88e4" href="/mourner/robust-predicates/blob/master/src/orient2d.js#L13">
+            <a class="SelectMenu-item d-flex flex-justify-between css-truncate" role="menuitemradio" aria-checked="false" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;code_navigation.navigate_to_blob_definition&quot;,&quot;payload&quot;:{&quot;action&quot;:&quot;navigate_to_blob_definition&quot;,&quot;repository_id&quot;:205561091,&quot;ref&quot;:&quot;master&quot;,&quot;language&quot;:&quot;JavaScript&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="c658038cd135ddc4c792d430528c256b29ec165ad2f0eaa639327c5bf5d2b673" href="/mourner/robust-predicates/blob/master/src/orient3d.js#L29">
               <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check SelectMenu-icon SelectMenu-icon--check">
     <path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>
 </svg>
-              <span class="flex-auto css-truncate-target" data-menu-button-text>orient2dadapt</span>
+              <span class="flex-auto css-truncate-target" data-menu-button-text>finadd</span>
               <span class="flex-auto d-flex flex-justify-end">Function</span>
-</a>            <a class="SelectMenu-item d-flex flex-justify-between css-truncate" role="menuitemradio" aria-checked="false" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;code_navigation.navigate_to_blob_definition&quot;,&quot;payload&quot;:{&quot;action&quot;:&quot;navigate_to_blob_definition&quot;,&quot;repository_id&quot;:205561091,&quot;ref&quot;:&quot;master&quot;,&quot;language&quot;:&quot;JavaScript&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="b4e8769ac6e51f15b209bf03b87227c3a9718a641c9ab4265b82affad71e88e4" href="/mourner/robust-predicates/blob/master/src/orient2d.js#L55">
+</a>            <a class="SelectMenu-item d-flex flex-justify-between css-truncate" role="menuitemradio" aria-checked="false" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;code_navigation.navigate_to_blob_definition&quot;,&quot;payload&quot;:{&quot;action&quot;:&quot;navigate_to_blob_definition&quot;,&quot;repository_id&quot;:205561091,&quot;ref&quot;:&quot;master&quot;,&quot;language&quot;:&quot;JavaScript&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="c658038cd135ddc4c792d430528c256b29ec165ad2f0eaa639327c5bf5d2b673" href="/mourner/robust-predicates/blob/master/src/orient3d.js#L35">
               <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check SelectMenu-icon SelectMenu-icon--check">
     <path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>
 </svg>
-              <span class="flex-auto css-truncate-target" data-menu-button-text>orient2d</span>
+              <span class="flex-auto css-truncate-target" data-menu-button-text>tailinit</span>
               <span class="flex-auto d-flex flex-justify-end">Function</span>
-</a>            <a class="SelectMenu-item d-flex flex-justify-between css-truncate" role="menuitemradio" aria-checked="false" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;code_navigation.navigate_to_blob_definition&quot;,&quot;payload&quot;:{&quot;action&quot;:&quot;navigate_to_blob_definition&quot;,&quot;repository_id&quot;:205561091,&quot;ref&quot;:&quot;master&quot;,&quot;language&quot;:&quot;JavaScript&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="b4e8769ac6e51f15b209bf03b87227c3a9718a641c9ab4265b82affad71e88e4" href="/mourner/robust-predicates/blob/master/src/orient2d.js#L68">
+</a>            <a class="SelectMenu-item d-flex flex-justify-between css-truncate" role="menuitemradio" aria-checked="false" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;code_navigation.navigate_to_blob_definition&quot;,&quot;payload&quot;:{&quot;action&quot;:&quot;navigate_to_blob_definition&quot;,&quot;repository_id&quot;:205561091,&quot;ref&quot;:&quot;master&quot;,&quot;language&quot;:&quot;JavaScript&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="c658038cd135ddc4c792d430528c256b29ec165ad2f0eaa639327c5bf5d2b673" href="/mourner/robust-predicates/blob/master/src/orient3d.js#L66">
               <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check SelectMenu-icon SelectMenu-icon--check">
     <path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>
 </svg>
-              <span class="flex-auto css-truncate-target" data-menu-button-text>orient2dfast</span>
+              <span class="flex-auto css-truncate-target" data-menu-button-text>tailadd</span>
+              <span class="flex-auto d-flex flex-justify-end">Function</span>
+</a>            <a class="SelectMenu-item d-flex flex-justify-between css-truncate" role="menuitemradio" aria-checked="false" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;code_navigation.navigate_to_blob_definition&quot;,&quot;payload&quot;:{&quot;action&quot;:&quot;navigate_to_blob_definition&quot;,&quot;repository_id&quot;:205561091,&quot;ref&quot;:&quot;master&quot;,&quot;language&quot;:&quot;JavaScript&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="c658038cd135ddc4c792d430528c256b29ec165ad2f0eaa639327c5bf5d2b673" href="/mourner/robust-predicates/blob/master/src/orient3d.js#L78">
+              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check SelectMenu-icon SelectMenu-icon--check">
+    <path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>
+</svg>
+              <span class="flex-auto css-truncate-target" data-menu-button-text>orient3dadapt</span>
+              <span class="flex-auto d-flex flex-justify-end">Function</span>
+</a>            <a class="SelectMenu-item d-flex flex-justify-between css-truncate" role="menuitemradio" aria-checked="false" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;code_navigation.navigate_to_blob_definition&quot;,&quot;payload&quot;:{&quot;action&quot;:&quot;navigate_to_blob_definition&quot;,&quot;repository_id&quot;:205561091,&quot;ref&quot;:&quot;master&quot;,&quot;language&quot;:&quot;JavaScript&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="c658038cd135ddc4c792d430528c256b29ec165ad2f0eaa639327c5bf5d2b673" href="/mourner/robust-predicates/blob/master/src/orient3d.js#L190">
+              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check SelectMenu-icon SelectMenu-icon--check">
+    <path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>
+</svg>
+              <span class="flex-auto css-truncate-target" data-menu-button-text>orient3d</span>
+              <span class="flex-auto d-flex flex-justify-end">Function</span>
+</a>            <a class="SelectMenu-item d-flex flex-justify-between css-truncate" role="menuitemradio" aria-checked="false" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;code_navigation.navigate_to_blob_definition&quot;,&quot;payload&quot;:{&quot;action&quot;:&quot;navigate_to_blob_definition&quot;,&quot;repository_id&quot;:205561091,&quot;ref&quot;:&quot;master&quot;,&quot;language&quot;:&quot;JavaScript&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="c658038cd135ddc4c792d430528c256b29ec165ad2f0eaa639327c5bf5d2b673" href="/mourner/robust-predicates/blob/master/src/orient3d.js#L228">
+              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check SelectMenu-icon SelectMenu-icon--check">
+    <path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>
+</svg>
+              <span class="flex-auto css-truncate-target" data-menu-button-text>orient3dfast</span>
               <span class="flex-auto d-flex flex-justify-end">Function</span>
 </a>        </div>
       </div>
@@ -1425,7 +1443,7 @@
 </summary>
   <div data-view-component="true">          <ul class="dropdown-menu dropdown-menu-sw">
             <li class="d-block d-md-none">
-              <a class="dropdown-item d-flex flex-items-baseline" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;FIND_FILE_BUTTON&quot;,&quot;repository_id&quot;:205561091,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="769bd2106971bb5926b29f35cfc7424e5a879d7091bd684cdd3de9d07f1c1aed" data-ga-click="Repository, find file, location:repo overview" data-hotkey="t" data-pjax="true" href="/mourner/robust-predicates/find/master">
+              <a class="dropdown-item d-flex flex-items-baseline" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;FIND_FILE_BUTTON&quot;,&quot;repository_id&quot;:205561091,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="a427e6cd551ddcc8a5885c43e9a4cb4be383c4d5685ec547d91a27c2ce08d060" data-ga-click="Repository, find file, location:repo overview" data-hotkey="t" data-pjax="true" href="/mourner/robust-predicates/find/master">
                 <span class="flex-auto">Go to file</span>
                 <span class="text-small color-text-secondary" aria-hidden="true">T</span>
 </a>            </li>
@@ -1455,13 +1473,13 @@
 </button>            </li>
             <li class="dropdown-divider" role="none"></li>
             <li>
-              <clipboard-copy data-toggle-for="blob-more-options-details" aria-label="Copy path" value="src/orient2d.js" data-view-component="true" class="dropdown-item cursor-pointer">
+              <clipboard-copy data-toggle-for="blob-more-options-details" aria-label="Copy path" value="src/orient3d.js" data-view-component="true" class="dropdown-item cursor-pointer">
     
                 Copy path
 
 </clipboard-copy>            </li>
             <li>
-              <clipboard-copy data-toggle-for="blob-more-options-details" aria-label="Copy permalink" value="https://github.com/mourner/robust-predicates/blob/38c44780b11205aabb66d990e14714289b03d500/src/orient2d.js" data-view-component="true" class="dropdown-item cursor-pointer">
+              <clipboard-copy data-toggle-for="blob-more-options-details" aria-label="Copy permalink" value="https://github.com/mourner/robust-predicates/blob/38c44780b11205aabb66d990e14714289b03d500/src/orient3d.js" data-view-component="true" class="dropdown-item cursor-pointer">
     
                 <span class="d-flex flex-items-baseline">
                   <span class="flex-auto">Copy permalink</span>
@@ -1476,7 +1494,7 @@
 
 
     <div class="Box d-flex flex-column flex-shrink-0 mb-3">
-      <include-fragment src="/mourner/robust-predicates/contributors/master/src/orient2d.js" class="commit-loader">
+      <include-fragment src="/mourner/robust-predicates/contributors/master/src/orient3d.js" class="commit-loader">
         <div class="Box-header d-flex flex-items-center">
           <div class="Skeleton avatar avatar-user flex-shrink-0 ml-n1 mr-n1 mt-n1 mb-n1" style="width:24px;height:24px;"></div>
           <div class="Skeleton Skeleton--text col-5 ml-2">&nbsp;</div>
@@ -1511,22 +1529,22 @@
 
   <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1">
 
-      70 lines (52 sloc)
+      242 lines (210 sloc)
       <span class="file-info-divider"></span>
-    2.1 KB
+    7.22 KB
   </div>
 
   <div class="d-flex py-1 py-md-0 flex-auto flex-order-1 flex-md-order-2 flex-sm-grow-0 flex-justify-between hide-sm hide-md">
       
 
     <div class="BtnGroup">
-      <a href="/mourner/robust-predicates/raw/master/src/orient2d.js" id="raw-url" role="button" data-view-component="true" class="btn-sm btn BtnGroup-item">
+      <a href="/mourner/robust-predicates/raw/master/src/orient3d.js" id="raw-url" role="button" data-view-component="true" class="btn-sm btn BtnGroup-item">
   
   Raw
   
 
 </a>
-        <a href="/mourner/robust-predicates/blame/master/src/orient2d.js" data-hotkey="b" role="button" data-view-component="true" class="js-update-url-with-hash btn-sm btn BtnGroup-item">
+        <a href="/mourner/robust-predicates/blame/master/src/orient3d.js" data-hotkey="b" role="button" data-view-component="true" class="js-update-url-with-hash btn-sm btn BtnGroup-item">
   
   Blame
   
@@ -1537,7 +1555,7 @@
     <div>
           <a class="btn-octicon tooltipped tooltipped-nw js-remove-unless-platform"
              data-platforms="windows,mac"
-             href="x-github-client://openRepo/https://github.com/mourner/robust-predicates?branch=master&amp;filepath=src%2Forient2d.js"
+             href="x-github-client://openRepo/https://github.com/mourner/robust-predicates?branch=master&amp;filepath=src%2Forient3d.js"
              aria-label="Open this file in GitHub Desktop"
              data-ga-click="Repository, open with desktop">
               <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-device-desktop">
@@ -1545,11 +1563,11 @@
 </svg>
           </a>
 
-          <remote-clipboard-copy class="d-inline-block btn-octicon" style="height: 26px" data-src="/mourner/robust-predicates/raw/master/src/orient2d.js" data-action="click:remote-clipboard-copy#remoteCopy">
+          <remote-clipboard-copy class="d-inline-block btn-octicon" style="height: 26px" data-src="/mourner/robust-predicates/raw/master/src/orient3d.js" data-action="click:remote-clipboard-copy#remoteCopy">
   
 
 
-  <span data-target="remote-clipboard-copy.idle">              <span class="tooltipped tooltipped-nw cursor-pointer" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;COPY_RAW_CONTENTS_BUTTON&quot;,&quot;repository_id&quot;:205561091,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="00e645e1d0d1dd42e9bd01a699f2621bb4c984dc49914ffdaa08974cf34f5bea" aria-label="Copy raw contents">
+  <span data-target="remote-clipboard-copy.idle">              <span class="tooltipped tooltipped-nw cursor-pointer" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;COPY_RAW_CONTENTS_BUTTON&quot;,&quot;repository_id&quot;:205561091,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="7a1a07f5514852f1062dd2f08382f8fe54ea497134d1a13a3d138b6572ca9fcb" aria-label="Copy raw contents">
                 <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
     <path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
 </svg>
@@ -1572,7 +1590,7 @@
               </span>
 </span>
 </remote-clipboard-copy>
-          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form js-update-url-with-hash" action="/mourner/robust-predicates/edit/master/src/orient2d.js" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="TxgzyLJB8GgN+SwyJaLKhhHOOhSA5OnzA5kPw6QUh6xtV8PS4DTLO9uzlTl1PJt0vIdgltZ9VqTfvVrgpvRbQw==" />
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form js-update-url-with-hash" action="/mourner/robust-predicates/edit/master/src/orient3d.js" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="VPgc+0YV0DJn34VYseJ4TbqA0t7lcDovi8tJp5zLju81VK0MZkKzamGZVJN5IXZJ/eHswS2JP1xNRr4DIxNzGw==" />
             <button class="btn-octicon tooltipped tooltipped-nw" type="submit"
               aria-label="Fork this project and edit the file" data-hotkey="e" data-disable-with>
               <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-pencil">
@@ -1580,7 +1598,7 @@
 </svg>
             </button>
 </form>
-          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form" action="/mourner/robust-predicates/delete/master/src/orient2d.js" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="3XdZNQLjH0Y2tvpdAooyBVcSejCyo1p2lojVSSECkZoCZqEu8Tuif11LWMfoAmj8kzxaZF4OYcb6fKA9K6U7qg==" />
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form" action="/mourner/robust-predicates/delete/master/src/orient3d.js" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="WrB8jrMFoOmqK8cdk+d6ywaoL+6WKRZdLisSMHx3UA24hFT7clhVi1M+41xo8HFps3Y06jF/hT3F4aPS1yM7cQ==" />
             <button class="btn-octicon btn-octicon-danger tooltipped tooltipped-nw" type="submit"
               aria-label="Fork this project and delete the file" data-disable-with>
               <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-trash">
@@ -1602,21 +1620,21 @@
             <li>
                 <a class="dropdown-item tooltipped tooltipped-nw js-remove-unless-platform"
                    data-platforms="windows,mac"
-                   href="x-github-client://openRepo/https://github.com/mourner/robust-predicates?branch=master&amp;filepath=src%2Forient2d.js"
+                   href="x-github-client://openRepo/https://github.com/mourner/robust-predicates?branch=master&amp;filepath=src%2Forient3d.js"
                    data-ga-click="Repository, open with desktop">
                   Open with Desktop
                 </a>
             </li>
           <li>
-            <a class="dropdown-item" href="/mourner/robust-predicates/raw/master/src/orient2d.js">
+            <a class="dropdown-item" href="/mourner/robust-predicates/raw/master/src/orient3d.js">
               View raw
             </a>
           </li>
               <li>
-                <remote-clipboard-copy class="dropdown-item" data-src="/mourner/robust-predicates/raw/master/src/orient2d.js" data-action="click:remote-clipboard-copy#remoteCopy">
+                <remote-clipboard-copy class="dropdown-item" data-src="/mourner/robust-predicates/raw/master/src/orient3d.js" data-action="click:remote-clipboard-copy#remoteCopy">
   
 
-  <span data-target="remote-clipboard-copy.idle">                    <span class="cursor-pointer" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;COPY_RAW_CONTENTS_BUTTON&quot;,&quot;repository_id&quot;:205561091,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="00e645e1d0d1dd42e9bd01a699f2621bb4c984dc49914ffdaa08974cf34f5bea">
+  <span data-target="remote-clipboard-copy.idle">                    <span class="cursor-pointer" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;COPY_RAW_CONTENTS_BUTTON&quot;,&quot;repository_id&quot;:205561091,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="7a1a07f5514852f1062dd2f08382f8fe54ea497134d1a13a3d138b6572ca9fcb">
                       Copy raw contents
 </span></span>
   <span data-target="remote-clipboard-copy.fetching" hidden="hidden">                    Copy raw contents
@@ -1639,17 +1657,17 @@
 </span>
 </remote-clipboard-copy>              </li>
             <li>
-              <a class="dropdown-item" href="/mourner/robust-predicates/blame/master/src/orient2d.js">
+              <a class="dropdown-item" href="/mourner/robust-predicates/blame/master/src/orient3d.js">
                 View blame
               </a>
             </li>
 
               <li class="dropdown-divider" role="none"></li>
               <li>
-                <a class="dropdown-item" href="/mourner/robust-predicates/edit/master/src/orient2d.js">Edit file</a>
+                <a class="dropdown-item" href="/mourner/robust-predicates/edit/master/src/orient3d.js">Edit file</a>
               </li>
               <li>
-                <a class="dropdown-item menu-item-danger" href="/mourner/robust-predicates/delete/master/src/orient2d.js">Delete file</a>
+                <a class="dropdown-item menu-item-danger" href="/mourner/robust-predicates/delete/master/src/orient3d.js">Delete file</a>
               </li>
         </ul>
       </details>
@@ -1664,7 +1682,7 @@
 <table class="highlight tab-size js-file-line-container" data-tab-size="8" data-paste-markdown-skip>
       <tr>
         <td id="L1" class="blob-num js-line-number" data-line-number="1"></td>
-        <td id="LC1" class="blob-code blob-code-inner js-file-line"><span class=pl-k>import</span> <span class=pl-kos>{</span><span class=pl-s1>epsilon</span><span class=pl-kos>,</span> <span class=pl-s1>splitter</span><span class=pl-kos>,</span> <span class=pl-s1>resulterrbound</span><span class=pl-kos>,</span> <span class=pl-s1>estimate</span><span class=pl-kos>,</span> <span class=pl-s1>vec</span><span class=pl-kos>,</span> <span class=pl-s1>sum</span><span class=pl-kos>}</span> <span class=pl-k>from</span> <span class=pl-s>&#39;./util.js&#39;</span><span class=pl-kos>;</span></td>
+        <td id="LC1" class="blob-code blob-code-inner js-file-line"><span class=pl-k>import</span> <span class=pl-kos>{</span><span class=pl-s1>epsilon</span><span class=pl-kos>,</span> <span class=pl-s1>splitter</span><span class=pl-kos>,</span> <span class=pl-s1>resulterrbound</span><span class=pl-kos>,</span> <span class=pl-s1>estimate</span><span class=pl-kos>,</span> <span class=pl-s1>vec</span><span class=pl-kos>,</span> <span class=pl-s1>sum</span><span class=pl-kos>,</span> <span class=pl-s1>scale</span><span class=pl-kos>}</span> <span class=pl-k>from</span> <span class=pl-s>&#39;./util.js&#39;</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L2" class="blob-num js-line-number" data-line-number="2"></td>
@@ -1673,15 +1691,15 @@
       </tr>
       <tr>
         <td id="L3" class="blob-num js-line-number" data-line-number="3"></td>
-        <td id="LC3" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>ccwerrboundA</span> <span class=pl-c1>=</span> <span class=pl-kos>(</span><span class=pl-c1>3</span> <span class=pl-c1>+</span> <span class=pl-c1>16</span> <span class=pl-c1>*</span> <span class=pl-s1>epsilon</span><span class=pl-kos>)</span> <span class=pl-c1>*</span> <span class=pl-s1>epsilon</span><span class=pl-kos>;</span></td>
+        <td id="LC3" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>o3derrboundA</span> <span class=pl-c1>=</span> <span class=pl-kos>(</span><span class=pl-c1>7</span> <span class=pl-c1>+</span> <span class=pl-c1>56</span> <span class=pl-c1>*</span> <span class=pl-s1>epsilon</span><span class=pl-kos>)</span> <span class=pl-c1>*</span> <span class=pl-s1>epsilon</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L4" class="blob-num js-line-number" data-line-number="4"></td>
-        <td id="LC4" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>ccwerrboundB</span> <span class=pl-c1>=</span> <span class=pl-kos>(</span><span class=pl-c1>2</span> <span class=pl-c1>+</span> <span class=pl-c1>12</span> <span class=pl-c1>*</span> <span class=pl-s1>epsilon</span><span class=pl-kos>)</span> <span class=pl-c1>*</span> <span class=pl-s1>epsilon</span><span class=pl-kos>;</span></td>
+        <td id="LC4" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>o3derrboundB</span> <span class=pl-c1>=</span> <span class=pl-kos>(</span><span class=pl-c1>3</span> <span class=pl-c1>+</span> <span class=pl-c1>28</span> <span class=pl-c1>*</span> <span class=pl-s1>epsilon</span><span class=pl-kos>)</span> <span class=pl-c1>*</span> <span class=pl-s1>epsilon</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L5" class="blob-num js-line-number" data-line-number="5"></td>
-        <td id="LC5" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>ccwerrboundC</span> <span class=pl-c1>=</span> <span class=pl-kos>(</span><span class=pl-c1>9</span> <span class=pl-c1>+</span> <span class=pl-c1>64</span> <span class=pl-c1>*</span> <span class=pl-s1>epsilon</span><span class=pl-kos>)</span> <span class=pl-c1>*</span> <span class=pl-s1>epsilon</span> <span class=pl-c1>*</span> <span class=pl-s1>epsilon</span><span class=pl-kos>;</span></td>
+        <td id="LC5" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>o3derrboundC</span> <span class=pl-c1>=</span> <span class=pl-kos>(</span><span class=pl-c1>26</span> <span class=pl-c1>+</span> <span class=pl-c1>288</span> <span class=pl-c1>*</span> <span class=pl-s1>epsilon</span><span class=pl-kos>)</span> <span class=pl-c1>*</span> <span class=pl-s1>epsilon</span> <span class=pl-c1>*</span> <span class=pl-s1>epsilon</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L6" class="blob-num js-line-number" data-line-number="6"></td>
@@ -1690,116 +1708,114 @@
       </tr>
       <tr>
         <td id="L7" class="blob-num js-line-number" data-line-number="7"></td>
-        <td id="LC7" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-v>B</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC7" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>bc</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="LC8" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-c1>C1</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>8</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC8" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>ca</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L9" class="blob-num js-line-number" data-line-number="9"></td>
-        <td id="LC9" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-c1>C2</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>12</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC9" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>ab</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L10" class="blob-num js-line-number" data-line-number="10"></td>
-        <td id="LC10" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-v>D</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>16</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC10" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>at_b</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L11" class="blob-num js-line-number" data-line-number="11"></td>
-        <td id="LC11" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>u</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC11" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>at_c</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L12" class="blob-num js-line-number" data-line-number="12"></td>
-        <td id="LC12" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC12" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>bt_c</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L13" class="blob-num js-line-number" data-line-number="13"></td>
-        <td id="LC13" class="blob-code blob-code-inner js-file-line"><span class=pl-k>function</span> <span class=pl-en>orient2dadapt</span><span class=pl-kos>(</span><span class=pl-s1>ax</span><span class=pl-kos>,</span> <span class=pl-s1>ay</span><span class=pl-kos>,</span> <span class=pl-s1>bx</span><span class=pl-kos>,</span> <span class=pl-s1>by</span><span class=pl-kos>,</span> <span class=pl-s1>cx</span><span class=pl-kos>,</span> <span class=pl-s1>cy</span><span class=pl-kos>,</span> <span class=pl-s1>detsum</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+        <td id="LC13" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>bt_a</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L14" class="blob-num js-line-number" data-line-number="14"></td>
-        <td id="LC14" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>let</span> <span class=pl-s1>acxtail</span><span class=pl-kos>,</span> <span class=pl-s1>acytail</span><span class=pl-kos>,</span> <span class=pl-s1>bcxtail</span><span class=pl-kos>,</span> <span class=pl-s1>bcytail</span><span class=pl-kos>;</span></td>
+        <td id="LC14" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>ct_a</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L15" class="blob-num js-line-number" data-line-number="15"></td>
-        <td id="LC15" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>let</span> <span class=pl-s1>bvirt</span><span class=pl-kos>,</span> <span class=pl-s1>c</span><span class=pl-kos>,</span> <span class=pl-s1>ahi</span><span class=pl-kos>,</span> <span class=pl-s1>alo</span><span class=pl-kos>,</span> <span class=pl-s1>bhi</span><span class=pl-kos>,</span> <span class=pl-s1>blo</span><span class=pl-kos>,</span> <span class=pl-s1>_i</span><span class=pl-kos>,</span> <span class=pl-s1>_j</span><span class=pl-kos>,</span> <span class=pl-c1>_0</span><span class=pl-kos>,</span> <span class=pl-s1>s1</span><span class=pl-kos>,</span> <span class=pl-s1>s0</span><span class=pl-kos>,</span> <span class=pl-s1>t1</span><span class=pl-kos>,</span> <span class=pl-s1>t0</span><span class=pl-kos>,</span> <span class=pl-s1>u3</span><span class=pl-kos>;</span></td>
+        <td id="LC15" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>ct_b</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L16" class="blob-num js-line-number" data-line-number="16"></td>
-        <td id="LC16" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC16" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>bct</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>8</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L17" class="blob-num js-line-number" data-line-number="17"></td>
-        <td id="LC17" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>acx</span> <span class=pl-c1>=</span> <span class=pl-s1>ax</span> <span class=pl-c1>-</span> <span class=pl-s1>cx</span><span class=pl-kos>;</span></td>
+        <td id="LC17" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>cat</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>8</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L18" class="blob-num js-line-number" data-line-number="18"></td>
-        <td id="LC18" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bcx</span> <span class=pl-c1>=</span> <span class=pl-s1>bx</span> <span class=pl-c1>-</span> <span class=pl-s1>cx</span><span class=pl-kos>;</span></td>
+        <td id="LC18" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>abt</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>8</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L19" class="blob-num js-line-number" data-line-number="19"></td>
-        <td id="LC19" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>acy</span> <span class=pl-c1>=</span> <span class=pl-s1>ay</span> <span class=pl-c1>-</span> <span class=pl-s1>cy</span><span class=pl-kos>;</span></td>
+        <td id="LC19" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>u</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L20" class="blob-num js-line-number" data-line-number="20"></td>
-        <td id="LC20" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bcy</span> <span class=pl-c1>=</span> <span class=pl-s1>by</span> <span class=pl-c1>-</span> <span class=pl-s1>cy</span><span class=pl-kos>;</span></td>
+        <td id="LC20" class="blob-code blob-code-inner js-file-line">
+</td>
       </tr>
       <tr>
         <td id="L21" class="blob-num js-line-number" data-line-number="21"></td>
-        <td id="LC21" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC21" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-c1>_8</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>8</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L22" class="blob-num js-line-number" data-line-number="22"></td>
-        <td id="LC22" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Cross_Product</span><span class=pl-kos>(</span><span class=pl-s1>acx</span><span class=pl-kos>,</span> <span class=pl-s1>bcx</span><span class=pl-kos>,</span> <span class=pl-s1>acy</span><span class=pl-kos>,</span> <span class=pl-s1>bcy</span><span class=pl-kos>,</span> <span class=pl-v>B</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC22" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-s1>_8b</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>8</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L23" class="blob-num js-line-number" data-line-number="23"></td>
-        <td id="LC23" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC23" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-c1>_16</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>8</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L24" class="blob-num js-line-number" data-line-number="24"></td>
-        <td id="LC24" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>let</span> <span class=pl-s1>det</span> <span class=pl-c1>=</span> <span class=pl-en>estimate</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>,</span> <span class=pl-v>B</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC24" class="blob-code blob-code-inner js-file-line"><span class=pl-k>const</span> <span class=pl-c1>_12</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>12</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L25" class="blob-num js-line-number" data-line-number="25"></td>
-        <td id="LC25" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>let</span> <span class=pl-s1>errbound</span> <span class=pl-c1>=</span> <span class=pl-s1>ccwerrboundB</span> <span class=pl-c1>*</span> <span class=pl-s1>detsum</span><span class=pl-kos>;</span></td>
-      </tr>
-      <tr>
-        <td id="L26" class="blob-num js-line-number" data-line-number="26"></td>
-        <td id="LC26" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>det</span> <span class=pl-c1>&gt;=</span> <span class=pl-s1>errbound</span> <span class=pl-c1>||</span> <span class=pl-c1>-</span><span class=pl-s1>det</span> <span class=pl-c1>&gt;=</span> <span class=pl-s1>errbound</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
-      </tr>
-      <tr>
-        <td id="L27" class="blob-num js-line-number" data-line-number="27"></td>
-        <td id="LC27" class="blob-code blob-code-inner js-file-line">        <span class=pl-k>return</span> <span class=pl-s1>det</span><span class=pl-kos>;</span></td>
-      </tr>
-      <tr>
-        <td id="L28" class="blob-num js-line-number" data-line-number="28"></td>
-        <td id="LC28" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span></td>
-      </tr>
-      <tr>
-        <td id="L29" class="blob-num js-line-number" data-line-number="29"></td>
-        <td id="LC29" class="blob-code blob-code-inner js-file-line">
+        <td id="LC25" class="blob-code blob-code-inner js-file-line">
 </td>
       </tr>
       <tr>
+        <td id="L26" class="blob-num js-line-number" data-line-number="26"></td>
+        <td id="LC26" class="blob-code blob-code-inner js-file-line"><span class=pl-k>let</span> <span class=pl-s1>fin</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>192</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L27" class="blob-num js-line-number" data-line-number="27"></td>
+        <td id="LC27" class="blob-code blob-code-inner js-file-line"><span class=pl-k>let</span> <span class=pl-s1>fin2</span> <span class=pl-c1>=</span> <span class=pl-en>vec</span><span class=pl-kos>(</span><span class=pl-c1>192</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L28" class="blob-num js-line-number" data-line-number="28"></td>
+        <td id="LC28" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L29" class="blob-num js-line-number" data-line-number="29"></td>
+        <td id="LC29" class="blob-code blob-code-inner js-file-line"><span class=pl-k>function</span> <span class=pl-en>finadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-s1>alen</span><span class=pl-kos>,</span> <span class=pl-s1>a</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
         <td id="L30" class="blob-num js-line-number" data-line-number="30"></td>
-        <td id="LC30" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_Diff_Tail</span><span class=pl-kos>(</span><span class=pl-s1>ax</span><span class=pl-kos>,</span> <span class=pl-s1>cx</span><span class=pl-kos>,</span> <span class=pl-s1>acx</span><span class=pl-kos>,</span> <span class=pl-s1>acxtail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC30" class="blob-code blob-code-inner js-file-line">    <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>sum</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-s1>fin</span><span class=pl-kos>,</span> <span class=pl-s1>alen</span><span class=pl-kos>,</span> <span class=pl-s1>a</span><span class=pl-kos>,</span> <span class=pl-s1>fin2</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L31" class="blob-num js-line-number" data-line-number="31"></td>
-        <td id="LC31" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_Diff_Tail</span><span class=pl-kos>(</span><span class=pl-s1>bx</span><span class=pl-kos>,</span> <span class=pl-s1>cx</span><span class=pl-kos>,</span> <span class=pl-s1>bcx</span><span class=pl-kos>,</span> <span class=pl-s1>bcxtail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC31" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>tmp</span> <span class=pl-c1>=</span> <span class=pl-s1>fin</span><span class=pl-kos>;</span> <span class=pl-s1>fin</span> <span class=pl-c1>=</span> <span class=pl-s1>fin2</span><span class=pl-kos>;</span> <span class=pl-s1>fin2</span> <span class=pl-c1>=</span> <span class=pl-s1>tmp</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L32" class="blob-num js-line-number" data-line-number="32"></td>
-        <td id="LC32" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_Diff_Tail</span><span class=pl-kos>(</span><span class=pl-s1>ay</span><span class=pl-kos>,</span> <span class=pl-s1>cy</span><span class=pl-kos>,</span> <span class=pl-s1>acy</span><span class=pl-kos>,</span> <span class=pl-s1>acytail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC32" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>return</span> <span class=pl-s1>finlen</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L33" class="blob-num js-line-number" data-line-number="33"></td>
-        <td id="LC33" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_Diff_Tail</span><span class=pl-kos>(</span><span class=pl-s1>by</span><span class=pl-kos>,</span> <span class=pl-s1>cy</span><span class=pl-kos>,</span> <span class=pl-s1>bcy</span><span class=pl-kos>,</span> <span class=pl-s1>bcytail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC33" class="blob-code blob-code-inner js-file-line"><span class=pl-kos>}</span></td>
       </tr>
       <tr>
         <td id="L34" class="blob-num js-line-number" data-line-number="34"></td>
@@ -1808,157 +1824,861 @@
       </tr>
       <tr>
         <td id="L35" class="blob-num js-line-number" data-line-number="35"></td>
-        <td id="LC35" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>acxtail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span> <span class=pl-c1>&amp;&amp;</span> <span class=pl-s1>acytail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span> <span class=pl-c1>&amp;&amp;</span> <span class=pl-s1>bcxtail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span> <span class=pl-c1>&amp;&amp;</span> <span class=pl-s1>bcytail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+        <td id="LC35" class="blob-code blob-code-inner js-file-line"><span class=pl-k>function</span> <span class=pl-en>tailinit</span><span class=pl-kos>(</span><span class=pl-s1>xtail</span><span class=pl-kos>,</span> <span class=pl-s1>ytail</span><span class=pl-kos>,</span> <span class=pl-s1>ax</span><span class=pl-kos>,</span> <span class=pl-s1>ay</span><span class=pl-kos>,</span> <span class=pl-s1>bx</span><span class=pl-kos>,</span> <span class=pl-s1>by</span><span class=pl-kos>,</span> <span class=pl-s1>a</span><span class=pl-kos>,</span> <span class=pl-s1>b</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
       </tr>
       <tr>
         <td id="L36" class="blob-num js-line-number" data-line-number="36"></td>
-        <td id="LC36" class="blob-code blob-code-inner js-file-line">        <span class=pl-k>return</span> <span class=pl-s1>det</span><span class=pl-kos>;</span></td>
+        <td id="LC36" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>let</span> <span class=pl-s1>bvirt</span><span class=pl-kos>,</span> <span class=pl-s1>c</span><span class=pl-kos>,</span> <span class=pl-s1>ahi</span><span class=pl-kos>,</span> <span class=pl-s1>alo</span><span class=pl-kos>,</span> <span class=pl-s1>bhi</span><span class=pl-kos>,</span> <span class=pl-s1>blo</span><span class=pl-kos>,</span> <span class=pl-s1>_i</span><span class=pl-kos>,</span> <span class=pl-s1>_j</span><span class=pl-kos>,</span> <span class=pl-s1>_k</span><span class=pl-kos>,</span> <span class=pl-c1>_0</span><span class=pl-kos>,</span> <span class=pl-s1>s1</span><span class=pl-kos>,</span> <span class=pl-s1>s0</span><span class=pl-kos>,</span> <span class=pl-s1>t1</span><span class=pl-kos>,</span> <span class=pl-s1>t0</span><span class=pl-kos>,</span> <span class=pl-s1>u3</span><span class=pl-kos>,</span> <span class=pl-s1>negate</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L37" class="blob-num js-line-number" data-line-number="37"></td>
-        <td id="LC37" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span></td>
+        <td id="LC37" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>xtail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
       </tr>
       <tr>
         <td id="L38" class="blob-num js-line-number" data-line-number="38"></td>
-        <td id="LC38" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC38" class="blob-code blob-code-inner js-file-line">        <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>ytail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
       </tr>
       <tr>
         <td id="L39" class="blob-num js-line-number" data-line-number="39"></td>
-        <td id="LC39" class="blob-code blob-code-inner js-file-line">    <span class=pl-s1>errbound</span> <span class=pl-c1>=</span> <span class=pl-s1>ccwerrboundC</span> <span class=pl-c1>*</span> <span class=pl-s1>detsum</span> <span class=pl-c1>+</span> <span class=pl-s1>resulterrbound</span> <span class=pl-c1>*</span> <span class=pl-v>Math</span><span class=pl-kos>.</span><span class=pl-en>abs</span><span class=pl-kos>(</span><span class=pl-s1>det</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC39" class="blob-code blob-code-inner js-file-line">            <span class=pl-s1>a</span><span class=pl-kos>[</span><span class=pl-c1>0</span><span class=pl-kos>]</span> <span class=pl-c1>=</span> <span class=pl-c1>0</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L40" class="blob-num js-line-number" data-line-number="40"></td>
-        <td id="LC40" class="blob-code blob-code-inner js-file-line">    <span class=pl-s1>det</span> <span class=pl-c1>+=</span> <span class=pl-kos>(</span><span class=pl-s1>acx</span> <span class=pl-c1>*</span> <span class=pl-s1>bcytail</span> <span class=pl-c1>+</span> <span class=pl-s1>bcy</span> <span class=pl-c1>*</span> <span class=pl-s1>acxtail</span><span class=pl-kos>)</span> <span class=pl-c1>-</span> <span class=pl-kos>(</span><span class=pl-s1>acy</span> <span class=pl-c1>*</span> <span class=pl-s1>bcxtail</span> <span class=pl-c1>+</span> <span class=pl-s1>bcx</span> <span class=pl-c1>*</span> <span class=pl-s1>acytail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC40" class="blob-code blob-code-inner js-file-line">            <span class=pl-s1>b</span><span class=pl-kos>[</span><span class=pl-c1>0</span><span class=pl-kos>]</span> <span class=pl-c1>=</span> <span class=pl-c1>0</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L41" class="blob-num js-line-number" data-line-number="41"></td>
-        <td id="LC41" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>det</span> <span class=pl-c1>&gt;=</span> <span class=pl-s1>errbound</span> <span class=pl-c1>||</span> <span class=pl-c1>-</span><span class=pl-s1>det</span> <span class=pl-c1>&gt;=</span> <span class=pl-s1>errbound</span><span class=pl-kos>)</span> <span class=pl-k>return</span> <span class=pl-s1>det</span><span class=pl-kos>;</span></td>
+        <td id="LC41" class="blob-code blob-code-inner js-file-line">            <span class=pl-k>return</span> <span class=pl-c1>1</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L42" class="blob-num js-line-number" data-line-number="42"></td>
-        <td id="LC42" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC42" class="blob-code blob-code-inner js-file-line">        <span class=pl-kos>}</span> <span class=pl-k>else</span> <span class=pl-kos>{</span></td>
       </tr>
       <tr>
         <td id="L43" class="blob-num js-line-number" data-line-number="43"></td>
-        <td id="LC43" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Cross_Product</span><span class=pl-kos>(</span><span class=pl-s1>acxtail</span><span class=pl-kos>,</span> <span class=pl-s1>bcx</span><span class=pl-kos>,</span> <span class=pl-s1>acytail</span><span class=pl-kos>,</span> <span class=pl-s1>bcy</span><span class=pl-kos>,</span> <span class=pl-s1>u</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC43" class="blob-code blob-code-inner js-file-line">            <span class=pl-s1>negate</span> <span class=pl-c1>=</span> <span class=pl-c1>-</span><span class=pl-s1>ytail</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L44" class="blob-num js-line-number" data-line-number="44"></td>
-        <td id="LC44" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-v>C1len</span> <span class=pl-c1>=</span> <span class=pl-en>sum</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>,</span> <span class=pl-v>B</span><span class=pl-kos>,</span> <span class=pl-c1>4</span><span class=pl-kos>,</span> <span class=pl-s1>u</span><span class=pl-kos>,</span> <span class=pl-c1>C1</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC44" class="blob-code blob-code-inner js-file-line">            <span class=pl-en>$Two_Product</span><span class=pl-kos>(</span><span class=pl-s1>negate</span><span class=pl-kos>,</span> <span class=pl-s1>ax</span><span class=pl-kos>,</span> <span class=pl-s1>s1</span><span class=pl-kos>,</span> <span class=pl-s1>a</span><span class=pl-kos>[</span><span class=pl-c1>0</span><span class=pl-kos>]</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L45" class="blob-num js-line-number" data-line-number="45"></td>
-        <td id="LC45" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC45" class="blob-code blob-code-inner js-file-line">            <span class=pl-s1>a</span><span class=pl-kos>[</span><span class=pl-c1>1</span><span class=pl-kos>]</span> <span class=pl-c1>=</span> <span class=pl-s1>s1</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L46" class="blob-num js-line-number" data-line-number="46"></td>
-        <td id="LC46" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Cross_Product</span><span class=pl-kos>(</span><span class=pl-s1>acx</span><span class=pl-kos>,</span> <span class=pl-s1>bcxtail</span><span class=pl-kos>,</span> <span class=pl-s1>acy</span><span class=pl-kos>,</span> <span class=pl-s1>bcytail</span><span class=pl-kos>,</span> <span class=pl-s1>u</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC46" class="blob-code blob-code-inner js-file-line">            <span class=pl-en>$Two_Product</span><span class=pl-kos>(</span><span class=pl-s1>ytail</span><span class=pl-kos>,</span> <span class=pl-s1>bx</span><span class=pl-kos>,</span> <span class=pl-s1>s1</span><span class=pl-kos>,</span> <span class=pl-s1>b</span><span class=pl-kos>[</span><span class=pl-c1>0</span><span class=pl-kos>]</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L47" class="blob-num js-line-number" data-line-number="47"></td>
-        <td id="LC47" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-v>C2len</span> <span class=pl-c1>=</span> <span class=pl-en>sum</span><span class=pl-kos>(</span><span class=pl-v>C1len</span><span class=pl-kos>,</span> <span class=pl-c1>C1</span><span class=pl-kos>,</span> <span class=pl-c1>4</span><span class=pl-kos>,</span> <span class=pl-s1>u</span><span class=pl-kos>,</span> <span class=pl-c1>C2</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC47" class="blob-code blob-code-inner js-file-line">            <span class=pl-s1>b</span><span class=pl-kos>[</span><span class=pl-c1>1</span><span class=pl-kos>]</span> <span class=pl-c1>=</span> <span class=pl-s1>s1</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L48" class="blob-num js-line-number" data-line-number="48"></td>
-        <td id="LC48" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC48" class="blob-code blob-code-inner js-file-line">            <span class=pl-k>return</span> <span class=pl-c1>2</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L49" class="blob-num js-line-number" data-line-number="49"></td>
-        <td id="LC49" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Cross_Product</span><span class=pl-kos>(</span><span class=pl-s1>acxtail</span><span class=pl-kos>,</span> <span class=pl-s1>bcxtail</span><span class=pl-kos>,</span> <span class=pl-s1>acytail</span><span class=pl-kos>,</span> <span class=pl-s1>bcytail</span><span class=pl-kos>,</span> <span class=pl-s1>u</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC49" class="blob-code blob-code-inner js-file-line">        <span class=pl-kos>}</span></td>
       </tr>
       <tr>
         <td id="L50" class="blob-num js-line-number" data-line-number="50"></td>
-        <td id="LC50" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-v>Dlen</span> <span class=pl-c1>=</span> <span class=pl-en>sum</span><span class=pl-kos>(</span><span class=pl-v>C2len</span><span class=pl-kos>,</span> <span class=pl-c1>C2</span><span class=pl-kos>,</span> <span class=pl-c1>4</span><span class=pl-kos>,</span> <span class=pl-s1>u</span><span class=pl-kos>,</span> <span class=pl-v>D</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC50" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span> <span class=pl-k>else</span> <span class=pl-kos>{</span></td>
       </tr>
       <tr>
         <td id="L51" class="blob-num js-line-number" data-line-number="51"></td>
-        <td id="LC51" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC51" class="blob-code blob-code-inner js-file-line">        <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>ytail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
       </tr>
       <tr>
         <td id="L52" class="blob-num js-line-number" data-line-number="52"></td>
-        <td id="LC52" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>return</span> <span class=pl-v>D</span><span class=pl-kos>[</span><span class=pl-v>Dlen</span> <span class=pl-c1>-</span> <span class=pl-c1>1</span><span class=pl-kos>]</span><span class=pl-kos>;</span></td>
+        <td id="LC52" class="blob-code blob-code-inner js-file-line">            <span class=pl-en>$Two_Product</span><span class=pl-kos>(</span><span class=pl-s1>xtail</span><span class=pl-kos>,</span> <span class=pl-s1>ay</span><span class=pl-kos>,</span> <span class=pl-s1>s1</span><span class=pl-kos>,</span> <span class=pl-s1>a</span><span class=pl-kos>[</span><span class=pl-c1>0</span><span class=pl-kos>]</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L53" class="blob-num js-line-number" data-line-number="53"></td>
-        <td id="LC53" class="blob-code blob-code-inner js-file-line"><span class=pl-kos>}</span></td>
+        <td id="LC53" class="blob-code blob-code-inner js-file-line">            <span class=pl-s1>a</span><span class=pl-kos>[</span><span class=pl-c1>1</span><span class=pl-kos>]</span> <span class=pl-c1>=</span> <span class=pl-s1>s1</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L54" class="blob-num js-line-number" data-line-number="54"></td>
-        <td id="LC54" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC54" class="blob-code blob-code-inner js-file-line">            <span class=pl-s1>negate</span> <span class=pl-c1>=</span> <span class=pl-c1>-</span><span class=pl-s1>xtail</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L55" class="blob-num js-line-number" data-line-number="55"></td>
-        <td id="LC55" class="blob-code blob-code-inner js-file-line"><span class=pl-k>export</span> <span class=pl-k>function</span> <span class=pl-en>orient2d</span><span class=pl-kos>(</span><span class=pl-s1>ax</span><span class=pl-kos>,</span> <span class=pl-s1>ay</span><span class=pl-kos>,</span> <span class=pl-s1>bx</span><span class=pl-kos>,</span> <span class=pl-s1>by</span><span class=pl-kos>,</span> <span class=pl-s1>cx</span><span class=pl-kos>,</span> <span class=pl-s1>cy</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+        <td id="LC55" class="blob-code blob-code-inner js-file-line">            <span class=pl-en>$Two_Product</span><span class=pl-kos>(</span><span class=pl-s1>negate</span><span class=pl-kos>,</span> <span class=pl-s1>by</span><span class=pl-kos>,</span> <span class=pl-s1>s1</span><span class=pl-kos>,</span> <span class=pl-s1>b</span><span class=pl-kos>[</span><span class=pl-c1>0</span><span class=pl-kos>]</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L56" class="blob-num js-line-number" data-line-number="56"></td>
-        <td id="LC56" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>detleft</span> <span class=pl-c1>=</span> <span class=pl-kos>(</span><span class=pl-s1>ay</span> <span class=pl-c1>-</span> <span class=pl-s1>cy</span><span class=pl-kos>)</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>bx</span> <span class=pl-c1>-</span> <span class=pl-s1>cx</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC56" class="blob-code blob-code-inner js-file-line">            <span class=pl-s1>b</span><span class=pl-kos>[</span><span class=pl-c1>1</span><span class=pl-kos>]</span> <span class=pl-c1>=</span> <span class=pl-s1>s1</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L57" class="blob-num js-line-number" data-line-number="57"></td>
-        <td id="LC57" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>detright</span> <span class=pl-c1>=</span> <span class=pl-kos>(</span><span class=pl-s1>ax</span> <span class=pl-c1>-</span> <span class=pl-s1>cx</span><span class=pl-kos>)</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>by</span> <span class=pl-c1>-</span> <span class=pl-s1>cy</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC57" class="blob-code blob-code-inner js-file-line">            <span class=pl-k>return</span> <span class=pl-c1>2</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L58" class="blob-num js-line-number" data-line-number="58"></td>
-        <td id="LC58" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>det</span> <span class=pl-c1>=</span> <span class=pl-s1>detleft</span> <span class=pl-c1>-</span> <span class=pl-s1>detright</span><span class=pl-kos>;</span></td>
+        <td id="LC58" class="blob-code blob-code-inner js-file-line">        <span class=pl-kos>}</span> <span class=pl-k>else</span> <span class=pl-kos>{</span></td>
       </tr>
       <tr>
         <td id="L59" class="blob-num js-line-number" data-line-number="59"></td>
-        <td id="LC59" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC59" class="blob-code blob-code-inner js-file-line">            <span class=pl-en>$Cross_Product</span><span class=pl-kos>(</span><span class=pl-s1>xtail</span><span class=pl-kos>,</span> <span class=pl-s1>ax</span><span class=pl-kos>,</span> <span class=pl-s1>ytail</span><span class=pl-kos>,</span> <span class=pl-s1>ay</span><span class=pl-kos>,</span> <span class=pl-s1>a</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L60" class="blob-num js-line-number" data-line-number="60"></td>
-        <td id="LC60" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>detleft</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span> <span class=pl-c1>||</span> <span class=pl-s1>detright</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span> <span class=pl-c1>||</span> <span class=pl-kos>(</span><span class=pl-s1>detleft</span> <span class=pl-c1>&gt;</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-c1>!==</span> <span class=pl-kos>(</span><span class=pl-s1>detright</span> <span class=pl-c1>&gt;</span> <span class=pl-c1>0</span><span class=pl-kos>)</span><span class=pl-kos>)</span> <span class=pl-k>return</span> <span class=pl-s1>det</span><span class=pl-kos>;</span></td>
+        <td id="LC60" class="blob-code blob-code-inner js-file-line">            <span class=pl-en>$Cross_Product</span><span class=pl-kos>(</span><span class=pl-s1>ytail</span><span class=pl-kos>,</span> <span class=pl-s1>by</span><span class=pl-kos>,</span> <span class=pl-s1>xtail</span><span class=pl-kos>,</span> <span class=pl-s1>bx</span><span class=pl-kos>,</span> <span class=pl-s1>b</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L61" class="blob-num js-line-number" data-line-number="61"></td>
-        <td id="LC61" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC61" class="blob-code blob-code-inner js-file-line">            <span class=pl-k>return</span> <span class=pl-c1>4</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L62" class="blob-num js-line-number" data-line-number="62"></td>
-        <td id="LC62" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>detsum</span> <span class=pl-c1>=</span> <span class=pl-v>Math</span><span class=pl-kos>.</span><span class=pl-en>abs</span><span class=pl-kos>(</span><span class=pl-s1>detleft</span> <span class=pl-c1>+</span> <span class=pl-s1>detright</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC62" class="blob-code blob-code-inner js-file-line">        <span class=pl-kos>}</span></td>
       </tr>
       <tr>
         <td id="L63" class="blob-num js-line-number" data-line-number="63"></td>
-        <td id="LC63" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-v>Math</span><span class=pl-kos>.</span><span class=pl-en>abs</span><span class=pl-kos>(</span><span class=pl-s1>det</span><span class=pl-kos>)</span> <span class=pl-c1>&gt;=</span> <span class=pl-s1>ccwerrboundA</span> <span class=pl-c1>*</span> <span class=pl-s1>detsum</span><span class=pl-kos>)</span> <span class=pl-k>return</span> <span class=pl-s1>det</span><span class=pl-kos>;</span></td>
+        <td id="LC63" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span></td>
       </tr>
       <tr>
         <td id="L64" class="blob-num js-line-number" data-line-number="64"></td>
-        <td id="LC64" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC64" class="blob-code blob-code-inner js-file-line"><span class=pl-kos>}</span></td>
       </tr>
       <tr>
         <td id="L65" class="blob-num js-line-number" data-line-number="65"></td>
-        <td id="LC65" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>return</span> <span class=pl-c1>-</span><span class=pl-en>orient2dadapt</span><span class=pl-kos>(</span><span class=pl-s1>ax</span><span class=pl-kos>,</span> <span class=pl-s1>ay</span><span class=pl-kos>,</span> <span class=pl-s1>bx</span><span class=pl-kos>,</span> <span class=pl-s1>by</span><span class=pl-kos>,</span> <span class=pl-s1>cx</span><span class=pl-kos>,</span> <span class=pl-s1>cy</span><span class=pl-kos>,</span> <span class=pl-s1>detsum</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
-      </tr>
-      <tr>
-        <td id="L66" class="blob-num js-line-number" data-line-number="66"></td>
-        <td id="LC66" class="blob-code blob-code-inner js-file-line"><span class=pl-kos>}</span></td>
-      </tr>
-      <tr>
-        <td id="L67" class="blob-num js-line-number" data-line-number="67"></td>
-        <td id="LC67" class="blob-code blob-code-inner js-file-line">
+        <td id="LC65" class="blob-code blob-code-inner js-file-line">
 </td>
       </tr>
       <tr>
+        <td id="L66" class="blob-num js-line-number" data-line-number="66"></td>
+        <td id="LC66" class="blob-code blob-code-inner js-file-line"><span class=pl-k>function</span> <span class=pl-en>tailadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-s1>a</span><span class=pl-kos>,</span> <span class=pl-s1>b</span><span class=pl-kos>,</span> <span class=pl-s1>k</span><span class=pl-kos>,</span> <span class=pl-s1>z</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L67" class="blob-num js-line-number" data-line-number="67"></td>
+        <td id="LC67" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>let</span> <span class=pl-s1>bvirt</span><span class=pl-kos>,</span> <span class=pl-s1>c</span><span class=pl-kos>,</span> <span class=pl-s1>ahi</span><span class=pl-kos>,</span> <span class=pl-s1>alo</span><span class=pl-kos>,</span> <span class=pl-s1>bhi</span><span class=pl-kos>,</span> <span class=pl-s1>blo</span><span class=pl-kos>,</span> <span class=pl-s1>_i</span><span class=pl-kos>,</span> <span class=pl-s1>_j</span><span class=pl-kos>,</span> <span class=pl-s1>_k</span><span class=pl-kos>,</span> <span class=pl-c1>_0</span><span class=pl-kos>,</span> <span class=pl-s1>s1</span><span class=pl-kos>,</span> <span class=pl-s1>s0</span><span class=pl-kos>,</span> <span class=pl-s1>u3</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
         <td id="L68" class="blob-num js-line-number" data-line-number="68"></td>
-        <td id="LC68" class="blob-code blob-code-inner js-file-line"><span class=pl-k>export</span> <span class=pl-k>function</span> <span class=pl-en>orient2dfast</span><span class=pl-kos>(</span><span class=pl-s1>ax</span><span class=pl-kos>,</span> <span class=pl-s1>ay</span><span class=pl-kos>,</span> <span class=pl-s1>bx</span><span class=pl-kos>,</span> <span class=pl-s1>by</span><span class=pl-kos>,</span> <span class=pl-s1>cx</span><span class=pl-kos>,</span> <span class=pl-s1>cy</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+        <td id="LC68" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_Product</span><span class=pl-kos>(</span><span class=pl-s1>a</span><span class=pl-kos>,</span> <span class=pl-s1>b</span><span class=pl-kos>,</span> <span class=pl-s1>s1</span><span class=pl-kos>,</span> <span class=pl-s1>s0</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L69" class="blob-num js-line-number" data-line-number="69"></td>
-        <td id="LC69" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>return</span> <span class=pl-kos>(</span><span class=pl-s1>ay</span> <span class=pl-c1>-</span> <span class=pl-s1>cy</span><span class=pl-kos>)</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>bx</span> <span class=pl-c1>-</span> <span class=pl-s1>cx</span><span class=pl-kos>)</span> <span class=pl-c1>-</span> <span class=pl-kos>(</span><span class=pl-s1>ax</span> <span class=pl-c1>-</span> <span class=pl-s1>cx</span><span class=pl-kos>)</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>by</span> <span class=pl-c1>-</span> <span class=pl-s1>cy</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+        <td id="LC69" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_One_Product</span><span class=pl-kos>(</span><span class=pl-s1>s1</span><span class=pl-kos>,</span> <span class=pl-s1>s0</span><span class=pl-kos>,</span> <span class=pl-s1>k</span><span class=pl-kos>,</span> <span class=pl-s1>u</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
       </tr>
       <tr>
         <td id="L70" class="blob-num js-line-number" data-line-number="70"></td>
-        <td id="LC70" class="blob-code blob-code-inner js-file-line"><span class=pl-kos>}</span></td>
+        <td id="LC70" class="blob-code blob-code-inner js-file-line">    <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>finadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-c1>4</span><span class=pl-kos>,</span> <span class=pl-s1>u</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L71" class="blob-num js-line-number" data-line-number="71"></td>
+        <td id="LC71" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>z</span> <span class=pl-c1>!==</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L72" class="blob-num js-line-number" data-line-number="72"></td>
+        <td id="LC72" class="blob-code blob-code-inner js-file-line">        <span class=pl-en>$Two_One_Product</span><span class=pl-kos>(</span><span class=pl-s1>s1</span><span class=pl-kos>,</span> <span class=pl-s1>s0</span><span class=pl-kos>,</span> <span class=pl-s1>z</span><span class=pl-kos>,</span> <span class=pl-s1>u</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L73" class="blob-num js-line-number" data-line-number="73"></td>
+        <td id="LC73" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>finadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-c1>4</span><span class=pl-kos>,</span> <span class=pl-s1>u</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L74" class="blob-num js-line-number" data-line-number="74"></td>
+        <td id="LC74" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L75" class="blob-num js-line-number" data-line-number="75"></td>
+        <td id="LC75" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>return</span> <span class=pl-s1>finlen</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L76" class="blob-num js-line-number" data-line-number="76"></td>
+        <td id="LC76" class="blob-code blob-code-inner js-file-line"><span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L77" class="blob-num js-line-number" data-line-number="77"></td>
+        <td id="LC77" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L78" class="blob-num js-line-number" data-line-number="78"></td>
+        <td id="LC78" class="blob-code blob-code-inner js-file-line"><span class=pl-k>function</span> <span class=pl-en>orient3dadapt</span><span class=pl-kos>(</span><span class=pl-s1>ax</span><span class=pl-kos>,</span> <span class=pl-s1>ay</span><span class=pl-kos>,</span> <span class=pl-s1>az</span><span class=pl-kos>,</span> <span class=pl-s1>bx</span><span class=pl-kos>,</span> <span class=pl-s1>by</span><span class=pl-kos>,</span> <span class=pl-s1>bz</span><span class=pl-kos>,</span> <span class=pl-s1>cx</span><span class=pl-kos>,</span> <span class=pl-s1>cy</span><span class=pl-kos>,</span> <span class=pl-s1>cz</span><span class=pl-kos>,</span> <span class=pl-s1>dx</span><span class=pl-kos>,</span> <span class=pl-s1>dy</span><span class=pl-kos>,</span> <span class=pl-s1>dz</span><span class=pl-kos>,</span> <span class=pl-s1>permanent</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L79" class="blob-num js-line-number" data-line-number="79"></td>
+        <td id="LC79" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>let</span> <span class=pl-s1>finlen</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L80" class="blob-num js-line-number" data-line-number="80"></td>
+        <td id="LC80" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>let</span> <span class=pl-s1>adxtail</span><span class=pl-kos>,</span> <span class=pl-s1>bdxtail</span><span class=pl-kos>,</span> <span class=pl-s1>cdxtail</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L81" class="blob-num js-line-number" data-line-number="81"></td>
+        <td id="LC81" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>let</span> <span class=pl-s1>adytail</span><span class=pl-kos>,</span> <span class=pl-s1>bdytail</span><span class=pl-kos>,</span> <span class=pl-s1>cdytail</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L82" class="blob-num js-line-number" data-line-number="82"></td>
+        <td id="LC82" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>let</span> <span class=pl-s1>adztail</span><span class=pl-kos>,</span> <span class=pl-s1>bdztail</span><span class=pl-kos>,</span> <span class=pl-s1>cdztail</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L83" class="blob-num js-line-number" data-line-number="83"></td>
+        <td id="LC83" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>let</span> <span class=pl-s1>bvirt</span><span class=pl-kos>,</span> <span class=pl-s1>c</span><span class=pl-kos>,</span> <span class=pl-s1>ahi</span><span class=pl-kos>,</span> <span class=pl-s1>alo</span><span class=pl-kos>,</span> <span class=pl-s1>bhi</span><span class=pl-kos>,</span> <span class=pl-s1>blo</span><span class=pl-kos>,</span> <span class=pl-s1>_i</span><span class=pl-kos>,</span> <span class=pl-s1>_j</span><span class=pl-kos>,</span> <span class=pl-s1>_k</span><span class=pl-kos>,</span> <span class=pl-c1>_0</span><span class=pl-kos>,</span> <span class=pl-s1>s1</span><span class=pl-kos>,</span> <span class=pl-s1>s0</span><span class=pl-kos>,</span> <span class=pl-s1>t1</span><span class=pl-kos>,</span> <span class=pl-s1>t0</span><span class=pl-kos>,</span> <span class=pl-s1>u3</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L84" class="blob-num js-line-number" data-line-number="84"></td>
+        <td id="LC84" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L85" class="blob-num js-line-number" data-line-number="85"></td>
+        <td id="LC85" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>adx</span> <span class=pl-c1>=</span> <span class=pl-s1>ax</span> <span class=pl-c1>-</span> <span class=pl-s1>dx</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L86" class="blob-num js-line-number" data-line-number="86"></td>
+        <td id="LC86" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bdx</span> <span class=pl-c1>=</span> <span class=pl-s1>bx</span> <span class=pl-c1>-</span> <span class=pl-s1>dx</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L87" class="blob-num js-line-number" data-line-number="87"></td>
+        <td id="LC87" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>cdx</span> <span class=pl-c1>=</span> <span class=pl-s1>cx</span> <span class=pl-c1>-</span> <span class=pl-s1>dx</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L88" class="blob-num js-line-number" data-line-number="88"></td>
+        <td id="LC88" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>ady</span> <span class=pl-c1>=</span> <span class=pl-s1>ay</span> <span class=pl-c1>-</span> <span class=pl-s1>dy</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L89" class="blob-num js-line-number" data-line-number="89"></td>
+        <td id="LC89" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bdy</span> <span class=pl-c1>=</span> <span class=pl-s1>by</span> <span class=pl-c1>-</span> <span class=pl-s1>dy</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L90" class="blob-num js-line-number" data-line-number="90"></td>
+        <td id="LC90" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>cdy</span> <span class=pl-c1>=</span> <span class=pl-s1>cy</span> <span class=pl-c1>-</span> <span class=pl-s1>dy</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L91" class="blob-num js-line-number" data-line-number="91"></td>
+        <td id="LC91" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>adz</span> <span class=pl-c1>=</span> <span class=pl-s1>az</span> <span class=pl-c1>-</span> <span class=pl-s1>dz</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L92" class="blob-num js-line-number" data-line-number="92"></td>
+        <td id="LC92" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bdz</span> <span class=pl-c1>=</span> <span class=pl-s1>bz</span> <span class=pl-c1>-</span> <span class=pl-s1>dz</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L93" class="blob-num js-line-number" data-line-number="93"></td>
+        <td id="LC93" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>cdz</span> <span class=pl-c1>=</span> <span class=pl-s1>cz</span> <span class=pl-c1>-</span> <span class=pl-s1>dz</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L94" class="blob-num js-line-number" data-line-number="94"></td>
+        <td id="LC94" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L95" class="blob-num js-line-number" data-line-number="95"></td>
+        <td id="LC95" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Cross_Product</span><span class=pl-kos>(</span><span class=pl-s1>bdx</span><span class=pl-kos>,</span> <span class=pl-s1>bdy</span><span class=pl-kos>,</span> <span class=pl-s1>cdx</span><span class=pl-kos>,</span> <span class=pl-s1>cdy</span><span class=pl-kos>,</span> <span class=pl-s1>bc</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L96" class="blob-num js-line-number" data-line-number="96"></td>
+        <td id="LC96" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Cross_Product</span><span class=pl-kos>(</span><span class=pl-s1>cdx</span><span class=pl-kos>,</span> <span class=pl-s1>cdy</span><span class=pl-kos>,</span> <span class=pl-s1>adx</span><span class=pl-kos>,</span> <span class=pl-s1>ady</span><span class=pl-kos>,</span> <span class=pl-s1>ca</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L97" class="blob-num js-line-number" data-line-number="97"></td>
+        <td id="LC97" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Cross_Product</span><span class=pl-kos>(</span><span class=pl-s1>adx</span><span class=pl-kos>,</span> <span class=pl-s1>ady</span><span class=pl-kos>,</span> <span class=pl-s1>bdx</span><span class=pl-kos>,</span> <span class=pl-s1>bdy</span><span class=pl-kos>,</span> <span class=pl-s1>ab</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L98" class="blob-num js-line-number" data-line-number="98"></td>
+        <td id="LC98" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L99" class="blob-num js-line-number" data-line-number="99"></td>
+        <td id="LC99" class="blob-code blob-code-inner js-file-line">    <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>sum</span><span class=pl-kos>(</span></td>
+      </tr>
+      <tr>
+        <td id="L100" class="blob-num js-line-number" data-line-number="100"></td>
+        <td id="LC100" class="blob-code blob-code-inner js-file-line">        <span class=pl-en>sum</span><span class=pl-kos>(</span></td>
+      </tr>
+      <tr>
+        <td id="L101" class="blob-num js-line-number" data-line-number="101"></td>
+        <td id="LC101" class="blob-code blob-code-inner js-file-line">            <span class=pl-en>scale</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>,</span> <span class=pl-s1>bc</span><span class=pl-kos>,</span> <span class=pl-s1>adz</span><span class=pl-kos>,</span> <span class=pl-c1>_8</span><span class=pl-kos>)</span><span class=pl-kos>,</span> <span class=pl-c1>_8</span><span class=pl-kos>,</span></td>
+      </tr>
+      <tr>
+        <td id="L102" class="blob-num js-line-number" data-line-number="102"></td>
+        <td id="LC102" class="blob-code blob-code-inner js-file-line">            <span class=pl-en>scale</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>,</span> <span class=pl-s1>ca</span><span class=pl-kos>,</span> <span class=pl-s1>bdz</span><span class=pl-kos>,</span> <span class=pl-s1>_8b</span><span class=pl-kos>)</span><span class=pl-kos>,</span> <span class=pl-s1>_8b</span><span class=pl-kos>,</span> <span class=pl-c1>_16</span><span class=pl-kos>)</span><span class=pl-kos>,</span> <span class=pl-c1>_16</span><span class=pl-kos>,</span></td>
+      </tr>
+      <tr>
+        <td id="L103" class="blob-num js-line-number" data-line-number="103"></td>
+        <td id="LC103" class="blob-code blob-code-inner js-file-line">        <span class=pl-en>scale</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>,</span> <span class=pl-s1>ab</span><span class=pl-kos>,</span> <span class=pl-s1>cdz</span><span class=pl-kos>,</span> <span class=pl-c1>_8</span><span class=pl-kos>)</span><span class=pl-kos>,</span> <span class=pl-c1>_8</span><span class=pl-kos>,</span> <span class=pl-s1>fin</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L104" class="blob-num js-line-number" data-line-number="104"></td>
+        <td id="LC104" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L105" class="blob-num js-line-number" data-line-number="105"></td>
+        <td id="LC105" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>let</span> <span class=pl-s1>det</span> <span class=pl-c1>=</span> <span class=pl-en>estimate</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-s1>fin</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L106" class="blob-num js-line-number" data-line-number="106"></td>
+        <td id="LC106" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>let</span> <span class=pl-s1>errbound</span> <span class=pl-c1>=</span> <span class=pl-s1>o3derrboundB</span> <span class=pl-c1>*</span> <span class=pl-s1>permanent</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L107" class="blob-num js-line-number" data-line-number="107"></td>
+        <td id="LC107" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>det</span> <span class=pl-c1>&gt;=</span> <span class=pl-s1>errbound</span> <span class=pl-c1>||</span> <span class=pl-c1>-</span><span class=pl-s1>det</span> <span class=pl-c1>&gt;=</span> <span class=pl-s1>errbound</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L108" class="blob-num js-line-number" data-line-number="108"></td>
+        <td id="LC108" class="blob-code blob-code-inner js-file-line">        <span class=pl-k>return</span> <span class=pl-s1>det</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L109" class="blob-num js-line-number" data-line-number="109"></td>
+        <td id="LC109" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L110" class="blob-num js-line-number" data-line-number="110"></td>
+        <td id="LC110" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L111" class="blob-num js-line-number" data-line-number="111"></td>
+        <td id="LC111" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_Diff_Tail</span><span class=pl-kos>(</span><span class=pl-s1>ax</span><span class=pl-kos>,</span> <span class=pl-s1>dx</span><span class=pl-kos>,</span> <span class=pl-s1>adx</span><span class=pl-kos>,</span> <span class=pl-s1>adxtail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L112" class="blob-num js-line-number" data-line-number="112"></td>
+        <td id="LC112" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_Diff_Tail</span><span class=pl-kos>(</span><span class=pl-s1>bx</span><span class=pl-kos>,</span> <span class=pl-s1>dx</span><span class=pl-kos>,</span> <span class=pl-s1>bdx</span><span class=pl-kos>,</span> <span class=pl-s1>bdxtail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L113" class="blob-num js-line-number" data-line-number="113"></td>
+        <td id="LC113" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_Diff_Tail</span><span class=pl-kos>(</span><span class=pl-s1>cx</span><span class=pl-kos>,</span> <span class=pl-s1>dx</span><span class=pl-kos>,</span> <span class=pl-s1>cdx</span><span class=pl-kos>,</span> <span class=pl-s1>cdxtail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L114" class="blob-num js-line-number" data-line-number="114"></td>
+        <td id="LC114" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_Diff_Tail</span><span class=pl-kos>(</span><span class=pl-s1>ay</span><span class=pl-kos>,</span> <span class=pl-s1>dy</span><span class=pl-kos>,</span> <span class=pl-s1>ady</span><span class=pl-kos>,</span> <span class=pl-s1>adytail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L115" class="blob-num js-line-number" data-line-number="115"></td>
+        <td id="LC115" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_Diff_Tail</span><span class=pl-kos>(</span><span class=pl-s1>by</span><span class=pl-kos>,</span> <span class=pl-s1>dy</span><span class=pl-kos>,</span> <span class=pl-s1>bdy</span><span class=pl-kos>,</span> <span class=pl-s1>bdytail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L116" class="blob-num js-line-number" data-line-number="116"></td>
+        <td id="LC116" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_Diff_Tail</span><span class=pl-kos>(</span><span class=pl-s1>cy</span><span class=pl-kos>,</span> <span class=pl-s1>dy</span><span class=pl-kos>,</span> <span class=pl-s1>cdy</span><span class=pl-kos>,</span> <span class=pl-s1>cdytail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L117" class="blob-num js-line-number" data-line-number="117"></td>
+        <td id="LC117" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_Diff_Tail</span><span class=pl-kos>(</span><span class=pl-s1>az</span><span class=pl-kos>,</span> <span class=pl-s1>dz</span><span class=pl-kos>,</span> <span class=pl-s1>adz</span><span class=pl-kos>,</span> <span class=pl-s1>adztail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L118" class="blob-num js-line-number" data-line-number="118"></td>
+        <td id="LC118" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_Diff_Tail</span><span class=pl-kos>(</span><span class=pl-s1>bz</span><span class=pl-kos>,</span> <span class=pl-s1>dz</span><span class=pl-kos>,</span> <span class=pl-s1>bdz</span><span class=pl-kos>,</span> <span class=pl-s1>bdztail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L119" class="blob-num js-line-number" data-line-number="119"></td>
+        <td id="LC119" class="blob-code blob-code-inner js-file-line">    <span class=pl-en>$Two_Diff_Tail</span><span class=pl-kos>(</span><span class=pl-s1>cz</span><span class=pl-kos>,</span> <span class=pl-s1>dz</span><span class=pl-kos>,</span> <span class=pl-s1>cdz</span><span class=pl-kos>,</span> <span class=pl-s1>cdztail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L120" class="blob-num js-line-number" data-line-number="120"></td>
+        <td id="LC120" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L121" class="blob-num js-line-number" data-line-number="121"></td>
+        <td id="LC121" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>adxtail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span> <span class=pl-c1>&amp;&amp;</span> <span class=pl-s1>bdxtail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span> <span class=pl-c1>&amp;&amp;</span> <span class=pl-s1>cdxtail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span> <span class=pl-c1>&amp;&amp;</span></td>
+      </tr>
+      <tr>
+        <td id="L122" class="blob-num js-line-number" data-line-number="122"></td>
+        <td id="LC122" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>adytail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span> <span class=pl-c1>&amp;&amp;</span> <span class=pl-s1>bdytail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span> <span class=pl-c1>&amp;&amp;</span> <span class=pl-s1>cdytail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span> <span class=pl-c1>&amp;&amp;</span></td>
+      </tr>
+      <tr>
+        <td id="L123" class="blob-num js-line-number" data-line-number="123"></td>
+        <td id="LC123" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>adztail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span> <span class=pl-c1>&amp;&amp;</span> <span class=pl-s1>bdztail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span> <span class=pl-c1>&amp;&amp;</span> <span class=pl-s1>cdztail</span> <span class=pl-c1>===</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L124" class="blob-num js-line-number" data-line-number="124"></td>
+        <td id="LC124" class="blob-code blob-code-inner js-file-line">        <span class=pl-k>return</span> <span class=pl-s1>det</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L125" class="blob-num js-line-number" data-line-number="125"></td>
+        <td id="LC125" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L126" class="blob-num js-line-number" data-line-number="126"></td>
+        <td id="LC126" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L127" class="blob-num js-line-number" data-line-number="127"></td>
+        <td id="LC127" class="blob-code blob-code-inner js-file-line">    <span class=pl-s1>errbound</span> <span class=pl-c1>=</span> <span class=pl-s1>o3derrboundC</span> <span class=pl-c1>*</span> <span class=pl-s1>permanent</span> <span class=pl-c1>+</span> <span class=pl-s1>resulterrbound</span> <span class=pl-c1>*</span> <span class=pl-v>Math</span><span class=pl-kos>.</span><span class=pl-en>abs</span><span class=pl-kos>(</span><span class=pl-s1>det</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L128" class="blob-num js-line-number" data-line-number="128"></td>
+        <td id="LC128" class="blob-code blob-code-inner js-file-line">    <span class=pl-s1>det</span> <span class=pl-c1>+=</span></td>
+      </tr>
+      <tr>
+        <td id="L129" class="blob-num js-line-number" data-line-number="129"></td>
+        <td id="LC129" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>adz</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>bdx</span> <span class=pl-c1>*</span> <span class=pl-s1>cdytail</span> <span class=pl-c1>+</span> <span class=pl-s1>cdy</span> <span class=pl-c1>*</span> <span class=pl-s1>bdxtail</span> <span class=pl-c1>-</span> <span class=pl-kos>(</span><span class=pl-s1>bdy</span> <span class=pl-c1>*</span> <span class=pl-s1>cdxtail</span> <span class=pl-c1>+</span> <span class=pl-s1>cdx</span> <span class=pl-c1>*</span> <span class=pl-s1>bdytail</span><span class=pl-kos>)</span><span class=pl-kos>)</span> <span class=pl-c1>+</span> <span class=pl-s1>adztail</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>bdx</span> <span class=pl-c1>*</span> <span class=pl-s1>cdy</span> <span class=pl-c1>-</span> <span class=pl-s1>bdy</span> <span class=pl-c1>*</span> <span class=pl-s1>cdx</span><span class=pl-kos>)</span> <span class=pl-c1>+</span></td>
+      </tr>
+      <tr>
+        <td id="L130" class="blob-num js-line-number" data-line-number="130"></td>
+        <td id="LC130" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>bdz</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>cdx</span> <span class=pl-c1>*</span> <span class=pl-s1>adytail</span> <span class=pl-c1>+</span> <span class=pl-s1>ady</span> <span class=pl-c1>*</span> <span class=pl-s1>cdxtail</span> <span class=pl-c1>-</span> <span class=pl-kos>(</span><span class=pl-s1>cdy</span> <span class=pl-c1>*</span> <span class=pl-s1>adxtail</span> <span class=pl-c1>+</span> <span class=pl-s1>adx</span> <span class=pl-c1>*</span> <span class=pl-s1>cdytail</span><span class=pl-kos>)</span><span class=pl-kos>)</span> <span class=pl-c1>+</span> <span class=pl-s1>bdztail</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>cdx</span> <span class=pl-c1>*</span> <span class=pl-s1>ady</span> <span class=pl-c1>-</span> <span class=pl-s1>cdy</span> <span class=pl-c1>*</span> <span class=pl-s1>adx</span><span class=pl-kos>)</span> <span class=pl-c1>+</span></td>
+      </tr>
+      <tr>
+        <td id="L131" class="blob-num js-line-number" data-line-number="131"></td>
+        <td id="LC131" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>cdz</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>adx</span> <span class=pl-c1>*</span> <span class=pl-s1>bdytail</span> <span class=pl-c1>+</span> <span class=pl-s1>bdy</span> <span class=pl-c1>*</span> <span class=pl-s1>adxtail</span> <span class=pl-c1>-</span> <span class=pl-kos>(</span><span class=pl-s1>ady</span> <span class=pl-c1>*</span> <span class=pl-s1>bdxtail</span> <span class=pl-c1>+</span> <span class=pl-s1>bdx</span> <span class=pl-c1>*</span> <span class=pl-s1>adytail</span><span class=pl-kos>)</span><span class=pl-kos>)</span> <span class=pl-c1>+</span> <span class=pl-s1>cdztail</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>adx</span> <span class=pl-c1>*</span> <span class=pl-s1>bdy</span> <span class=pl-c1>-</span> <span class=pl-s1>ady</span> <span class=pl-c1>*</span> <span class=pl-s1>bdx</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L132" class="blob-num js-line-number" data-line-number="132"></td>
+        <td id="LC132" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>det</span> <span class=pl-c1>&gt;=</span> <span class=pl-s1>errbound</span> <span class=pl-c1>||</span> <span class=pl-c1>-</span><span class=pl-s1>det</span> <span class=pl-c1>&gt;=</span> <span class=pl-s1>errbound</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L133" class="blob-num js-line-number" data-line-number="133"></td>
+        <td id="LC133" class="blob-code blob-code-inner js-file-line">        <span class=pl-k>return</span> <span class=pl-s1>det</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L134" class="blob-num js-line-number" data-line-number="134"></td>
+        <td id="LC134" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L135" class="blob-num js-line-number" data-line-number="135"></td>
+        <td id="LC135" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L136" class="blob-num js-line-number" data-line-number="136"></td>
+        <td id="LC136" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>at_len</span> <span class=pl-c1>=</span> <span class=pl-en>tailinit</span><span class=pl-kos>(</span><span class=pl-s1>adxtail</span><span class=pl-kos>,</span> <span class=pl-s1>adytail</span><span class=pl-kos>,</span> <span class=pl-s1>bdx</span><span class=pl-kos>,</span> <span class=pl-s1>bdy</span><span class=pl-kos>,</span> <span class=pl-s1>cdx</span><span class=pl-kos>,</span> <span class=pl-s1>cdy</span><span class=pl-kos>,</span> <span class=pl-s1>at_b</span><span class=pl-kos>,</span> <span class=pl-s1>at_c</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L137" class="blob-num js-line-number" data-line-number="137"></td>
+        <td id="LC137" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bt_len</span> <span class=pl-c1>=</span> <span class=pl-en>tailinit</span><span class=pl-kos>(</span><span class=pl-s1>bdxtail</span><span class=pl-kos>,</span> <span class=pl-s1>bdytail</span><span class=pl-kos>,</span> <span class=pl-s1>cdx</span><span class=pl-kos>,</span> <span class=pl-s1>cdy</span><span class=pl-kos>,</span> <span class=pl-s1>adx</span><span class=pl-kos>,</span> <span class=pl-s1>ady</span><span class=pl-kos>,</span> <span class=pl-s1>bt_c</span><span class=pl-kos>,</span> <span class=pl-s1>bt_a</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L138" class="blob-num js-line-number" data-line-number="138"></td>
+        <td id="LC138" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>ct_len</span> <span class=pl-c1>=</span> <span class=pl-en>tailinit</span><span class=pl-kos>(</span><span class=pl-s1>cdxtail</span><span class=pl-kos>,</span> <span class=pl-s1>cdytail</span><span class=pl-kos>,</span> <span class=pl-s1>adx</span><span class=pl-kos>,</span> <span class=pl-s1>ady</span><span class=pl-kos>,</span> <span class=pl-s1>bdx</span><span class=pl-kos>,</span> <span class=pl-s1>bdy</span><span class=pl-kos>,</span> <span class=pl-s1>ct_a</span><span class=pl-kos>,</span> <span class=pl-s1>ct_b</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L139" class="blob-num js-line-number" data-line-number="139"></td>
+        <td id="LC139" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L140" class="blob-num js-line-number" data-line-number="140"></td>
+        <td id="LC140" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bctlen</span> <span class=pl-c1>=</span> <span class=pl-en>sum</span><span class=pl-kos>(</span><span class=pl-s1>bt_len</span><span class=pl-kos>,</span> <span class=pl-s1>bt_c</span><span class=pl-kos>,</span> <span class=pl-s1>ct_len</span><span class=pl-kos>,</span> <span class=pl-s1>ct_b</span><span class=pl-kos>,</span> <span class=pl-s1>bct</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L141" class="blob-num js-line-number" data-line-number="141"></td>
+        <td id="LC141" class="blob-code blob-code-inner js-file-line">    <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>finadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-en>scale</span><span class=pl-kos>(</span><span class=pl-s1>bctlen</span><span class=pl-kos>,</span> <span class=pl-s1>bct</span><span class=pl-kos>,</span> <span class=pl-s1>adz</span><span class=pl-kos>,</span> <span class=pl-c1>_16</span><span class=pl-kos>)</span><span class=pl-kos>,</span> <span class=pl-c1>_16</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L142" class="blob-num js-line-number" data-line-number="142"></td>
+        <td id="LC142" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L143" class="blob-num js-line-number" data-line-number="143"></td>
+        <td id="LC143" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>catlen</span> <span class=pl-c1>=</span> <span class=pl-en>sum</span><span class=pl-kos>(</span><span class=pl-s1>ct_len</span><span class=pl-kos>,</span> <span class=pl-s1>ct_a</span><span class=pl-kos>,</span> <span class=pl-s1>at_len</span><span class=pl-kos>,</span> <span class=pl-s1>at_c</span><span class=pl-kos>,</span> <span class=pl-s1>cat</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L144" class="blob-num js-line-number" data-line-number="144"></td>
+        <td id="LC144" class="blob-code blob-code-inner js-file-line">    <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>finadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-en>scale</span><span class=pl-kos>(</span><span class=pl-s1>catlen</span><span class=pl-kos>,</span> <span class=pl-s1>cat</span><span class=pl-kos>,</span> <span class=pl-s1>bdz</span><span class=pl-kos>,</span> <span class=pl-c1>_16</span><span class=pl-kos>)</span><span class=pl-kos>,</span> <span class=pl-c1>_16</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L145" class="blob-num js-line-number" data-line-number="145"></td>
+        <td id="LC145" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L146" class="blob-num js-line-number" data-line-number="146"></td>
+        <td id="LC146" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>abtlen</span> <span class=pl-c1>=</span> <span class=pl-en>sum</span><span class=pl-kos>(</span><span class=pl-s1>at_len</span><span class=pl-kos>,</span> <span class=pl-s1>at_b</span><span class=pl-kos>,</span> <span class=pl-s1>bt_len</span><span class=pl-kos>,</span> <span class=pl-s1>bt_a</span><span class=pl-kos>,</span> <span class=pl-s1>abt</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L147" class="blob-num js-line-number" data-line-number="147"></td>
+        <td id="LC147" class="blob-code blob-code-inner js-file-line">    <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>finadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-en>scale</span><span class=pl-kos>(</span><span class=pl-s1>abtlen</span><span class=pl-kos>,</span> <span class=pl-s1>abt</span><span class=pl-kos>,</span> <span class=pl-s1>cdz</span><span class=pl-kos>,</span> <span class=pl-c1>_16</span><span class=pl-kos>)</span><span class=pl-kos>,</span> <span class=pl-c1>_16</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L148" class="blob-num js-line-number" data-line-number="148"></td>
+        <td id="LC148" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L149" class="blob-num js-line-number" data-line-number="149"></td>
+        <td id="LC149" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>adztail</span> <span class=pl-c1>!==</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L150" class="blob-num js-line-number" data-line-number="150"></td>
+        <td id="LC150" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>finadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-en>scale</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>,</span> <span class=pl-s1>bc</span><span class=pl-kos>,</span> <span class=pl-s1>adztail</span><span class=pl-kos>,</span> <span class=pl-c1>_12</span><span class=pl-kos>)</span><span class=pl-kos>,</span> <span class=pl-c1>_12</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L151" class="blob-num js-line-number" data-line-number="151"></td>
+        <td id="LC151" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>finadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-en>scale</span><span class=pl-kos>(</span><span class=pl-s1>bctlen</span><span class=pl-kos>,</span> <span class=pl-s1>bct</span><span class=pl-kos>,</span> <span class=pl-s1>adztail</span><span class=pl-kos>,</span> <span class=pl-c1>_16</span><span class=pl-kos>)</span><span class=pl-kos>,</span> <span class=pl-c1>_16</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L152" class="blob-num js-line-number" data-line-number="152"></td>
+        <td id="LC152" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L153" class="blob-num js-line-number" data-line-number="153"></td>
+        <td id="LC153" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>bdztail</span> <span class=pl-c1>!==</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L154" class="blob-num js-line-number" data-line-number="154"></td>
+        <td id="LC154" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>finadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-en>scale</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>,</span> <span class=pl-s1>ca</span><span class=pl-kos>,</span> <span class=pl-s1>bdztail</span><span class=pl-kos>,</span> <span class=pl-c1>_12</span><span class=pl-kos>)</span><span class=pl-kos>,</span> <span class=pl-c1>_12</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L155" class="blob-num js-line-number" data-line-number="155"></td>
+        <td id="LC155" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>finadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-en>scale</span><span class=pl-kos>(</span><span class=pl-s1>catlen</span><span class=pl-kos>,</span> <span class=pl-s1>cat</span><span class=pl-kos>,</span> <span class=pl-s1>bdztail</span><span class=pl-kos>,</span> <span class=pl-c1>_16</span><span class=pl-kos>)</span><span class=pl-kos>,</span> <span class=pl-c1>_16</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L156" class="blob-num js-line-number" data-line-number="156"></td>
+        <td id="LC156" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L157" class="blob-num js-line-number" data-line-number="157"></td>
+        <td id="LC157" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>cdztail</span> <span class=pl-c1>!==</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L158" class="blob-num js-line-number" data-line-number="158"></td>
+        <td id="LC158" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>finadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-en>scale</span><span class=pl-kos>(</span><span class=pl-c1>4</span><span class=pl-kos>,</span> <span class=pl-s1>ab</span><span class=pl-kos>,</span> <span class=pl-s1>cdztail</span><span class=pl-kos>,</span> <span class=pl-c1>_12</span><span class=pl-kos>)</span><span class=pl-kos>,</span> <span class=pl-c1>_12</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L159" class="blob-num js-line-number" data-line-number="159"></td>
+        <td id="LC159" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>finadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-en>scale</span><span class=pl-kos>(</span><span class=pl-s1>abtlen</span><span class=pl-kos>,</span> <span class=pl-s1>abt</span><span class=pl-kos>,</span> <span class=pl-s1>cdztail</span><span class=pl-kos>,</span> <span class=pl-c1>_16</span><span class=pl-kos>)</span><span class=pl-kos>,</span> <span class=pl-c1>_16</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L160" class="blob-num js-line-number" data-line-number="160"></td>
+        <td id="LC160" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L161" class="blob-num js-line-number" data-line-number="161"></td>
+        <td id="LC161" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L162" class="blob-num js-line-number" data-line-number="162"></td>
+        <td id="LC162" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>adxtail</span> <span class=pl-c1>!==</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L163" class="blob-num js-line-number" data-line-number="163"></td>
+        <td id="LC163" class="blob-code blob-code-inner js-file-line">        <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>bdytail</span> <span class=pl-c1>!==</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L164" class="blob-num js-line-number" data-line-number="164"></td>
+        <td id="LC164" class="blob-code blob-code-inner js-file-line">            <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>tailadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-s1>adxtail</span><span class=pl-kos>,</span> <span class=pl-s1>bdytail</span><span class=pl-kos>,</span> <span class=pl-s1>cdz</span><span class=pl-kos>,</span> <span class=pl-s1>cdztail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L165" class="blob-num js-line-number" data-line-number="165"></td>
+        <td id="LC165" class="blob-code blob-code-inner js-file-line">        <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L166" class="blob-num js-line-number" data-line-number="166"></td>
+        <td id="LC166" class="blob-code blob-code-inner js-file-line">        <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>cdytail</span> <span class=pl-c1>!==</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L167" class="blob-num js-line-number" data-line-number="167"></td>
+        <td id="LC167" class="blob-code blob-code-inner js-file-line">            <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>tailadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-c1>-</span><span class=pl-s1>adxtail</span><span class=pl-kos>,</span> <span class=pl-s1>cdytail</span><span class=pl-kos>,</span> <span class=pl-s1>bdz</span><span class=pl-kos>,</span> <span class=pl-s1>bdztail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L168" class="blob-num js-line-number" data-line-number="168"></td>
+        <td id="LC168" class="blob-code blob-code-inner js-file-line">        <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L169" class="blob-num js-line-number" data-line-number="169"></td>
+        <td id="LC169" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L170" class="blob-num js-line-number" data-line-number="170"></td>
+        <td id="LC170" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>bdxtail</span> <span class=pl-c1>!==</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L171" class="blob-num js-line-number" data-line-number="171"></td>
+        <td id="LC171" class="blob-code blob-code-inner js-file-line">        <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>cdytail</span> <span class=pl-c1>!==</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L172" class="blob-num js-line-number" data-line-number="172"></td>
+        <td id="LC172" class="blob-code blob-code-inner js-file-line">            <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>tailadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-s1>bdxtail</span><span class=pl-kos>,</span> <span class=pl-s1>cdytail</span><span class=pl-kos>,</span> <span class=pl-s1>adz</span><span class=pl-kos>,</span> <span class=pl-s1>adztail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L173" class="blob-num js-line-number" data-line-number="173"></td>
+        <td id="LC173" class="blob-code blob-code-inner js-file-line">        <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L174" class="blob-num js-line-number" data-line-number="174"></td>
+        <td id="LC174" class="blob-code blob-code-inner js-file-line">        <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>adytail</span> <span class=pl-c1>!==</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L175" class="blob-num js-line-number" data-line-number="175"></td>
+        <td id="LC175" class="blob-code blob-code-inner js-file-line">            <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>tailadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-c1>-</span><span class=pl-s1>bdxtail</span><span class=pl-kos>,</span> <span class=pl-s1>adytail</span><span class=pl-kos>,</span> <span class=pl-s1>cdz</span><span class=pl-kos>,</span> <span class=pl-s1>cdztail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L176" class="blob-num js-line-number" data-line-number="176"></td>
+        <td id="LC176" class="blob-code blob-code-inner js-file-line">        <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L177" class="blob-num js-line-number" data-line-number="177"></td>
+        <td id="LC177" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L178" class="blob-num js-line-number" data-line-number="178"></td>
+        <td id="LC178" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>cdxtail</span> <span class=pl-c1>!==</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L179" class="blob-num js-line-number" data-line-number="179"></td>
+        <td id="LC179" class="blob-code blob-code-inner js-file-line">        <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>adytail</span> <span class=pl-c1>!==</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L180" class="blob-num js-line-number" data-line-number="180"></td>
+        <td id="LC180" class="blob-code blob-code-inner js-file-line">            <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>tailadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-s1>cdxtail</span><span class=pl-kos>,</span> <span class=pl-s1>adytail</span><span class=pl-kos>,</span> <span class=pl-s1>bdz</span><span class=pl-kos>,</span> <span class=pl-s1>bdztail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L181" class="blob-num js-line-number" data-line-number="181"></td>
+        <td id="LC181" class="blob-code blob-code-inner js-file-line">        <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L182" class="blob-num js-line-number" data-line-number="182"></td>
+        <td id="LC182" class="blob-code blob-code-inner js-file-line">        <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>bdytail</span> <span class=pl-c1>!==</span> <span class=pl-c1>0</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L183" class="blob-num js-line-number" data-line-number="183"></td>
+        <td id="LC183" class="blob-code blob-code-inner js-file-line">            <span class=pl-s1>finlen</span> <span class=pl-c1>=</span> <span class=pl-en>tailadd</span><span class=pl-kos>(</span><span class=pl-s1>finlen</span><span class=pl-kos>,</span> <span class=pl-c1>-</span><span class=pl-s1>cdxtail</span><span class=pl-kos>,</span> <span class=pl-s1>bdytail</span><span class=pl-kos>,</span> <span class=pl-s1>adz</span><span class=pl-kos>,</span> <span class=pl-s1>adztail</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L184" class="blob-num js-line-number" data-line-number="184"></td>
+        <td id="LC184" class="blob-code blob-code-inner js-file-line">        <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L185" class="blob-num js-line-number" data-line-number="185"></td>
+        <td id="LC185" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L186" class="blob-num js-line-number" data-line-number="186"></td>
+        <td id="LC186" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L187" class="blob-num js-line-number" data-line-number="187"></td>
+        <td id="LC187" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>return</span> <span class=pl-s1>fin</span><span class=pl-kos>[</span><span class=pl-s1>finlen</span> <span class=pl-c1>-</span> <span class=pl-c1>1</span><span class=pl-kos>]</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L188" class="blob-num js-line-number" data-line-number="188"></td>
+        <td id="LC188" class="blob-code blob-code-inner js-file-line"><span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L189" class="blob-num js-line-number" data-line-number="189"></td>
+        <td id="LC189" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L190" class="blob-num js-line-number" data-line-number="190"></td>
+        <td id="LC190" class="blob-code blob-code-inner js-file-line"><span class=pl-k>export</span> <span class=pl-k>function</span> <span class=pl-en>orient3d</span><span class=pl-kos>(</span><span class=pl-s1>ax</span><span class=pl-kos>,</span> <span class=pl-s1>ay</span><span class=pl-kos>,</span> <span class=pl-s1>az</span><span class=pl-kos>,</span> <span class=pl-s1>bx</span><span class=pl-kos>,</span> <span class=pl-s1>by</span><span class=pl-kos>,</span> <span class=pl-s1>bz</span><span class=pl-kos>,</span> <span class=pl-s1>cx</span><span class=pl-kos>,</span> <span class=pl-s1>cy</span><span class=pl-kos>,</span> <span class=pl-s1>cz</span><span class=pl-kos>,</span> <span class=pl-s1>dx</span><span class=pl-kos>,</span> <span class=pl-s1>dy</span><span class=pl-kos>,</span> <span class=pl-s1>dz</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L191" class="blob-num js-line-number" data-line-number="191"></td>
+        <td id="LC191" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>adx</span> <span class=pl-c1>=</span> <span class=pl-s1>ax</span> <span class=pl-c1>-</span> <span class=pl-s1>dx</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L192" class="blob-num js-line-number" data-line-number="192"></td>
+        <td id="LC192" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bdx</span> <span class=pl-c1>=</span> <span class=pl-s1>bx</span> <span class=pl-c1>-</span> <span class=pl-s1>dx</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L193" class="blob-num js-line-number" data-line-number="193"></td>
+        <td id="LC193" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>cdx</span> <span class=pl-c1>=</span> <span class=pl-s1>cx</span> <span class=pl-c1>-</span> <span class=pl-s1>dx</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L194" class="blob-num js-line-number" data-line-number="194"></td>
+        <td id="LC194" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>ady</span> <span class=pl-c1>=</span> <span class=pl-s1>ay</span> <span class=pl-c1>-</span> <span class=pl-s1>dy</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L195" class="blob-num js-line-number" data-line-number="195"></td>
+        <td id="LC195" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bdy</span> <span class=pl-c1>=</span> <span class=pl-s1>by</span> <span class=pl-c1>-</span> <span class=pl-s1>dy</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L196" class="blob-num js-line-number" data-line-number="196"></td>
+        <td id="LC196" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>cdy</span> <span class=pl-c1>=</span> <span class=pl-s1>cy</span> <span class=pl-c1>-</span> <span class=pl-s1>dy</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L197" class="blob-num js-line-number" data-line-number="197"></td>
+        <td id="LC197" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>adz</span> <span class=pl-c1>=</span> <span class=pl-s1>az</span> <span class=pl-c1>-</span> <span class=pl-s1>dz</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L198" class="blob-num js-line-number" data-line-number="198"></td>
+        <td id="LC198" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bdz</span> <span class=pl-c1>=</span> <span class=pl-s1>bz</span> <span class=pl-c1>-</span> <span class=pl-s1>dz</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L199" class="blob-num js-line-number" data-line-number="199"></td>
+        <td id="LC199" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>cdz</span> <span class=pl-c1>=</span> <span class=pl-s1>cz</span> <span class=pl-c1>-</span> <span class=pl-s1>dz</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L200" class="blob-num js-line-number" data-line-number="200"></td>
+        <td id="LC200" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L201" class="blob-num js-line-number" data-line-number="201"></td>
+        <td id="LC201" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bdxcdy</span> <span class=pl-c1>=</span> <span class=pl-s1>bdx</span> <span class=pl-c1>*</span> <span class=pl-s1>cdy</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L202" class="blob-num js-line-number" data-line-number="202"></td>
+        <td id="LC202" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>cdxbdy</span> <span class=pl-c1>=</span> <span class=pl-s1>cdx</span> <span class=pl-c1>*</span> <span class=pl-s1>bdy</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L203" class="blob-num js-line-number" data-line-number="203"></td>
+        <td id="LC203" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L204" class="blob-num js-line-number" data-line-number="204"></td>
+        <td id="LC204" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>cdxady</span> <span class=pl-c1>=</span> <span class=pl-s1>cdx</span> <span class=pl-c1>*</span> <span class=pl-s1>ady</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L205" class="blob-num js-line-number" data-line-number="205"></td>
+        <td id="LC205" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>adxcdy</span> <span class=pl-c1>=</span> <span class=pl-s1>adx</span> <span class=pl-c1>*</span> <span class=pl-s1>cdy</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L206" class="blob-num js-line-number" data-line-number="206"></td>
+        <td id="LC206" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L207" class="blob-num js-line-number" data-line-number="207"></td>
+        <td id="LC207" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>adxbdy</span> <span class=pl-c1>=</span> <span class=pl-s1>adx</span> <span class=pl-c1>*</span> <span class=pl-s1>bdy</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L208" class="blob-num js-line-number" data-line-number="208"></td>
+        <td id="LC208" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bdxady</span> <span class=pl-c1>=</span> <span class=pl-s1>bdx</span> <span class=pl-c1>*</span> <span class=pl-s1>ady</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L209" class="blob-num js-line-number" data-line-number="209"></td>
+        <td id="LC209" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L210" class="blob-num js-line-number" data-line-number="210"></td>
+        <td id="LC210" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>det</span> <span class=pl-c1>=</span></td>
+      </tr>
+      <tr>
+        <td id="L211" class="blob-num js-line-number" data-line-number="211"></td>
+        <td id="LC211" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>adz</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>bdxcdy</span> <span class=pl-c1>-</span> <span class=pl-s1>cdxbdy</span><span class=pl-kos>)</span> <span class=pl-c1>+</span></td>
+      </tr>
+      <tr>
+        <td id="L212" class="blob-num js-line-number" data-line-number="212"></td>
+        <td id="LC212" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>bdz</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>cdxady</span> <span class=pl-c1>-</span> <span class=pl-s1>adxcdy</span><span class=pl-kos>)</span> <span class=pl-c1>+</span></td>
+      </tr>
+      <tr>
+        <td id="L213" class="blob-num js-line-number" data-line-number="213"></td>
+        <td id="LC213" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>cdz</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>adxbdy</span> <span class=pl-c1>-</span> <span class=pl-s1>bdxady</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L214" class="blob-num js-line-number" data-line-number="214"></td>
+        <td id="LC214" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L215" class="blob-num js-line-number" data-line-number="215"></td>
+        <td id="LC215" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>permanent</span> <span class=pl-c1>=</span></td>
+      </tr>
+      <tr>
+        <td id="L216" class="blob-num js-line-number" data-line-number="216"></td>
+        <td id="LC216" class="blob-code blob-code-inner js-file-line">        <span class=pl-kos>(</span><span class=pl-v>Math</span><span class=pl-kos>.</span><span class=pl-en>abs</span><span class=pl-kos>(</span><span class=pl-s1>bdxcdy</span><span class=pl-kos>)</span> <span class=pl-c1>+</span> <span class=pl-v>Math</span><span class=pl-kos>.</span><span class=pl-en>abs</span><span class=pl-kos>(</span><span class=pl-s1>cdxbdy</span><span class=pl-kos>)</span><span class=pl-kos>)</span> <span class=pl-c1>*</span> <span class=pl-v>Math</span><span class=pl-kos>.</span><span class=pl-en>abs</span><span class=pl-kos>(</span><span class=pl-s1>adz</span><span class=pl-kos>)</span> <span class=pl-c1>+</span></td>
+      </tr>
+      <tr>
+        <td id="L217" class="blob-num js-line-number" data-line-number="217"></td>
+        <td id="LC217" class="blob-code blob-code-inner js-file-line">        <span class=pl-kos>(</span><span class=pl-v>Math</span><span class=pl-kos>.</span><span class=pl-en>abs</span><span class=pl-kos>(</span><span class=pl-s1>cdxady</span><span class=pl-kos>)</span> <span class=pl-c1>+</span> <span class=pl-v>Math</span><span class=pl-kos>.</span><span class=pl-en>abs</span><span class=pl-kos>(</span><span class=pl-s1>adxcdy</span><span class=pl-kos>)</span><span class=pl-kos>)</span> <span class=pl-c1>*</span> <span class=pl-v>Math</span><span class=pl-kos>.</span><span class=pl-en>abs</span><span class=pl-kos>(</span><span class=pl-s1>bdz</span><span class=pl-kos>)</span> <span class=pl-c1>+</span></td>
+      </tr>
+      <tr>
+        <td id="L218" class="blob-num js-line-number" data-line-number="218"></td>
+        <td id="LC218" class="blob-code blob-code-inner js-file-line">        <span class=pl-kos>(</span><span class=pl-v>Math</span><span class=pl-kos>.</span><span class=pl-en>abs</span><span class=pl-kos>(</span><span class=pl-s1>adxbdy</span><span class=pl-kos>)</span> <span class=pl-c1>+</span> <span class=pl-v>Math</span><span class=pl-kos>.</span><span class=pl-en>abs</span><span class=pl-kos>(</span><span class=pl-s1>bdxady</span><span class=pl-kos>)</span><span class=pl-kos>)</span> <span class=pl-c1>*</span> <span class=pl-v>Math</span><span class=pl-kos>.</span><span class=pl-en>abs</span><span class=pl-kos>(</span><span class=pl-s1>cdz</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L219" class="blob-num js-line-number" data-line-number="219"></td>
+        <td id="LC219" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L220" class="blob-num js-line-number" data-line-number="220"></td>
+        <td id="LC220" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>errbound</span> <span class=pl-c1>=</span> <span class=pl-s1>o3derrboundA</span> <span class=pl-c1>*</span> <span class=pl-s1>permanent</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L221" class="blob-num js-line-number" data-line-number="221"></td>
+        <td id="LC221" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>if</span> <span class=pl-kos>(</span><span class=pl-s1>det</span> <span class=pl-c1>&gt;</span> <span class=pl-s1>errbound</span> <span class=pl-c1>||</span> <span class=pl-c1>-</span><span class=pl-s1>det</span> <span class=pl-c1>&gt;</span> <span class=pl-s1>errbound</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L222" class="blob-num js-line-number" data-line-number="222"></td>
+        <td id="LC222" class="blob-code blob-code-inner js-file-line">        <span class=pl-k>return</span> <span class=pl-s1>det</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L223" class="blob-num js-line-number" data-line-number="223"></td>
+        <td id="LC223" class="blob-code blob-code-inner js-file-line">    <span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L224" class="blob-num js-line-number" data-line-number="224"></td>
+        <td id="LC224" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L225" class="blob-num js-line-number" data-line-number="225"></td>
+        <td id="LC225" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>return</span> <span class=pl-en>orient3dadapt</span><span class=pl-kos>(</span><span class=pl-s1>ax</span><span class=pl-kos>,</span> <span class=pl-s1>ay</span><span class=pl-kos>,</span> <span class=pl-s1>az</span><span class=pl-kos>,</span> <span class=pl-s1>bx</span><span class=pl-kos>,</span> <span class=pl-s1>by</span><span class=pl-kos>,</span> <span class=pl-s1>bz</span><span class=pl-kos>,</span> <span class=pl-s1>cx</span><span class=pl-kos>,</span> <span class=pl-s1>cy</span><span class=pl-kos>,</span> <span class=pl-s1>cz</span><span class=pl-kos>,</span> <span class=pl-s1>dx</span><span class=pl-kos>,</span> <span class=pl-s1>dy</span><span class=pl-kos>,</span> <span class=pl-s1>dz</span><span class=pl-kos>,</span> <span class=pl-s1>permanent</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L226" class="blob-num js-line-number" data-line-number="226"></td>
+        <td id="LC226" class="blob-code blob-code-inner js-file-line"><span class=pl-kos>}</span></td>
+      </tr>
+      <tr>
+        <td id="L227" class="blob-num js-line-number" data-line-number="227"></td>
+        <td id="LC227" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L228" class="blob-num js-line-number" data-line-number="228"></td>
+        <td id="LC228" class="blob-code blob-code-inner js-file-line"><span class=pl-k>export</span> <span class=pl-k>function</span> <span class=pl-en>orient3dfast</span><span class=pl-kos>(</span><span class=pl-s1>ax</span><span class=pl-kos>,</span> <span class=pl-s1>ay</span><span class=pl-kos>,</span> <span class=pl-s1>az</span><span class=pl-kos>,</span> <span class=pl-s1>bx</span><span class=pl-kos>,</span> <span class=pl-s1>by</span><span class=pl-kos>,</span> <span class=pl-s1>bz</span><span class=pl-kos>,</span> <span class=pl-s1>cx</span><span class=pl-kos>,</span> <span class=pl-s1>cy</span><span class=pl-kos>,</span> <span class=pl-s1>cz</span><span class=pl-kos>,</span> <span class=pl-s1>dx</span><span class=pl-kos>,</span> <span class=pl-s1>dy</span><span class=pl-kos>,</span> <span class=pl-s1>dz</span><span class=pl-kos>)</span> <span class=pl-kos>{</span></td>
+      </tr>
+      <tr>
+        <td id="L229" class="blob-num js-line-number" data-line-number="229"></td>
+        <td id="LC229" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>adx</span> <span class=pl-c1>=</span> <span class=pl-s1>ax</span> <span class=pl-c1>-</span> <span class=pl-s1>dx</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L230" class="blob-num js-line-number" data-line-number="230"></td>
+        <td id="LC230" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bdx</span> <span class=pl-c1>=</span> <span class=pl-s1>bx</span> <span class=pl-c1>-</span> <span class=pl-s1>dx</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L231" class="blob-num js-line-number" data-line-number="231"></td>
+        <td id="LC231" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>cdx</span> <span class=pl-c1>=</span> <span class=pl-s1>cx</span> <span class=pl-c1>-</span> <span class=pl-s1>dx</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L232" class="blob-num js-line-number" data-line-number="232"></td>
+        <td id="LC232" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>ady</span> <span class=pl-c1>=</span> <span class=pl-s1>ay</span> <span class=pl-c1>-</span> <span class=pl-s1>dy</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L233" class="blob-num js-line-number" data-line-number="233"></td>
+        <td id="LC233" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bdy</span> <span class=pl-c1>=</span> <span class=pl-s1>by</span> <span class=pl-c1>-</span> <span class=pl-s1>dy</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L234" class="blob-num js-line-number" data-line-number="234"></td>
+        <td id="LC234" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>cdy</span> <span class=pl-c1>=</span> <span class=pl-s1>cy</span> <span class=pl-c1>-</span> <span class=pl-s1>dy</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L235" class="blob-num js-line-number" data-line-number="235"></td>
+        <td id="LC235" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>adz</span> <span class=pl-c1>=</span> <span class=pl-s1>az</span> <span class=pl-c1>-</span> <span class=pl-s1>dz</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L236" class="blob-num js-line-number" data-line-number="236"></td>
+        <td id="LC236" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>bdz</span> <span class=pl-c1>=</span> <span class=pl-s1>bz</span> <span class=pl-c1>-</span> <span class=pl-s1>dz</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L237" class="blob-num js-line-number" data-line-number="237"></td>
+        <td id="LC237" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>const</span> <span class=pl-s1>cdz</span> <span class=pl-c1>=</span> <span class=pl-s1>cz</span> <span class=pl-c1>-</span> <span class=pl-s1>dz</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L238" class="blob-num js-line-number" data-line-number="238"></td>
+        <td id="LC238" class="blob-code blob-code-inner js-file-line">
+</td>
+      </tr>
+      <tr>
+        <td id="L239" class="blob-num js-line-number" data-line-number="239"></td>
+        <td id="LC239" class="blob-code blob-code-inner js-file-line">    <span class=pl-k>return</span> <span class=pl-s1>adx</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>bdy</span> <span class=pl-c1>*</span> <span class=pl-s1>cdz</span> <span class=pl-c1>-</span> <span class=pl-s1>bdz</span> <span class=pl-c1>*</span> <span class=pl-s1>cdy</span><span class=pl-kos>)</span> <span class=pl-c1>+</span></td>
+      </tr>
+      <tr>
+        <td id="L240" class="blob-num js-line-number" data-line-number="240"></td>
+        <td id="LC240" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>bdx</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>cdy</span> <span class=pl-c1>*</span> <span class=pl-s1>adz</span> <span class=pl-c1>-</span> <span class=pl-s1>cdz</span> <span class=pl-c1>*</span> <span class=pl-s1>ady</span><span class=pl-kos>)</span> <span class=pl-c1>+</span></td>
+      </tr>
+      <tr>
+        <td id="L241" class="blob-num js-line-number" data-line-number="241"></td>
+        <td id="LC241" class="blob-code blob-code-inner js-file-line">        <span class=pl-s1>cdx</span> <span class=pl-c1>*</span> <span class=pl-kos>(</span><span class=pl-s1>ady</span> <span class=pl-c1>*</span> <span class=pl-s1>bdz</span> <span class=pl-c1>-</span> <span class=pl-s1>adz</span> <span class=pl-c1>*</span> <span class=pl-s1>bdy</span><span class=pl-kos>)</span><span class=pl-kos>;</span></td>
+      </tr>
+      <tr>
+        <td id="L242" class="blob-num js-line-number" data-line-number="242"></td>
+        <td id="LC242" class="blob-code blob-code-inner js-file-line"><span class=pl-kos>}</span></td>
       </tr>
 </table>
 
@@ -1983,7 +2703,7 @@
             Copy permalink
           </clipboard-copy>
         </li>
-        <li><a class="dropdown-item js-update-url-with-hash" id="js-view-git-blame" role="menuitem" href="/mourner/robust-predicates/blame/38c44780b11205aabb66d990e14714289b03d500/src/orient2d.js">View git blame</a></li>
+        <li><a class="dropdown-item js-update-url-with-hash" id="js-view-git-blame" role="menuitem" href="/mourner/robust-predicates/blame/38c44780b11205aabb66d990e14714289b03d500/src/orient3d.js">View git blame</a></li>
           <li><a class="dropdown-item" id="js-new-issue" role="menuitem" href="/mourner/robust-predicates/issues/new">Reference in new issue</a></li>
       </ul>
     </details-menu>
@@ -2014,10 +2734,10 @@
      hidden
      data-tagsearch-url="/mourner/robust-predicates/find-definition"
      data-tagsearch-ref="master"
-     data-tagsearch-path="src/orient2d.js"
+     data-tagsearch-path="src/orient3d.js"
      data-tagsearch-lang="JavaScript"
-     data-hydro-click="{&quot;event_type&quot;:&quot;code_navigation.click_on_symbol&quot;,&quot;payload&quot;:{&quot;action&quot;:&quot;click_on_symbol&quot;,&quot;repository_id&quot;:205561091,&quot;ref&quot;:&quot;master&quot;,&quot;language&quot;:&quot;JavaScript&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}"
-     data-hydro-click-hmac="39cff7eb96e66acce5edebbdcd4f83e0d1e7a08ae512e58299b9b2add0c7cf50">
+     data-hydro-click="{&quot;event_type&quot;:&quot;code_navigation.click_on_symbol&quot;,&quot;payload&quot;:{&quot;action&quot;:&quot;click_on_symbol&quot;,&quot;repository_id&quot;:205561091,&quot;ref&quot;:&quot;master&quot;,&quot;language&quot;:&quot;JavaScript&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}"
+     data-hydro-click-hmac="19c3fb6c4e60eeb17e76efee228517486702c70f848c5f83e9d090b70e772597">
   <div class="Popover-message Popover-message--large Popover-message--top-left TagsearchPopover mt-1 mb-4 mx-auto Box color-shadow-large">
     <div class="TagsearchPopover-content js-tagsearch-popover-content overflow-auto" style="will-change:transform;">
     </div>
@@ -2042,10 +2762,10 @@
   <div class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between pt-6 pb-2 mt-6 f6 color-text-secondary border-top color-border-secondary ">
     <ul class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
       <li class="mr-3 mr-lg-0">&copy; 2021 GitHub, Inc.</li>
-        <li class="mr-3 mr-lg-0"><a href="https://docs.github.com/en/github/site-policy/github-terms-of-service" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to terms&quot;,&quot;label&quot;:&quot;text:terms&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="aa3a76b6e2171152e4f38aa787325a8f10044c7e232ff6fd8f52e03d25462d30">Terms</a></li>
-        <li class="mr-3 mr-lg-0"><a href="https://docs.github.com/en/github/site-policy/github-privacy-statement" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to privacy&quot;,&quot;label&quot;:&quot;text:privacy&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="376c53aa5cd7f83e4a39482e3080c65db0ce50211799dea6066638a45358bc2c">Privacy</a></li>
-        <li class="mr-3 mr-lg-0"><a data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to security&quot;,&quot;label&quot;:&quot;text:security&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="1f8ee691a499876b3f836e3b754c240fbb779210634e0a5d801d8cbbdcb494d0" href="https://github.com/security">Security</a></li>
-        <li class="mr-3 mr-lg-0"><a href="https://www.githubstatus.com/" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to status&quot;,&quot;label&quot;:&quot;text:status&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="7c2fcc2d0250eaff6f0e796f8c96f807863187912bfb1fbf6ef89e1c11f2b9db">Status</a></li>
+        <li class="mr-3 mr-lg-0"><a href="https://docs.github.com/en/github/site-policy/github-terms-of-service" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to terms&quot;,&quot;label&quot;:&quot;text:terms&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="6aa4a89f9296f34648db883b71e2eef4f93e6554f45e3e24bce8d0727564dc06">Terms</a></li>
+        <li class="mr-3 mr-lg-0"><a href="https://docs.github.com/en/github/site-policy/github-privacy-statement" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to privacy&quot;,&quot;label&quot;:&quot;text:privacy&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="240afe6bb05efc19669fdce93e80ce17e6cca7838a625124043af376eaae9e82">Privacy</a></li>
+        <li class="mr-3 mr-lg-0"><a data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to security&quot;,&quot;label&quot;:&quot;text:security&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="eca08ee81e006304da91b80ff11dc2b40eea19d83f2f18db72daf4b6e110ee43" href="https://github.com/security">Security</a></li>
+        <li class="mr-3 mr-lg-0"><a href="https://www.githubstatus.com/" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to status&quot;,&quot;label&quot;:&quot;text:status&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="fd00af6e73ffd0019ff0aa94d62eb5e0f65e032c36f241049cf4cf346cdd82d3">Status</a></li>
         <li><a data-ga-click="Footer, go to help, text:Docs" href="https://docs.github.com">Docs</a></li>
     </ul>
 
@@ -2055,11 +2775,11 @@
 </svg>
 </a>
     <ul class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
-        <li class="mr-3 mr-lg-0"><a href="https://support.github.com?tags=dotcom-footer" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to contact&quot;,&quot;label&quot;:&quot;text:contact&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="546c1d63861e9c1b7e54cdda4d41fd956171bbd88763255a798c142d4c5e4da6">Contact GitHub</a></li>
-        <li class="mr-3 mr-lg-0"><a href="https://github.com/pricing" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to Pricing&quot;,&quot;label&quot;:&quot;text:Pricing&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="76aa744df110aeef6b8f247d936a25b52d44380e797cc5f376ec2c11284fd277">Pricing</a></li>
-      <li class="mr-3 mr-lg-0"><a href="https://docs.github.com" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to api&quot;,&quot;label&quot;:&quot;text:api&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="ad9402b64724f36eac3672dfcadfbc0c1e5d4e4a82fed9b56f902cfaab5c55e8">API</a></li>
-      <li class="mr-3 mr-lg-0"><a href="https://services.github.com" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to training&quot;,&quot;label&quot;:&quot;text:training&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="bc2a774ca527ac82aaaef834e17200c99943807f47f535858ca722690d34ed14">Training</a></li>
-        <li class="mr-3 mr-lg-0"><a href="https://github.blog" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to blog&quot;,&quot;label&quot;:&quot;text:blog&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient2d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="bdf725ec8b078fa847a7d59dfd523e7a62fedff3b62a0ba5b427683292ec8926">Blog</a></li>
+        <li class="mr-3 mr-lg-0"><a href="https://support.github.com?tags=dotcom-footer" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to contact&quot;,&quot;label&quot;:&quot;text:contact&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="e00f35b51496f91937eb7c794becf23759673c8ecf5d3c7c90cbe8721e47f4eb">Contact GitHub</a></li>
+        <li class="mr-3 mr-lg-0"><a href="https://github.com/pricing" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to Pricing&quot;,&quot;label&quot;:&quot;text:Pricing&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="9575a3c2ec13ba59dd43049d7942e81c50d07c22456c155e6965097fb8433c4f">Pricing</a></li>
+      <li class="mr-3 mr-lg-0"><a href="https://docs.github.com" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to api&quot;,&quot;label&quot;:&quot;text:api&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="834ec0677af85c80727f09705d1040539ecd8d967277867b783e6802216c6b5b">API</a></li>
+      <li class="mr-3 mr-lg-0"><a href="https://services.github.com" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to training&quot;,&quot;label&quot;:&quot;text:training&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="c5a57959df2f405e88996e80dc25f8abd4ff6523c99942d628490fb108aa22be">Training</a></li>
+        <li class="mr-3 mr-lg-0"><a href="https://github.blog" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to blog&quot;,&quot;label&quot;:&quot;text:blog&quot;,&quot;originating_url&quot;:&quot;https://github.com/mourner/robust-predicates/blob/master/src/orient3d.js&quot;,&quot;user_id&quot;:1267134}}" data-hydro-click-hmac="e0b09381bb828c1bbe94f24ff1095c646ea9c4fa72cd44ca1ea24a59fe304aa6">Blog</a></li>
         <li><a data-ga-click="Footer, go to about, text:about" href="https://github.com/about">About</a></li>
     </ul>
   </div>
