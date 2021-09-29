@@ -16,20 +16,12 @@ export class GeomPixelVector extends GeomVector {
      this.location_key = this.x | (this.y << 16);
    }
    
-   // -------------- FACTORY FUNCTIONS ------------- //
- /**
-  * @param {Array} arr
-  * @return {GeomPixelVector}
-  */
-  static fromArray(arr) { return new GeomPixelVector(...arr); }
    
    // -------------- METHODS ----------- // 
-  /**
-   * Test for equivalence using location_key
-   */ 
  
  /**
   * Is another vector the same as this one?
+  * Test for equivalence using location_key
   * @override
   */ 
   equivalent(v) {
@@ -41,28 +33,42 @@ export class GeomPixelVector extends GeomVector {
   
  /**
   * 2D equivalence
-  * @param {GeomVector} v
-  * @param {"XY"|"XZ"|"YZ"}  plane
-  * @return {boolean} True if equivalent in two dimensions
+  * @override
   */
-  equivalent2D(v, plane) {
-    if(plane === "XY" && v instanceof GeomPixelVector) {
+  equivalent2D(v, { plane = GEOM.XY } = {}) {
+    if(plane === GEOM.XY && v instanceof GeomPixelVector) {
       return this.location_key === v.location_key;
     }
-    
-    return GeomVector.prototype.equivalent2D.call(this, v, plane);
-  }   
+    return GeomVector.prototype.equivalent2D.call(this, v, { plane });
+  }
+  
+ /**
+  * Test for orientation against another vector
+  * @override
+  */
+  orientation(v, {use_robust = true} = {}) {
+    if(v instanceof GeomPixelVector) use_robust = false;
+    return GeomVector.prototype.orientation.call(this, v, { use_robust }):
+  }    
   
  /**
   * Orientation on 2D plane with respect to another vector.
   * (Assumes both vectors use the same origin point)
   * @override
   */
-  orientation2D(v, plane = "XY", {use_robust = true} = {}) {
+  orientation2D(v, {plane = GEOM.XY, use_robust = true} = {}) {
     if(v instanceof GeomPixelVector) use_robust = false;
-    return GeomVector.prototype.orientation2D.call(this, v, plane, 
-                                                   {use_robust: use_robust});
+    return GeomVector.prototype.orientation2D.call(this, v, { plane, use_robust }): 
   }
+  
+ /**
+  * CCW respect to another vector.
+  * @override
+  */
+  ccw(v, { use_robust = true } = {}) {
+    if(v instanceof GeomPixelVector) use_robust = false;
+    return GeomVector.prototype.ccw.call(this, v, { use_robust }): 
+  } 
 
  /**
   * CCW on 2D plane with respect to another vector
@@ -73,37 +79,5 @@ export class GeomPixelVector extends GeomVector {
     return GeomVector.prototype.ccw2D.call(this, v, plane, 
                                            {use_robust: use_robust});
   }
-   
- /**
-  * @override
-  */
-  add(v) { 
-    const res = math.add(this, v);
-    if(v instanceof GeomPixelVector) return GeomPixelVector.fromArray(res);  
-    return GeomVector.fromArray(res);
-  }
-  
-  /**
-   * Subtract another vector to this one
-   * @param {GeomVector} v
-   * @return {GeomVector}
-   */
-  subtract(v) { 
-    const res = math.subtract(this, v);
-    if(v instanceof GeomPixelVector) return GeomPixelVector.fromArray(res);  
-    return GeomVector.fromArray(res); 
-  } 
-  
-  /**
-   * Cross product of this vector with another.
-   * Resulting vector is perpendicular to the first two.
-   * @param {GeomVector} v   Vector to cross
-   * @param {GeomVector} New vector, perpendicular to this vector and v.
-   */
-   cross(v) {
-     const res = math.cross(this, v);
-     if(v instanceof GeomPixelVector) return GeomPixelVector.fromArray(res);
-     return GeomVector.fromArray(res);
-   }
-  
+
 }
