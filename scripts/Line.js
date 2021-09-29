@@ -165,6 +165,19 @@ export class GeomLine {
   point(t) {
    return GeomPoint.fromArray(math.add(this.p, math.dotMultiply(this.v, t)));
   }
+  
+ /**
+  * Get arbitrary pixel point on the line.
+  * Note: Point will be rounded to nearest pixel and thus may fall slightly outside the line.
+  * @param {number} t	Portion of the vector to move along the line, from p.
+  * @return {GeomPixelPoint|undefined} Pixel nearest to the point on the line.
+  */
+  pixelPoint(t) {
+    const p = this.point(t);
+    if(!p) return undefined;
+    return new GeomPixelPoint(p);
+  }
+   
  
  /**
   * Is another line equivalent to this one? (Lines occupy same space)
