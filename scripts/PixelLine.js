@@ -23,9 +23,10 @@ export class GeomPixelLine extends GeomLine {
    * @return {GeomPixelPoint} Pixel nearest to the point on the line.
    */
   pixelPoint(t) {
-    return new GeomPixelPoint(this.p.x + t * this.v.x,
-                              this.p.y + t * this.v.y,
-                              this.p.z + t * this.v.z);
+    // return new GeomPixelPoint(this.p.x + t * this.v.x,
+//                               this.p.y + t * this.v.y,
+//                               this.p.z + t * this.v.z);
+    return new GeomPixelPoint(math.add(this.p, math.dotMultiply(this.v, t)));
   }
   
 
