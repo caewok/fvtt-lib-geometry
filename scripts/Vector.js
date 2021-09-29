@@ -2,18 +2,17 @@ import { GEOM, COLORS } from "./constants.js";
 import { orient2d, orient2dfast, orient3d, orient3dfast } from "./lib/predicates.min.js";
 import { almostEqual } from "./util.js";
 
-
+/**
+ * Vector defines a direction and magnitude (size, or length) in 3D space.
+ * (Basically, an arrow pointing in a specific direction.)
+ * Represented by three numbers, referenced here as x, y, and z.
+ * Two vectors with the same magnitude and direction are the same vector. 
+ * Here, angle signifies direction, in radians.
+ * Extended from Array so it can be used with math.js functions.
+ * @param {number[]}  p  x, y, z magnitudes
+ */
 export class GeomVector extends Array {
-  /**
-   * Vector defines a direction and magnitude (size, or length) in 3D space.
-   * (Basically, an arrow pointing in a specific direction.)
-   * Represented by three numbers, referenced here as x, y, and z.
-   * Two vectors with the same magnitude and direction are the same vector. 
-   * Here, angle signifies direction, in radians.
-   * @property {number} x   Magnitude in the x direction
-   * @property {number} y   Magnitude in the y direction  
-   * @property {number} z   Magnitude in the z direction
-   */
+  
    constructor(...items) {
      if(items.length < 2) console.warn(`GeomVector: constructor passed less than 2 coordinates.`);
      if(items.length > 3) console.warn(`GeomVector: constructor passed more than 3 coordinates.`);

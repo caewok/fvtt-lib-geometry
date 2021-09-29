@@ -17,10 +17,6 @@ export function almostEqual(x, y, EPSILON = PRESET_EPSILON) {
   return Math.abs(x - y) < EPSILON;
 }
 
-
-/**
- * Draw a point
-
 /**
  * Clear the canvas of drawings. Used for debugging
  */

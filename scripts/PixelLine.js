@@ -1,16 +1,16 @@
 import { GeomLine } from "./Line.js";
 import { GeomPixelPoint } from "./PixelPoint.js";
 
-export class GeomPixelLine extends GeomLine {  
-  /**
-   * Represents a line with infinite length in either direction.
-   * Defined by the parametric form of the equation for a line:
-   *   A Vector and a point on the line.
-   * @property {GeomPixelPoint}  p    Point on the line
-   * @property {GeomPixelVector} v    Vector (analog of slope)
-   * @constructor
-   */
 
+/**
+ * Represents a line with infinite length in either direction.
+ * Defined by the parametric form of the equation for a line:
+ *   A Vector and a point on the line.
+ * @param {GeomPixelPoint}  p    Point on the line
+ * @param {GeomPixelVector} v    Vector
+ */
+export class GeomPixelLine extends GeomLine {  
+ 
   // -------------- GETTERS/SETTERS ------------- //
   
     

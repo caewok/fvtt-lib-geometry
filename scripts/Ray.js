@@ -1,12 +1,16 @@
 import { GeomLine } from "./Line.js";
 
+
+/**
+ * An infinite line in one direction from a point
+ * Represented by the parametric form of the equation for a line,
+ *   p + t*v
+ * t is constrained to be only positive. 
+ * @param {GeomPoint}  p  Origination point for the ray.
+ * @param {GeomVector} v  Direction vector of the ray.
+ */ 
 export class GeomRay extends GeomLine {
-  /**
-   * GeomRay is basically the same as a Line except that it extends only in one
-   *   direction from p. 
-   * Ray treats the p property as the stopping point.
-   */
-   
+
    // ccw & orient for points: same as lines  
    
    // ccw & orient for rays:

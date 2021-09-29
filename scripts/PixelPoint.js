@@ -1,12 +1,13 @@
 import { GeomPixelVector } from "./PixelVector.js";
 import { COLORS } from "./constants.js";
 
+/**
+ * Represents a point in 3-D Euclidean space.
+ * Technically equivalent to a vector, but conceptually different.
+ * This version uses only integer coordinates, representing pixel locations.
+ * @param {number[]}  p  x, y, z coordinates
+ */ 
 export class GeomPixelPoint extends GeomPixelVector {
-  /**
-   * Represents a point in 3-D Euclidean space.
-   * Technically equivalent to a vector, but conceptually different.
-   * This version uses only integer coordinates.
-   */   
 
   // -------------- GETTERS/SETTERS ------------- //
   

@@ -2,6 +2,17 @@ import { GeomVector } from "./Vector.js";
 import { GeomPixelPoint } from "./PixelPoint.js";
 import { GEOM_CONSTANTS } from "./constants.js";
 
+
+/**
+ * Vector defines a direction and magnitude (size, or length) in 3D space.
+ * (Basically, an arrow pointing in a specific direction.)
+ * Represented by three numbers, referenced here as x, y, and z.
+ * For GeomPixelVector, the coordinates are integer pixel locations.
+ * Two vectors with the same magnitude and direction are the same vector. 
+ * Here, angle signifies direction, in radians.
+ * Extended from Array so it can be used with math.js functions.
+ * @param {number[]}  p  x, y, z magnitudes
+ */
 export class GeomPixelVector extends GeomVector {
   /**
    * Vector where the magnitudes are integers.
@@ -58,7 +69,7 @@ export class GeomPixelVector extends GeomVector {
   */
   orientation2D(v, {plane = GEOM.XY, use_robust = true} = {}) {
     if(v instanceof GeomPixelVector) use_robust = false;
-    return GeomVector.prototype.orientation2D.call(this, v, { plane, use_robust }): 
+    return GeomVector.prototype.orientation2D.call(this, v, { plane, use_robust });
   }
   
  /**
@@ -67,7 +78,7 @@ export class GeomPixelVector extends GeomVector {
   */
   ccw(v, { use_robust = true } = {}) {
     if(v instanceof GeomPixelVector) use_robust = false;
-    return GeomVector.prototype.ccw.call(this, v, { use_robust }): 
+    return GeomVector.prototype.ccw.call(this, v, { use_robust }); 
   } 
 
  /**

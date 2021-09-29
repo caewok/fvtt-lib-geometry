@@ -2,11 +2,12 @@ import { almostEqual } from "./util.js";
 import { COLORS } from "./constants.js";
 import { GeomVector } from "./Vector.js";
 
+/**
+ * Represents a point in 3-D Euclidean space.
+ * Technically equivalent to a vector, but conceptually different.
+ * @param {number[]}  p  x, y, z coordinates
+ */ 
 export class GeomPoint extends GeomVector {
-  /**
-   * Represents a point in 3-D Euclidean space.
-   * Technically equivalent to a vector, but conceptually different
-   */   
 
   // -------------- METHODS --------------------- // 
   
