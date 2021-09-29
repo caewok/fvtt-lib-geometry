@@ -498,7 +498,7 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
     const y = (plane === GEOM.XZ) ? 1 : intersection.y;
     const z = (plane === GEOM.XY) ? 1 : intersection.z;
 
-    return this.constructor.fromPoints(intersection, new GeomPoint(x, y, z));
+    return GeomLine.constructor.fromPoints(intersection, new GeomPoint(x, y, z));
   }
   
   // -------------- HELPER METHODS (PRIVATE) -------------- // 
