@@ -1,3 +1,4 @@
+/** @constant */
 export const GEOM = {
   ORIGIN: {x: 0, y: 0, z: 0},
   COUNTERCLOCKWISE: 1,
@@ -5,7 +6,7 @@ export const GEOM = {
   CLOCKWISE: -1,
   UP: 1,
   COPLANER: 0,
-  DOWN: -1
+  DOWN: -1,
   LEFT: 1,
   RIGHT: -1
   XY: 1,
@@ -13,7 +14,10 @@ export const GEOM = {
   XZ: 3
 }
 
-// Simple set of colors for drawing and debugging 
+/**
+ * Simple set of colors for drawing and debugging
+ * @constant 
+ */
 export const COLORS = {
   orange: 0xFFA500,
   yellow: 0xFFFF00,
