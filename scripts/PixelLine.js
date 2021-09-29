@@ -10,6 +10,18 @@ import { GeomPixelPoint } from "./PixelPoint.js";
  * @param {GeomPixelVector} v    Vector
  */
 export class GeomPixelLine extends GeomLine {  
+  constructor(p, v) {
+    if(!(p instanceof GeomPixelPoint)) {
+      p = new GeomPixelPoint(p.x, p.y, p.z);
+    }
+    
+    if(!(v instanceof GeomPixelVector)) {
+      v = new GeomPixelVector(p.x, p.y, p.z);
+    }
+  
+    super(p, v);  
+  }
+
  
   // -------------- GETTERS/SETTERS ------------- //
   
