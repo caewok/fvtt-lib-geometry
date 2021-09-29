@@ -1,5 +1,5 @@
-import { GEOM_CONSTANTS, COLORS } from "./constants.js";
-import { orient2d, orient2dfast } from "./lib/orient2d.min.js";
+import { GEOM, COLORS } from "./constants.js";
+import { orient2d, orient2dfast, orient3d, orient3dfast } from "./lib/predicates.min.js";
 import { almostEqual } from "./util.js";
 
 
@@ -232,21 +232,21 @@ export class GeomVector extends Array {
   * @param {Array} arr
   * @return {GeomVector}
   */
-  static fromArray(arr) { return new GeomVector(...arr); }
+  static fromArray(arr) { return new this(...arr); }
   
  /**
   * Strip one dimension from a vector
   * @param {GeomVector}     v       Vector to project onto a plane
-  * @param {"XY"|"XZ"|"YZ"} plane   String indicating plane to use
+  * @param {GEOM.XY|GEOM.XZ|GEOM.YZ} plane   String indicating plane to use
   * @return {GeomVector} New vector with third dimension zeroed out
   */
   static projectToPlane(v, plane) {
     switch(plane) {
-      case "XY":
+      case GEOM.XY:
         return new GeomVector(v.x, v.y, 0);
-      case "XZ":
+      case GEOM.XZ:
         return new GeomVector(v.x, 0, v.z);
-      case "YZ":
+      case GEOM.YZ:
         return new GeomVector(0, v.y, v.z);
     }
   }
@@ -276,53 +276,90 @@ export class GeomVector extends Array {
  /**
   * Test for orientation against another vector
   * Orientation is with regard to the canvas origin
+  * In 3D, this tests whether the second vector is counterclockwise or 
+  *   clockwise or collinear to the first on the plane running through both
+  *   vectors.
   * @param {GeomVector} v   Vector or point to test against
-  * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
-  * Approximation of twice the signed area of the triangle defined by the three points
+  * @param {boolean}                  robust  Whether to use a robust or a 
+  *                                           faster, non-robust orientation function
+  * @return {number} Returns a positive value if the point d of a vector perpendicular to
+  *   the first two lies above the plane passing through a, b, and c, 
+  *   meaning that a, b, and c appear in counterclockwise order when viewed from d.
+  *   The result is also an approximation of six times the signed volume 
+  *   of the tetrahedron defined by the four points.
   */
-  // orientation -- how to do in 3D? If at all?
+  orientation(v, {use_robust = true} = {}) {
+    const fn = use_robust ? orient3d : orient3dfast;
+    const cross = this.cross(v);
   
+    return fn(GEOM.ORIGIN.x, GEOM.ORIGIN.y, GEOM.ORIGIN.z,
+              this.x, this.y, this.z,
+              v.x, v.y, v.z,
+              cross.x, cross.y, cross.z); 
+  }
   
  /**
-  * Orientation on 2D plane with respect to another vector.
-  * (Assumes both vectors use the same origin point)
-  * @param {GeomVector}     v 
-  * @param {"XY"|"XZ"|"YZ"} plane
-  * @param {boolean}        use_robust  If false, use a fast, non-robust orient function   
+  * Test for orientation against another vector. 
+  * Orientation is with regard to the canvas origin
+  * In 2D, this tests whether the other vector is counterclockwise, 
+  *   clockwise, or collinear
+  * (Two vectors are always co-planar given they share an origin)
+  * @param {GeomVector} v             Vector or point to test against
+  * @param {GEOM.XY|GEOM.XZ|GEOM.YZ}  plane
+  * @param {boolean}                  robust  Whether to use a robust or a 
+  *                                           faster, non-robust orientation function
   * @return {number} Positive value if CCW, negative if CW, 0 if collinear.
+  *   Approximation of twice the signed area of the triangle defined by the three points
   */
-  orientation2D(v, plane = "XY", {use_robust = true} = {}) {
-    const dim1 = (plane === "YZ") ? "y" : "x";
-    const dim2 = (plane === "XY") ? "y" : "z";
-    
+  orientation2D(v, {plane = GEOM.XY, use_robust = true} = {}) {
+    const dim1 = (plane === GEOM.YZ) ? "y" : "x";
+    const dim2 = (plane === GEOM.XY) ? "y" : "z";
     const fn = use_robust ? orient2d : orient2dfast;
     
-    return fn(GEOM_CONSTANTS.ORIGIN[dim1],
-              GEOM_CONSTANTS.ORIGIN[dim2],
-              this[dim1], 
-              this[dim2],
-              v[dim1],
-              v[dim2]); 
+    return fn(GEOM.ORIGIN[dim1], GEOM.ORIGIN[dim2],
+              this[dim1], this[dim2],
+              v[dim1], v[dim2]); 
   }
-
+   
  /**
-  * CCW on 2D plane with respect to another vector
+  * CCW respect to another vector.
+  *   See {@link orientation}
   * @param {GeomVector}     v
-  * @param {"XY"|"XZ"|"YZ"} plane
   * @param {boolean}        use_robust  If false, use a fast, non-robust orient function
-  * @return {GEOM_CONSTANTS.CLOCKWISE |
-             GEOM_CONSTANTS.COLLINEAR | 
-             GEOM_CONSTANTS.COUNTERCLOCKWISE}
+  * @return 
+  *   3D: { GEOM.UP,
+  *         GEOM.COPLANAR,
+  *         GEOM.DOWN }
   */
-  ccw2D(v, plane, {use_robust = true} = {}) {
-    const res = this.orientation2D(v, plane, {use_robust: use_robust});
-    return res < 0 ? GEOM_CONSTANTS.CLOCKWISE :
-           res > 0 ? GEOM_CONSTANTS.COUNTERCLOCKWISE :
-           GEOM_CONSTANTS.COLLINEAR;
+  ccw(v, { use_robust = true } = {}) {  
+    const res = this.orientation(v, { use_robust });
+    return res < 0 ? GEOM.UP :
+           res > 0 ? GEOM.DOWN :
+           GEOM.COPLANAR;
+  }
+  
+    
+ /**
+  * CCW respect to another vector.
+  *   See {@link orientation}
+  * @param {GeomVector}     v
+  * @param {GEOM.XY|GEOM.XZ|GEOM.YZ} plane
+  * @param {boolean}        use_robust  If false, use a fast, non-robust orient function
+  * @return { GEOM.CLOCKWISE | 
+  *           GEOM.COLLINEAR | 
+  *           GEOM.COUNTERCLOCKWISE}
+  */
+  ccw2D(v, { plane = GEOM.XY, use_robust = true } = {}) {  
+    const res = this.orientation2D(v, { plane, use_robust });
+    return res < 0 ? GEOM.CLOCKWISE :
+           res > 0 ? GEOM.COUNTERCLOCKWISE :
+           GEOM.COLLINEAR;
   }
   
  /**
-  * Is another vector equivalent to this one in magnitude and direction?
+  * Is another vector equivalent to this one?
+  * @param {GeomVector} v
+  * @return {boolean} True if equivalent in two dimensions
   */ 
   equivalent(v) {
     return almostEqual(this.x, v.x) &&
@@ -333,16 +370,17 @@ export class GeomVector extends Array {
  /**
   * 2D equivalence
   * @param {GeomVector} v
-  * @param {"XY"|"XZ"|"YZ"}  plane
+  * @param {GEOM.XY|GEOM.XZ|GEOM.YZ} plane
   * @return {boolean} True if equivalent in two dimensions
   */
-  equivalent2D(v, plane) {
-    const dim1 = (plane === "YZ") ? "y" : "x";
-    const dim2 = (plane === "XY") ? "y" : "z";
+  equivalent2D(v, { plane = GEOM.XY } = {}) {
+    const dim1 = (plane === GEOM.YZ) ? "y" : "x";
+    const dim2 = (plane === GEOM.XY) ? "y" : "z";
   
     return almostEqual(this[dim1], v[dim1]) &&
-           almostEqual(this[dim2], v[dim2]);
-  }  
+           almostEqual(this[dim2], v[dim2]); 
+  }
+    
    
   // -------------- MATH.JS METHODS ----------------------- // 
    
@@ -351,14 +389,14 @@ export class GeomVector extends Array {
    * @param {GeomVector} v
    * @return {GeomVector}
    */
-  add(v) { return GeomVector.fromArray(math.add(this, v)); }
+  add(v) { return this.fromArray(math.add(this, v)); }
   
   /**
    * Subtract another vector to this one
    * @param {GeomVector} v
    * @return {GeomVector}
    */
-  subtract(v) { return GeomVector.fromArray(math.subtract(this, v)); } 
+  subtract(v) { return this.fromArray(math.subtract(this, v)); } 
   
   /**
    * Multiply by a scalar
@@ -366,7 +404,7 @@ export class GeomVector extends Array {
    * @return {GeomVector}  
    */
    multiplyScalar(scalar) { 
-     return GeomVector.fromArray(math.dotMultiply(this, scalar));
+     return this.fromArray(math.dotMultiply(this, scalar));
    }
    
   /**
@@ -394,7 +432,7 @@ export class GeomVector extends Array {
    * @param {GeomVector} New vector, perpendicular to this vector and v.
    */
    cross(v) {
-     return GeomVector.fromArray(math.cross(this, v));
+     return this.fromArray(math.cross(this, v));
    } 
    
   /**
