@@ -262,6 +262,80 @@ export class GeomVector extends Array {
     }
   }
   
+  // -------------- STATIC METHODS ----------- //
+ /**
+  * orientation of four points or vectors in 3D
+  * p1 --> p2 --> p3 are CCW as viewed from p4
+  * @param {GeomPoint}                p1
+  * @param {GeomPoint}                p2
+  * @param {GeomPoint}                p3
+  * @param {GeomPoint}                p4
+  * @param {GEOM.XY|GEOM.XZ|GEOM.YZ}  plane  
+  * @param {boolean}                  use_robust 
+  * @return {number}
+  */
+  static orient3D(p1, p2, p3, p4, { use_robust = true } = {}) {
+    const fn = use_robust ? orient3d : orient3dfast;
+    
+    return fn(p1.x, p1.y, p1.z,
+              p2.x, p2.y, p2.z,
+              p3.x, p3.y, p3.z
+              p4.x, p4.y, p4.z);   
+  }
+ 
+ /**
+  * orientation of three points or vectors on a plane
+  * p1 --> p2 --> p3
+  * @param {GeomPoint}                p1
+  * @param {GeomPoint}                p2
+  * @param {GeomPoint}                p3
+  * @param {GEOM.XY|GEOM.XZ|GEOM.YZ}  plane  
+  * @param {boolean}                  use_robust 
+  * @return {number}
+  */
+  static orient2D(p1, p2, p3, { plane = GEOM.XY, use_robust = true } = {}) {
+    const dim1 = (plane === GEOM.YZ) ? "y" : "x";
+    const dim2 = (plane === GEOM.XY) ? "y" : "z";
+    const fn = use_robust ? orient2d : orient2dfast;
+    
+    return fn(p1[dim1], p1[dim2],
+              p2[dim1], p2[dim2],
+              p3[dim1], p3[dim2]); 
+  }
+  
+ /**
+  * CCW for four points or vectors in 3D. 
+  * @param {GeomPoint} p1
+  * @param {GeomPoint} p2
+  * @param {GeomPoint} p3
+  * @param {boolean}   use_robust   Use robust or use non-robust, faster orient test.
+  * @return {GEOM.UP|GEOM.DOWN|GEOM.COPLANAR} 
+  */
+  static ccw3D(p1, p2, p3, p4, {use_robust = true} = {}) {
+    const res = this.orient3D(p1, p2, p3, p4, { use_robust });
+    return res < 0 ? GEOM.UP :
+           res > 0 ? GEOM.DOWN :
+           GEOM.COPLANAR;
+  }
+  
+ /**
+  * CCW for three points or vectors on a plane. 
+  * @param {GeomPoint}                p1
+  * @param {GeomPoint}                p2
+  * @param {GeomPoint}                p3
+  * @param {GEOM.XY|GEOM.XZ|GEOM.YZ}  plane  
+  * @param {boolean}                  use_robust Use robust or use non-robust, 
+  *                                              faster orient test.
+  * @return {GEOM.CLOCKWISE|GEOM.COLLINEAR|GEOM.COUNTERCLOCKWISE}
+  */ 
+  static ccw2D(p1, p2, p3, {use_robust = true} = {}) {
+    const res = this.orient2D(p1, p2, p3, { use_robust });
+    return res < 0 ? GEOM.CLOCKWISE :
+           res > 0 ? GEOM.COUNTERCLOCKWISE :
+           GEOM.COLLINEAR;
+  } 
+    
+  
   // -------------- METHODS ----------- // 
   
  /**
