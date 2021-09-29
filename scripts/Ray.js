@@ -35,8 +35,7 @@ export class GeomRay extends GeomLine {
   * this.point(2) returns {20, 40, -20}. 
   * For rays, only positive t are permitted. Negative t will be changed to absolute
   *   value with a warning
-  * @param {number} t  Increment, from line formula p + t•v
-  * @return {GeomPoint} Point on the line
+  * @override
   */
   point(t) {
     if(t < 0) {
@@ -92,7 +91,7 @@ export class GeomRay extends GeomLine {
   * @override
   * @private 
   */
-  _intersects2D(r) {
+  _intersects2D(r, { plane = GEOM.XY } = {}) {
      const r0 = this.constructor.projectToPlane(this, plane);
      const r1 = r.constructor.projectToPlane(r, plane);
      return r0._intersects(r1);
