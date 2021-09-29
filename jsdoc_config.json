@@ -1,0 +1,6 @@
+{
+    "source":{
+        "include":["scripts/"],
+        "exclude":["scripts/lib/"]
+    }
+}
