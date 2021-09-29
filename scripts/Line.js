@@ -461,12 +461,9 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
   */
   _intersection(l) {
     // get the x,y intersection then the x,z intersection
-    const intersection_xy = this._findIntersection(l, { plane: GEOM.XY });
-    if(!intersection_xy) return false;
+    const intersection = this._findIntersection(l);
+    if(!intersection) return false;
    
-    const intersection_xz = this._findIntersection(l, { plane: GEOM.XZ });
-    if(!intersection_xz) return false;
-
     return new GeomPoint(intersection_xy.x, intersection_xy.y, intersection_xz.z);
   }
   
