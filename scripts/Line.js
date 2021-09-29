@@ -158,7 +158,8 @@ export class GeomLine {
   * Each increment of t by 1 is equal to adding the line vector magnitude 
   *  to the line point. So if this.p = {0, 0, 0} and this.v = {10, 20, -10}, 
   *  this.point(2) returns {20, 40, -20}
-  * @param {number} t  Increment, from line formula p + t•v
+  * @param {number|undefined} t  Increment, from line formula p + t•v. 
+  *                              Undefined if not a number or not otherwise on the line.
   * @return {GeomPoint} Point on the line
   */
   point(t) {
@@ -527,6 +528,8 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
       
    const i0 = l0.point(t_values.t0);
    const i1 = l1.point(t_values.t1);
+   
+   if(!i0 || !i1) return false;
  
    const intersections_match = in2D ? 
            i0.equivalent2D(i1, plane) : i0.equivalent(i1)
