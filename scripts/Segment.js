@@ -109,7 +109,7 @@ export class GeomSegment extends GeomRay {
     // t values must be between 0 and 1 for segments
     // otherwise, the intersection happens before the ray starts
     if(t_values.t0 < 0 || t_values.t0 > 1) { return false; }
-    if(l instance of GeomSegment && 
+    if(l instanceof GeomSegment && 
        (t_values.t1 < 0 || t_values.t1 > 1)) { return false; }
   
     // could call GeomRay.prototype._intersect but it would repeat _intersectionTValues

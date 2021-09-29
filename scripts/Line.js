@@ -22,37 +22,37 @@ export class GeomLine {
     this.v = v;
 
     /**
-     * @type {number} _x_intercept
+     * @type {number}
      * @private
      */
      this._x_intercept = undefined;
     
     /**
-     * @type {number} _y_intercept
+     * @type {number}
      * @private
      */
      this._y_intercept = undefined; 
     
     /**
-     * @type {number} _z_intercept
+     * @type {number}
      * @private
      */
      this._z_intercept = undefined; 
      
     /**
-     * @type {number} angleXY   In radians
+     * @type {number}
      * @private
      */
      this._angleXY = undefined; 
      
     /**
-     * @type {number} angleYZ   In radians
+     * @type {number}
      * @private
      */
      this._angleYZ = undefined; 
      
     /**
-     * @type {number} angleXZ   In radians
+     * @type {number}
      * @private
      */
      this._angleXZ = undefined;   
@@ -116,12 +116,11 @@ export class GeomLine {
    
  /**
   * 2D Intersections of the line with the canvas
-  * @type {GeomPoint[]} 0, 1 or 2 points. 
+  * @type {GeomPoint[]}
   */
   get canvasIntersectionsXY() {
     if(this._canvasIntersectionsXY === undefined) {
       const canvas_edges = GeomLine.canvasEdges().filter(e => this.intersects2D(e, GEOM.XY));
-      let intersections = canvas_edges.map(e => this.intersection2D(e, GEOM.XY) );
 
       // find the intersections on the line that are within the canvas
       // a typical line has two. This could vary for child classes.
