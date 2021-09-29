@@ -11,6 +11,15 @@ import { GeomLine } from "./Line.js";
  */ 
 export class GeomRay extends GeomLine {
 
+  // -------------------- GETTERS / SETTERS --------------- //
+ /**
+  * Origin points. Consistent with Foundry Ray class.
+  * @type {GeomPoint}
+  */
+  get x0() { return this.p.x; }
+  get y0() { return this.p.y; }
+  get z0() { return this.p.z; }
+
    // ccw & orient for points: same as lines  
    
    // ccw & orient for rays:
