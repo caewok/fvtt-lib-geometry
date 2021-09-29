@@ -1,10 +1,16 @@
-export const GEOM_CONSTANTS = {
+export const GEOM = {
   ORIGIN: {x: 0, y: 0, z: 0},
   COUNTERCLOCKWISE: 1,
   COLLINEAR: 0,
   CLOCKWISE: -1,
+  UP: 1,
+  COPLANER: 0,
+  DOWN: -1
   LEFT: 1,
   RIGHT: -1
+  XY: 1,
+  YZ: 2,
+  XZ: 3
 }
 
 // Simple set of colors for drawing and debugging 
