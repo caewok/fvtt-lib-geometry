@@ -477,14 +477,14 @@ export class GeomVector extends Array {
    * @param {GeomVector} v
    * @return {GeomVector}
    */
-  add(v) { return this.fromArray(math.add(this, v)); }
+  add(v) { return this.constructor.fromArray(math.add(this, v)); }
   
   /**
    * Subtract another vector to this one
    * @param {GeomVector} v
    * @return {GeomVector}
    */
-  subtract(v) { return this.fromArray(math.subtract(this, v)); } 
+  subtract(v) { return this.constructor.fromArray(math.subtract(this, v)); } 
   
   /**
    * Multiply by a scalar
@@ -492,7 +492,7 @@ export class GeomVector extends Array {
    * @return {GeomVector}  
    */
    multiplyScalar(scalar) { 
-     return this.fromArray(math.dotMultiply(this, scalar));
+     return this.constructor.fromArray(math.dotMultiply(this, scalar));
    }
    
   /**
@@ -520,7 +520,7 @@ export class GeomVector extends Array {
    * @param {GeomVector} New vector, perpendicular to this vector and v.
    */
    cross(v) {
-     return this.fromArray(math.cross(this, v));
+     return this.constructor.fromArray(math.cross(this, v));
    } 
    
   /**

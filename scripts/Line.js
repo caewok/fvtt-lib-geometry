@@ -20,6 +20,9 @@ import { almostEqual } from "./util.js";
  */ 
 export class GeomLine {  
   constructor(p, v) {
+    if(!(p instanceof GeomVector)) console.error(`libgeometry|GeomLine p is not a GeomVector`);
+    if(!(v instanceof GeomVector)) console.error(`libgeometry|GeomLine v is not a GeomVector`);
+
     this.p = p;
     this.v = v;
 
@@ -480,7 +483,7 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
     
     const displacement_vector = this.p.subtract(l.p);
     const plane = this.v.cross(l.v);
-    return almostEqual(displacement_vector.dot(plane));
+    return almostEqual(displacement_vector.dot(plane), 0);
   }
   
  /**
