@@ -219,6 +219,7 @@ export class GeomLine {
   * @return {GeomPoint} Point on the line
   */
   point(t) {
+   if(t === 0) return this.p;
    return GeomPoint.fromArray(math.add(this.p, math.dotMultiply(this.v, t)));
   }
   
@@ -314,12 +315,12 @@ export class GeomLine {
   * In 3D, line is in front if one can draw a plane that includes the line
   * in such a manner that it blocks p from vp.
   * In other words, a line drawn from vp to p intersects the plane.
-  * @param  {GeomPoint} p    Point to test
+  * @param {GeomPoint} p    Point to test
   * @param {GeomPoint} vp   Viewpoint
   * @param {boolean}   use_robust   Use robust or use non-robust, faster orient test.
   * @return {boolean} True if this line is in front of the point.
   */
-  inFrontOf(p, vp, {use_robust = true} = {}) {
+  inFrontOf(p, vp, { use_robust = true } = {}) {
     // if both p and vp are on the plane, then this is a 2D test
     // if p and vp both are on "top" or on "bottom" then no block
     
@@ -328,11 +329,11 @@ export class GeomLine {
     const orthogonal = this.cross(p_to_vp);
     
     const ccw3d_p = GeomVector.ccw(this.point(1), 
-                                   orthogonal.point(0), 
+                                   orthogonal.p, 
                                    orthogonal.point(1),
                                    p, { use_robust });
     const ccw3d_vp = GeomVector.ccw(this.point(1), 
-                                   orthogonal.point(0), 
+                                   orthogonal.p, 
                                    orthogonal.point(1),
                                    vp, { use_robust });  
                                    
@@ -358,22 +359,48 @@ export class GeomLine {
   * Does this line lie in front of a point, from a given viewpoint, in a 2D plane?
   * In 2D, line is in front if a line drawn between the viewpoint and the point
   * intersects this line.
-  * @param @{GeomPoint} p    Point to test
-  * @param @{GeomPoint} vp   Viewpoint
+  * @param {GeomPoint} p    Point to test
+  * @param {GeomPoint} vp   Viewpoint
   * @param {GEOM.XY|GEOM.XZ|GEOM.YZ} plane
   * @return {boolean|undefined} True if this line is in front of the point.
   *                             Undefined if both p and vp are on the line.
   */
-  inFrontOf2D(p, vp, { plane: GEOM.XY }) {
+  inFrontOf2D(p, vp, { plane = GEOM.XY, use_robust = true } = {}) {
     // if both p and vp are on the same side of the line, then line is not blocking
     // if p and vp are on the line, undefined
     // if p or vp are on the line, no block
-    const ccw_p = this.ccw2D(p, { plane });
-    const ccw_v = this.ccw2D(vp, { plane });
+    const ccw_p = this.ccw2D(p, { plane, use_robust });
+    const ccw_v = this.ccw2D(vp, { plane, use_robust });
     
     if(ccw_p === GEOM.COLLINEAR && ccw_v === GEOM.COLLINEAR) return undefined;
     if(ccw_p === GEOM.COLLINEAR || ccw_v === GEOM.COLLINEAR) return false;
     return ccw_p !== ccw_v);
+  }
+  
+  
+ /**
+  * Is this line in front of another line?
+  * For infinite lines, this test simplifies to inFrontOf a point on the line
+  * @param {GeomLine}  l    Line to test
+  * @param {GeomPoint} vp   Viewpoint
+  * @return  {boolean|undefined} True if this line is in front of the point.
+  *                             Undefined if both p and vp are on the line.
+  */
+  inFrontOfLine(l, vp, {use_robust = true} = {}) { 
+    return this.inFrontOf(l.p, vp, { use_robust }); 
+  }
+  
+ /**
+  * Is this line in front of another line?
+  * For infinite lines, this test simplifies to inFrontOf a point on the line
+  * @param {GeomLine}  l    Line to test
+  * @param {GeomPoint} vp   Viewpoint
+  * @param {GEOM.XY|GEOM.XZ|GEOM.YZ} plane
+  * @return  {boolean|undefined} True if this line is in front of the point.
+  *                             Undefined if both p and vp are on the line.
+  */
+  inFrontOfLine2D(l, vp, { plane = GEOM.XY, use_robust = true } = {}) { 
+    return this.inFrontOf2D(l.p, vp { plane, use_robust }); 
   }
   
   // -------------- MULTIPLE DISPATCH METHODS ------------- //
