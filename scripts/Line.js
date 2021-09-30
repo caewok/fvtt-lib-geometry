@@ -309,6 +309,73 @@ export class GeomLine {
     return this.ccw2D(p, { plane });
   }
   
+ /**
+  * Does this line lie in front of a point, from a given viewpoint?
+  * In 3D, line is in front if one can draw a plane that includes the line
+  * in such a manner that it blocks p from vp.
+  * In other words, a line drawn from vp to p intersects the plane.
+  * @param  {GeomPoint} p    Point to test
+  * @param {GeomPoint} vp   Viewpoint
+  * @param {boolean}   use_robust   Use robust or use non-robust, faster orient test.
+  * @return {boolean} True if this line is in front of the point.
+  */
+  inFrontOf(p, vp, {use_robust = true} = {}) {
+    // if both p and vp are on the plane, then this is a 2D test
+    // if p and vp both are on "top" or on "bottom" then no block
+    
+    // form the plane by crossing this line with the line between p and vp
+    const p_to_vp = GeomLine.fromPoints(p, vp);
+    const orthogonal = this.cross(p_to_vp);
+    
+    const ccw3d_p = GeomVector.ccw(this.point(1), 
+                                   orthogonal.point(0), 
+                                   orthogonal.point(1),
+                                   p, { use_robust });
+    const ccw3d_vp = GeomVector.ccw(this.point(1), 
+                                   orthogonal.point(0), 
+                                   orthogonal.point(1),
+                                   vp, { use_robust });  
+                                   
+    // need a version of orient2d that handles 3 dimensions.
+    // i.e., test for arbitrary plane formed by 3 points 
+    // probably transform the points to the arbitrary plane                              
+//     if(ccw3d_p === GEOM.COPLANAR && 
+//        ccw3d_vp === GEOM.COPLANAR) {
+//       
+//       const ccw_p = this.ccw(p);
+//       const ccw_vp = this.ccw(vp);
+//        
+//       if(ccw_p === GEOM.COLLINEAR && ccw_vp === GEOM.COLLINEAR) return undefined;
+//       if(ccw_p === GEOM.COLLINEAR || ccw_vp === GEOM.COLLINEAR) return false;
+//       return this.ccw2D(p, { plane }) !== this.ccw2D(vp, { plane });                                                        
+//     }
+  
+    if(ccw3d_p === GEOM.COPLANAR || ccw3d_vp === GEOM.COPLANAR) return false;
+    return ccw3d_p !== ccw3d_vp
+  
+ } 
+ /**
+  * Does this line lie in front of a point, from a given viewpoint, in a 2D plane?
+  * In 2D, line is in front if a line drawn between the viewpoint and the point
+  * intersects this line.
+  * @param @{GeomPoint} p    Point to test
+  * @param @{GeomPoint} vp   Viewpoint
+  * @param {GEOM.XY|GEOM.XZ|GEOM.YZ} plane
+  * @return {boolean|undefined} True if this line is in front of the point.
+  *                             Undefined if both p and vp are on the line.
+  */
+  inFrontOf2D(p, vp, { plane: GEOM.XY }) {
+    // if both p and vp are on the same side of the line, then line is not blocking
+    // if p and vp are on the line, undefined
+    // if p or vp are on the line, no block
+    const ccw_p = this.ccw2D(p, { plane });
+    const ccw_v = this.ccw2D(vp, { plane });
+    
+    if(ccw_p === GEOM.COLLINEAR && ccw_v === GEOM.COLLINEAR) return undefined;
+    if(ccw_p === GEOM.COLLINEAR || ccw_v === GEOM.COLLINEAR) return false;
+    return ccw_p !== ccw_v);
+  }
+  
   // -------------- MULTIPLE DISPATCH METHODS ------------- //
 /*
 Line, as the parent class, defines a set of user-facing methods that take either another 
@@ -360,7 +427,8 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
 ...
 
 */ 
-  
+ // -------------- MULTIPLE DISPATCH: PARALLEL ------------- // 
+ 
  /**
   * Is this line parallel to another in 3D? 
   * Vectors of infinite length are parallel if A•B = |A|x|B| where |A| is magnitude
@@ -377,7 +445,7 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
   * Is this line parallel to another in 2D? 
   * Vectors of infinite length are parallel if A•B = |A|x|B| where |A| is magnitude
   * @param {GeomLine} l
-  * @param {GEOM.XY|GEOM.XZ|GEOM.YZ|undefined} plane
+  * @param {GEOM.XY|GEOM.XZ|GEOM.YZ} plane
   * @return {boolean} True if parallel
   */ 
   parallel2D(l, { plane = GEOM.XY } = {}) {
@@ -409,6 +477,8 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
     const l1 = l.constructor.projectToPlane(l, plane);    
     return l0._parallel(l1);
   }
+  
+ // -------------- MULTIPLE DISPATCH: PERPENDICULAR ------------- // 
     
  /**
   * Are these two lines perpendicular to one another in 3D?
@@ -455,7 +525,9 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
     const l1 = l.constructor.projectToPlane(l, plane);
     return l0._perpendicular(l1);
   }  
+     
    
+   // -------------- MULTIPLE DISPATCH: INTERSECTIONS ------------- //  
  /**
   * Does this line intersects another in 3D? 
   * @param {GeomLine} l
