@@ -381,8 +381,8 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
   * @return {boolean} True if parallel
   */ 
   parallel2D(l, { plane = GEOM.XY } = {}) {
-    if(l.constructor !== GeomLine) return l._parallel(this, { plane });
-    return this._parallel(l, { plane });
+    if(l.constructor !== GeomLine) return l._parallel2D(this, { plane });
+    return this._parallel2D(l, { plane });
   }
 
  /**
@@ -439,8 +439,8 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
   * @return {boolean} True if perpendicular
   */
   perpendicular2D(l, { plane = GEOM.XY } = {}) {
-   if(l.constructor !== GeomLine) return l._perpendicular(this, { plane });
-   return this._perpendicular(l, { plane });
+   if(l.constructor !== GeomLine) return l._perpendicular2D(this, { plane });
+   return this._perpendicular2D(l, { plane });
   } 
   
  /**
@@ -481,6 +481,10 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
     // (p1 - p2) • (v1 X v2) === 0
     // note: shortest distance between the two lines is (p1 - p2) • (v1 X v2) / (v1 X v2)
     
+    // need to first test if the lines are parallel
+    // if not parallel, they intersect if they are on the same plane
+    if(this._parallel(l)) return false;
+
     const displacement_vector = this.p.subtract(l.p);
     const plane = this.v.cross(l.v);
     return almostEqual(displacement_vector.dot(plane), 0);
@@ -494,7 +498,7 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
   */  
   intersects2D(l, { plane = GEOM.XY } = {}) {
     if(l.constructor !== GeomLine) return l._intersects2D(this, { plane });
-    return this._intersects(l, { plane });
+    return this._intersects2D(l, { plane });
   }
   
  /**
@@ -584,7 +588,7 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
   * @return {GeomPoint}
   */
   intersection2D(l, { plane = GEOM.XY, as_point = true } = {}) {
-   if(l.constructor !== GeomLine) return l._intersection(this, { plane, as_point });
+   if(l.constructor !== GeomLine) return l._intersection2D(this, { plane, as_point });
    return this._intersection2D(l, { plane, as_point });
   }
   
@@ -606,7 +610,7 @@ s.parallel(l) // Ray.parallel --> Ray._parallel --> ...
     const y = (plane === GEOM.XZ) ? 1 : intersection.y;
     const z = (plane === GEOM.XY) ? 1 : intersection.z;
 
-    return GeomLine.constructor.fromPoints(intersection, new GeomPoint(x, y, z));
+    return this.constructor.fromPoints(intersection, new GeomPoint(x, y, z));
   }
   
   // -------------- HELPER METHODS (PRIVATE) -------------- // 

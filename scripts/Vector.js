@@ -263,6 +263,7 @@ export class GeomVector extends Array {
         v_new._magnitudeSquaredYZ = v._magnitudeSquaredYZ;
         v_new._magnitudeYZ = v._magnitudeYZ;
         v_new._angleYZ = v._angleYZ;
+        return v_new;
     }
   }
   
