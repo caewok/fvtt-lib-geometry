@@ -200,12 +200,15 @@ l45_parallel = new GeomLine(new GeomPoint(origin.x + 100, origin.y + 10, origin.
 assert(l45.parallel(l45_parallel), "Line 45 3D Parallel");
 
 // 3-D orthogonal
-l1 = GeomLine.fromPoints(origin, new GeomPoint(1000, 1500, 100))
-l2 = GeomLine.fromPoints(origin, new GeomPoint(1500, 1000, 0)) // turned 90º, so must stay at the z-location of the origin
-l1.perpendicular(l2);
+l0 = GeomLine.fromPoints(origin, new GeomPoint(1000, 1500, 100))
+l1 = GeomLine.fromPoints(origin, new GeomPoint(1500, 1000, 0)) // turned 90º, so must stay at the z-location of the origin
+l0.perpendicular(l1);
 
-assert(l1.perpendicular(l2), "Line 3D Perpendicular");
-assert(l1.perpendicular2D(l2), "Line 3D Perpendicular");
+assert(l0.perpendicular(l1), "Line 3D Perpendicular");
+assert(l0.perpendicular2D(l1), "Line 3D Perpendicular");
+assert(l0.perpendicular2D(l1, {plane: GEOM.XZ}), "Line 3D Perpendicular");
+assert(l0.perpendicular2D(l1, {plane: GEOM.YZ}), "Line 3D Perpendicular");
+
 assert(l_horizontal.perpendicular(l_vertical), 
        "Line Vertical/Horizontal 3D Perpendicular");
 
