@@ -171,7 +171,9 @@ l45_parallel = new GeomLine(new GeomPoint(origin.x + 100, origin.y + 10, origin.
 l45_parallel.draw(COLORS.blue);
 
 assert(!l45.intersects2D(l45_parallel, { plane: GEOM.XY }), "Line 45 Parallel Intersects");
-assert(l45.parallel2D(l45_parallel, { plane: GEOM.XY }, "Line 45 Parallel"));
+assert(!l45._intersects2DAlt(l45_parallel, { plane: GEOM.XY }), "Line 45 Parallel Intersects Alt");
+assert(l45.parallel2D(l45_parallel, { plane: GEOM.XY }), "Line 45 Parallel");
+
 
 // perpendicular
 assert(l_horizontal.perpendicular2D(l_vertical, { plane: GEOM.XY }), "Line Horizontal/Vertical Perpendicular");
@@ -179,11 +181,13 @@ assert(l_horizontal.perpendicular2D(l_vertical, { plane: GEOM.XY }), "Line Horiz
 // angles
 assert(l_horizontal.intersects2D(l45, { plane: GEOM.XY }), "Line Horizontal/45 Intersect")
 assert(l120.intersects2D(l45,{ plane: GEOM.XY }), "Line 120/45 Intersect")
+assert(l120._intersects2DAlt(l45, { plane: GEOM.XY }), "Line 45 Parallel Intersects");
+
 
 // actual intersection points
-assert(l_horizontal.intersection2D(l45, { plane: GEOM.XY }) === origin, "Line Horizontal/45 Intersection")
+assert(l_horizontal.intersection2D(l45, { plane: GEOM.XY }).equivalent(origin), "Line Horizontal/45 Intersection")
 
-l_horizontal.intersection2D(l45, { plane: GEOM.XY }, as_point = false)
+l_horizontal.intersection2D(l45, { plane: GEOM.XY, as_point: false })
 
 // 3-D intersection
 l45 = new GeomLine(origin, new GeomVector(100, 100, 100));
@@ -196,7 +200,12 @@ l45_parallel = new GeomLine(new GeomPoint(origin.x + 100, origin.y + 10, origin.
 assert(l45.parallel(l45_parallel), "Line 45 3D Parallel");
 
 // 3-D orthogonal
-assert(l45.perpendicular(l135), "Line 45/135 3D Perpendicular");
+l1 = GeomLine.fromPoints(origin, new GeomPoint(1000, 1500, 100))
+l2 = GeomLine.fromPoints(origin, new GeomPoint(1500, 1000, 0)) // turned 90º, so must stay at the z-location of the origin
+l1.perpendicular(l2);
+
+assert(l1.perpendicular(l2), "Line 3D Perpendicular");
+assert(l1.perpendicular2D(l2), "Line 3D Perpendicular");
 assert(l_horizontal.perpendicular(l_vertical), 
        "Line Vertical/Horizontal 3D Perpendicular");
 
