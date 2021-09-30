@@ -2,7 +2,7 @@
 
 export const MODULE_ID = 'libgeometry';
 
-import { GEOM_CONSTANTS, COLORS } from "./constants.js";
+import { GEOM, COLORS } from "./constants.js";
 import { clearDrawings } from "./util.js";
 
 import { GeomPoint } from "./Point.js";
@@ -18,7 +18,7 @@ import { GeomRay } from "./Ray.js";
 
 Hooks.once('init', async function() {
   game.modules.get(MODULE_ID).api = {
-    GEOM_CONSTANTS: GEOM_CONSTANTS,
+    GEOM: GEOM,
     COLORS: COLORS,
     clearDrawings: clearDrawings,
     

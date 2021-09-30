@@ -1,6 +1,6 @@
 import { GeomLine } from "./Line.js";
 import { GeomPixelPoint } from "./PixelPoint.js";
-import { GeomPixelVector } from "./PixelVetor.js";
+import { GeomPixelVector } from "./PixelVector.js";
 
 /**
  * Represents a line with infinite length in either direction.
