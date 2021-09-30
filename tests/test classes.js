@@ -6,7 +6,7 @@ GeomLine = game.modules.get("libgeometry").api.GeomLine;
 GeomPixelLine = game.modules.get("libgeometry").api.GeomPixelLine;
 clearDrawings = game.modules.get("libgeometry").api.clearDrawings;
 COLORS = game.modules.get("libgeometry").api.COLORS;
-GEOM_CONSTANTS = game.modules.get("libgeometry").api.GEOM_CONSTANTS;
+GEOM = game.modules.get("libgeometry").api.GEOM;
 
 function drawSegment(p0, p1, color = COLORS.blue, alpha = 1, width = 1) {
     canvas.controls.debug.lineStyle(width, color, alpha).
@@ -98,37 +98,37 @@ v_left = new GeomVector(-500, 0, 0);
 v_up.draw(origin, COLORS.blue);
 p_q1.draw(COLORS.red);
 
-assert(v_up.ccw2D(p_q1.subtract(origin), "XY") === GEOM_CONSTANTS.COUNTERCLOCKWISE, 
+assert(v_up.ccw2D(p_q1.subtract(origin), { plane: GEOM.XY }) === GEOM.COUNTERCLOCKWISE, 
        "Point Q1 CCW");
        
 p_q2.draw(COLORS.red);       
-assert(v_up.ccw2D(p_q2.subtract(origin), "XY") === GEOM_CONSTANTS.CLOCKWISE, 
+assert(v_up.ccw2D(p_q2.subtract(origin), { plane: GEOM.XY }) === GEOM.CLOCKWISE, 
        "Point Q2 CCW");
 
 p_q3.draw(COLORS.red);
-assert(v_up.ccw2D(p_q3.subtract(origin), "XY") === GEOM_CONSTANTS.CLOCKWISE, 
+assert(v_up.ccw2D(p_q3.subtract(origin), { plane: GEOM.XY }) === GEOM.CLOCKWISE, 
        "Point Q3 CCW");
 
 p_q4.draw(COLORS.red);
-assert(v_up.ccw2D(p_q4.subtract(origin), "XY") === GEOM_CONSTANTS.COUNTERCLOCKWISE, 
+assert(v_up.ccw2D(p_q4.subtract(origin), { plane: GEOM.XY }) === GEOM.COUNTERCLOCKWISE, 
        "Point Q4 CCW");
 
 // coincident
-assert(v_up.ccw2D(p_up.subtract(origin), "XY") === GEOM_CONSTANTS.COLLINEAR,
+assert(v_up.ccw2D(p_up.subtract(origin), { plane: GEOM.XY }) === GEOM.COLLINEAR,
        "Point Up CCW");
 
-assert(v_up.ccw2D(p_down.subtract(origin), "XY") === GEOM_CONSTANTS.COLLINEAR,
+assert(v_up.ccw2D(p_down.subtract(origin), { plane: GEOM.XY }) === GEOM.COLLINEAR,
        "Point Down CCW");
               
 // perpendicular
 v_left.draw(origin, COLORS.lightblue);
-assert(v_left.ccw2D(v_up, "XY") === GEOM_CONSTANTS.CLOCKWISE,
+assert(v_left.ccw2D(v_up, { plane: GEOM.XY }) === GEOM.CLOCKWISE,
        "Vector left CCW");
        
-assert(v_up.ccw2D(v_left, "XY") === GEOM_CONSTANTS.COUNTERCLOCKWISE,
+assert(v_up.ccw2D(v_left, { plane: GEOM.XY }) === GEOM.COUNTERCLOCKWISE,
        "Vector left CCW");
 
-assert(v_up.ccw2D(p_left.subtract(origin), "XY") === GEOM_CONSTANTS.COUNTERCLOCKWISE,
+assert(v_up.ccw2D(p_left.subtract(origin), { plane: GEOM.XY }) === GEOM.COUNTERCLOCKWISE,
        "Point left CCW")
 
 // Line
@@ -144,46 +144,46 @@ l45.draw(COLORS.lightblue)
 l120.draw(COLORS.green)
 
 // angles
-assert(l_vertical.ccw2D(p_q1, "XY") === GEOM_CONSTANTS.COUNTERCLOCKWISE, 
+assert(l_vertical.ccw2D(p_q1, { plane: GEOM.XY }) === GEOM.COUNTERCLOCKWISE, 
        "Line Vertical Q1 CCW");
-assert(l_vertical.ccw2D(p_q2, "XY") === GEOM_CONSTANTS.CLOCKWISE, 
+assert(l_vertical.ccw2D(p_q2, { plane: GEOM.XY }) === GEOM.CLOCKWISE, 
        "Line Vertical Q2 CCW");
-assert(l_vertical.ccw2D(p_q3, "XY") === GEOM_CONSTANTS.CLOCKWISE, 
+assert(l_vertical.ccw2D(p_q3, { plane: GEOM.XY }) === GEOM.CLOCKWISE, 
        "Line Vertical Q3 CCW");
-assert(l_vertical.ccw2D(p_q4, "XY") === GEOM_CONSTANTS.COUNTERCLOCKWISE, 
+assert(l_vertical.ccw2D(p_q4, { plane: GEOM.XY }) === GEOM.COUNTERCLOCKWISE, 
        "Line Vertical Q4 CCW");
 
 // perpendicular
-assert(l_vertical.ccw2D(p_left, "XY") === GEOM_CONSTANTS.COUNTERCLOCKWISE,
+assert(l_vertical.ccw2D(p_left, { plane: GEOM.XY }) === GEOM.COUNTERCLOCKWISE,
        "Line Vertical Left CCW");
        
 // coincident
-assert(l_vertical.ccw2D(p_up, "XY") === GEOM_CONSTANTS.COLLINEAR,
+assert(l_vertical.ccw2D(p_up, { plane: GEOM.XY }) === GEOM.COLLINEAR,
        "Line Vertical Up CCW");
 
-assert(l_vertical.ccw2D(p_down, "XY") === GEOM_CONSTANTS.COLLINEAR,
+assert(l_vertical.ccw2D(p_down, { plane: GEOM.XY }) === GEOM.COLLINEAR,
        "Line Vertical Down CCW");
 
 // Test intersections
 
 // parallel
-l45_parallel = new GeomLine({x: origin.x + 100, y: origin.y + 10, z: origin.z}, l45.v);
+l45_parallel = new GeomLine(new GeomPoint(origin.x + 100, origin.y + 10, origin.z), l45.v);
 l45_parallel.draw(COLORS.blue);
 
-assert(!l45.intersects2D(l45_parallel, "XY"), "Line 45 Parallel Intersects");
-assert(l45.parallel2D(l45_parallel, "XY", "Line 45 Parallel"));
+assert(!l45.intersects2D(l45_parallel, { plane: GEOM.XY }), "Line 45 Parallel Intersects");
+assert(l45.parallel2D(l45_parallel, { plane: GEOM.XY }, "Line 45 Parallel"));
 
 // perpendicular
-assert(l_horizontal.perpendicular2D(l_vertical, "XY"), "Line Horizontal/Vertical Perpendicular");
+assert(l_horizontal.perpendicular2D(l_vertical, { plane: GEOM.XY }), "Line Horizontal/Vertical Perpendicular");
 
 // angles
-assert(l_horizontal.intersects2D(l45, "XY"), "Line Horizontal/45 Intersect")
-assert(l120.intersects2D(l45, "XY"), "Line 120/45 Intersect")
+assert(l_horizontal.intersects2D(l45, { plane: GEOM.XY }), "Line Horizontal/45 Intersect")
+assert(l120.intersects2D(l45,{ plane: GEOM.XY }), "Line 120/45 Intersect")
 
 // actual intersection points
-assert(l_horizontal.intersection2D(l45, "XY") === origin, "Line Horizontal/45 Intersection")
+assert(l_horizontal.intersection2D(l45, { plane: GEOM.XY }) === origin, "Line Horizontal/45 Intersection")
 
-l_horizontal.intersection2D(l45, "XY", as_point = false)
+l_horizontal.intersection2D(l45, { plane: GEOM.XY }, as_point = false)
 
 // 3-D intersection
 l45 = new GeomLine(origin, new GeomVector(100, 100, 100));
@@ -192,7 +192,7 @@ l135 = new GeomLine(origin, new GeomVector(100, -100, 100));
 assert(l45.intersects(l135), "Line 45/135 3D Intersect");
 
 // 3-D parallel
-l45_parallel = new GeomLine({x: origin.x + 100, y: origin.y + 10, z: origin.z + 20}, l45.v);
+l45_parallel = new GeomLine(new GeomPoint(origin.x + 100, origin.y + 10, origin.z + 20), l45.v);
 assert(l45.parallel(l45_parallel), "Line 45 3D Parallel");
 
 // 3-D orthogonal
