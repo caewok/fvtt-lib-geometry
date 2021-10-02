@@ -11,7 +11,8 @@ export const GEOM = {
   RIGHT: -1,
   XY: 1,
   YZ: 2,
-  XZ: 3
+  XZ: 3,
+  QUADRANT: { SW: 1, SE: 2, NE: 3, NW: 4 }
 }
 
 /**
