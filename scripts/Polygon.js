@@ -1,5 +1,6 @@
-import { GeomVector } from "./Vector.js";
-import { GEOM } from "./constants.js;
+//import { GeomVector } from "./Vector.js";
+import { COLORS } from "./constants.js";
+
 
 /**
  * A polygon.
@@ -20,7 +21,7 @@ export class GeomPolygon {
       vertices.push(vertices[0]);
     }
     
-    if(!pointsClockwise(vertices)) { vertices.reverse(); }
+    if(!GeomPolygon.pointsClockwise(vertices)) { vertices.reverse(); }
       
   }
 
@@ -39,7 +40,7 @@ export class GeomPolygon {
     const ln = points_arr.length;
     for(let i = 0; i < ln; i += 2) {
       const A = { x: points_arr[0].x, y: points_arr[0].y };
-      const B = { x: points_arr[1]x, y: points_arr[1].y };
+      const B = { x: points_arr[1].x, y: points_arr[1].y };
     
       the_sum += (B.x - A.x) * (B.y - A.y);
     }

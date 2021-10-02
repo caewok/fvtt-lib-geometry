@@ -17,6 +17,9 @@ import { GeomPixelLine } from "./PixelLine.js";
 import { GeomRay } from "./Ray.js";
 
 import { GeomCircle } from "./Circle.js";
+import { GeomBezierCircle } from "./BezierCircle.js";
+
+import { GeomPolygon } from "./Polygon.js";
 
 import { GeomPlane } from "./Plane.js"; 
 
@@ -35,6 +38,12 @@ Hooks.once('init', async function() {
     GeomLine: GeomLine,
     GeomPixelLine: GeomPixelLine,
     
-    GeomRay: GeomRay
+    GeomRay: GeomRay,
+    
+    GeomCircle: GeomCircle,
+    GeomBezierCircle: GeomBezierCircle,
+    
+    GeomPolygon: GeomPolygon,
+    GeomPlane: GeomPlane
   };
 });
