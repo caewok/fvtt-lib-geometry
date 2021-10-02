@@ -16,6 +16,10 @@ import { GeomPixelLine } from "./PixelLine.js";
 
 import { GeomRay } from "./Ray.js";
 
+import { GeomCircle } from "./Circle.js";
+
+import { GeomPlane } from "./Plane.js"; 
+
 Hooks.once('init', async function() {
   game.modules.get(MODULE_ID).api = {
     GEOM: GEOM,

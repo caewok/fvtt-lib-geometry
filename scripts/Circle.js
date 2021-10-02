@@ -1,6 +1,9 @@
+/* globals math */
 
 import { GeomVector } from "./Vector.js";
-import { GEOM } from "./constants.js;
+import { GeomPoint } from "./Point.js";
+import { GeomPixelPoint } from "./PixelPoint.js";
+import { GEOM, COLORS } from "./constants.js";
 
 /**
  * A circle.

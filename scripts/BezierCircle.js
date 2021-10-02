@@ -1,6 +1,8 @@
 
 import { GeomVector } from "./Vector.js";
-import { GEOM } from "./constants.js;
+import { GeomPoint } from "./Point.js";
+
+import { GEOM } from "./constants.js";
 
 /**
  * An approximate circle, using Bezier curves.
@@ -72,18 +74,18 @@ export class GeomBezierCircle {
     let pt;
     switch(quadrant) {
       case GEOM.QUADRANT.NW:
-        pt = Bezier.bezierCircle(1 - t);
+        pt = GeomBezier.pointNE(1 - t);
         pt.x = -pt.x;
         pt.y = -pt.y;
         return pt;
       case GEOM.QUADRANT.NE:
-        pt = Bezier.bezierCircle(t);
+        pt = GeomBezier.pointNE(t);
         pt.y = -pt.y;
         return pt;
       case GEOM.QUADRANT.SE:
-        return Bezier.bezierCircle(1 - t);
+        return GeomBezier.pointNE(1 - t);
       case GEOM.QUADRANT.SW: 
-        pt = Bezier.bezierCircle(t)
+        pt = GeomBezier.pointNE(t)
         pt.x = -pt.x;
         return pt;
     } 

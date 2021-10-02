@@ -1,15 +1,16 @@
+/* globals math */
+
+import { GeomPoint } from "./Point.js";
+
 /**
  * An arbitrary plane in 3D, represented by two orthogonal lines.
  * @param {GeomPoint}  l0  First line
  * @param {GeomVector} l1  Second line. Should be orthogonal to the first
  */ 
-class GeomPlane {
+export class GeomPlane {
   constructor(p1, p2, p3) {
     this.AB = p2.subtract(p1);
     this.AC = p3.subtract(p1);
-  
-    this.l0 = l0;
-    this.l1 = l1;
      
     this._M = undefined;
     this._Minv = undefined;
@@ -22,7 +23,7 @@ class GeomPlane {
       // N is l1
       // AB is l0
       const N = this.AB.cross(this.AC);
-      const uAB = AB.normalize();
+      const uAB = this.AB.normalize();
       const uN = N.normalize();
       const V = uAB.cross(uN);
       
@@ -53,20 +54,7 @@ class GeomPlane {
   
   
   // -------------- FACTORY FUNCTIONS ----------- // 
- /**
-  * Construct a plane from three points by creating two orthogonal lines.
-  * The first point will serve as the anchor.
-  * @param {GeomPoint} p1
-  * @param {GeomPoint} p2
-  * @param {GeomPoint} p3
-  * @return {GeomPlane}
-  */
-  fromPoints(p1, p2, p3) {
-    l0 = GeomLine.fromPoints(p1, p2);
-    l2 = GeomLine.fromPoints(p1, p3);
-    l1 = l0.cross(l2);
-    return GeomPlane(l0, l1);
-  }
+
   
   // -------------- METHODS ----------- // 
  /** 
