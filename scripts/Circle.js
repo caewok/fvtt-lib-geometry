@@ -1,3 +1,7 @@
+
+import { GeomVector } from "./Vector.js";
+import { GEOM } from "./constants.js;
+
 /**
  * A circle.
  * Represented by a center point and a radius vector
@@ -28,9 +32,9 @@ export class GeomCircle {
   * @return {GeomCircle}
   */
   fromPoint(p, radius, { plane = GEOM.XY } = {}) {
-    const v = plane === GEOM.XY ? new GeomVector(radius, 0, 0) :
-              plane === GEOM.XZ ? new GeomVector(radius, 0, 0) :
-                                  new GeomVector(0, radius, 0);
+    const v = plane === GEOM.XY ? new GeomVector(p.x + radius, p.y + radius, p.z) :
+              plane === GEOM.XZ ? new GeomVector(p.x + radius, p.y, p.z + radius) :
+                                  new GeomVector(p.x, p.y + radius, p.z + radius);
     return new this(p, v);                                      
   }
  
