@@ -374,7 +374,7 @@ export class GeomLine {
     
     if(ccw_p === GEOM.COLLINEAR && ccw_v === GEOM.COLLINEAR) return undefined;
     if(ccw_p === GEOM.COLLINEAR || ccw_v === GEOM.COLLINEAR) return false;
-    return ccw_p !== ccw_v);
+    return ccw_p !== ccw_v;
   }
   
   
@@ -400,7 +400,7 @@ export class GeomLine {
   *                             Undefined if both p and vp are on the line.
   */
   inFrontOfLine2D(l, vp, { plane = GEOM.XY, use_robust = true } = {}) { 
-    return this.inFrontOf2D(l.p, vp { plane, use_robust }); 
+    return this.inFrontOf2D(l.p, vp, { plane, use_robust }); 
   }
   
   // -------------- MULTIPLE DISPATCH METHODS ------------- //
