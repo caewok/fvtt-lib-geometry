@@ -34,14 +34,25 @@ export class GeomCircle {
   * @param {GEOM.XY|GEOM.XZ|GEOM.YZ}  plane
   * @return {GeomCircle}
   */
-  fromPoint(p, radius, { plane = GEOM.XY } = {}) {
-    const v = plane === GEOM.XY ? new GeomVector(p.x + radius, p.y + radius, p.z) :
-              plane === GEOM.XZ ? new GeomVector(p.x + radius, p.y, p.z + radius) :
-                                  new GeomVector(p.x, p.y + radius, p.z + radius);
+  static fromPoint(p, radius, { plane = GEOM.XY } = {}) {
+    const v = plane === GEOM.XY ? new GeomVector(radius, radius, 0) :
+              plane === GEOM.XZ ? new GeomVector(radius, 0, radius) :
+                                  new GeomVector(0, radius, radius);
     return new this(p, v);                                      
   }
  
-  // -------------- METHODS --------------------- //    
+  // -------------- METHODS --------------------- // 
+ /**
+  * Are two circles equivalent?
+  * @param {GeomCircle} Circle to test
+  * @return {boolean} True if equivalent
+  */
+  equivalent(c) {
+    if(!(c instanceof GeomCircle)) return false;
+    return this.p.equivalent(c.p) && this.v.equivalent(c.v);
+  }
+
+   
  /**
   * Get a point on the circle
   * If on XY plane:
@@ -51,11 +62,10 @@ export class GeomCircle {
   * @return {GeomPoint} Point on the line. 
   */
   point(t) {
-   t = Math.abs(t);
-   t = t > Math.PI ? t / Math.PI : t; 
+   t = Math.normalizeRadians(t);
   
-   return GeomPoint(Math.cos(t) * this.v.magnitude + this.p.x,
-                    Math.sin(t) * this.v.magnitude + this.p.y);
+   return new GeomPoint(Math.cos(t) * this.v.magnitude + this.p.x,
+                        Math.sin(t) * this.v.magnitude + this.p.y);
   }
   
  /**
