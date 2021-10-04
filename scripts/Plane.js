@@ -16,7 +16,7 @@ export class GeomPlane {
     this.AC = p3.subtract(p1);
      
     this._M = undefined;
-    this._Minv = undefined;
+    this._invM = undefined;
   }
   
   // -------------- GETTERS/SETTERS ----------- // 
