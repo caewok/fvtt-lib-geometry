@@ -9,6 +9,9 @@ import { GeomPoint } from "./Point.js";
  */ 
 export class GeomPlane {
   constructor(p1, p2, p3) {
+    this.A = p1;
+    this.B = p2;
+    this.C = p3;
     this.AB = p2.subtract(p1);
     this.AC = p3.subtract(p1);
      
@@ -27,7 +30,7 @@ export class GeomPlane {
       const uN = N.normalize();
       const V = uAB.cross(uN);
       
-      const A = this.p1;
+      const A = this.A;
       const u = A.add(uAB);
       const v = A.add(V);
       const n = A.add(uN);
@@ -42,7 +45,7 @@ export class GeomPlane {
                  [0, 0, 0, 1],
                  [1, 1, 1, 1]];
                  
-      this._M = math.mult(D, math.inv(S));  
+      this._M = math.multiply(D, math.inv(S));  
     }
     return this._M;
   }
@@ -65,8 +68,9 @@ export class GeomPlane {
   * @return {GeomPoint} Point with x & y transformed, z set to 0.
   */
   transformPointToPlane(p) {
-    const res = math.mult(this.M, p);
-    return new GeomPoint(res[0][0], res[0][1], 0);
+    p = [p.x, p.y, p.z, 1];
+    const res = math.multiply(p, this.M);
+    return new GeomPoint(res[0], res[1], 0);
   }
   
  /** 
@@ -78,8 +82,8 @@ export class GeomPlane {
   */ 
   transformPointFromPlane(p) {
     p = [p.x, p.y, p.z, 1];
-    const res = math.mult(this._M, p);
-    return new GeomPoint(res[0][0], res[0][1], res[0][2]);
+    const res = math.multiply(p, this._M);
+    return new GeomPoint(res[0], res[1], res[2]);
   }
   
    
