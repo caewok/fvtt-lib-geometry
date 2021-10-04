@@ -12,8 +12,6 @@ export class GeomPlane {
     this.A = p1;
     this.B = p2;
     this.C = p3;
-    this.AB = p2.subtract(p1);
-    this.AC = p3.subtract(p1);
      
     this._M = undefined;
     this._invM = undefined;
@@ -23,17 +21,18 @@ export class GeomPlane {
   
   get M() {
     if(this._M === undefined) {
-      // N is l1
-      // AB is l0
-      const N = this.AB.cross(this.AC);
-      const uAB = this.AB.normalize();
-      const uN = N.normalize();
-      const V = uAB.cross(uN);
-      
-      const A = this.A;
+      const AB = this.B.subtract(this.A);
+      const AC = this.C.subtract(this.A);
+ 
+      const uAB = AB.normalize();
       const u = A.add(uAB);
-      const v = A.add(V);
+
+      const N = AC.cross(AB);
+      const uN = N.normalize();
       const n = A.add(uN);
+
+      const V = uAB.cross(uN);
+      const v = A.add(V);
       
       const S = [[A.x, u.x, v.x, n.x],
                  [A.y, u.y, v.y, n.y],
@@ -68,9 +67,8 @@ export class GeomPlane {
   * @return {GeomPoint} Point with x & y transformed, z set to 0.
   */
   transformPointToPlane(p) {
-    p = p.subtract(this.A);
     p = [p.x, p.y, p.z, 1];
-    const res = math.multiply(p, this.M);
+    const res = math.multiply(this.M, p);
     return new GeomPoint(res[0], res[1], 0);
   }
   
@@ -83,9 +81,8 @@ export class GeomPlane {
   */ 
   transformPointFromPlane(p) {
     p = [p.x, p.y, p.z, 1];
-    const res = math.multiply(this._invM, p);
-    const new_p = new GeomPoint(res[0], res[1], res[2]);
-    return new_p.add(this.A);
+    const res = math.multiply(this.invM, p);
+    return new GeomPoint(res[0], res[1], res[2]);
   }
   
    
