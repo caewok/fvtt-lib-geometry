@@ -44,14 +44,18 @@ export class GeomCircle {
   // -------------- METHODS --------------------- //    
  /**
   * Get a point on the circle
-  * t = 0 is the point where the circle vector ends
-  * @param {number|undefined} t  Increment
-  *                              Undefined if not a number or not otherwise on the circle.
-  * @return {GeomPoint} Point on the line
+  * If on XY plane:
+  * t === 0 or 2π or -2π: leftmost point
+  * t === π 
+  * @param {number|undefined} t  Increment in radians
+  * @return {GeomPoint} Point on the line. 
   */
   point(t) {
-   if(t === 0) return this.p;
-   return GeomPoint.fromArray(math.add(this.p, math.dotMultiply(this.v, t)));
+   t = Math.abs(t);
+   t = t > Math.PI ? t / Math.PI : t; 
+  
+   return GeomPoint(Math.cos(t) * this.v.magnitude + this.p.x,
+                    Math.sin(t) * this.v.magnitude + this.p.y);
   }
   
  /**
@@ -75,6 +79,8 @@ export class GeomCircle {
    * @param {number} width
    */
   draw(color = COLORS.gray, alpha = 1, width = 1) {
-    
+    canvas.controls.debug
+      .lineStyle(width, color, alpha)
+      .drawCircle(this.p.x, this.p.y, this.v.magnitudeXY);   
   }
 }
