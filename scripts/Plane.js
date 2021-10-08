@@ -69,7 +69,7 @@ export class GeomPlane {
   transformPointToPlane(p) {
     p = [p.x, p.y, p.z, 1];
     const res = math.multiply(this.M, p);
-    return new GeomPoint(res[0], res[1], 0);
+    return new GeomPoint(res[0], res[1]);
   }
   
  /** 
@@ -80,7 +80,7 @@ export class GeomPlane {
   * @return {GeomPoint} Point with x & y transformed, z set to 0.
   */ 
   transformPointFromPlane(p) {
-    p = [p.x, p.y, p.z, 1];
+    p = [p.x, p.y, 1];
     const res = math.multiply(this.invM, p);
     return new GeomPoint(res[0], res[1], res[2]);
   }
