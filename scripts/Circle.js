@@ -7,40 +7,22 @@ import { GEOM, COLORS } from "./constants.js";
 
 /**
  * A circle.
- * Represented by a center point and a radius vector
- * The radius vector describes the plane on which the circle lies
- * Interchangeable with the line class in many respects.
- * 1. Has at least two points, such that t = 0 and t = 1 return valid points.
- *    (Other values of t should return a point or undefined)
- * 2. Represented by a vector and a point "anchoring" that vector in space.
+ * Represented by a center point and a radius scalar
+ * The circle is flat on the XY plane, at the elevation of the center.z.
  *
- * @param {GeomPoint}  p  Center point of the circle
- * @param {GeomVector} v  Radius and direction of the circular plane.
+ * @param {GeomPoint}  center  Center point of the circle
+ * @param {GeomVector} r  Radius of the circular plane.
  */ 
 export class GeomCircle {  
-  constructor(p, v) {
-    if(!(p instanceof GeomVector)) console.error(`libgeometry|GeomCircle p is not a GeomVector`);
-    if(!(v instanceof GeomVector)) console.error(`libgeometry|GeomCircle v is not a GeomVector`);
+  constructor(center, radius) {
+    if(!(center instanceof GeomVector)) console.error(`libgeometry|GeomCircle p is not a GeomVector`);
 
-    this.p = p;
-    this.v = v;    
+    this.center = center;
+    this.radius = radius;    
   }  
   
    // -------------- FACTORY FUNCTIONS ----------- // 
- /**
-  * Create a circle on the plane given a center point and scalar radius.
-  * @param {GeomPoint} p       Center point of the circle.
-  * @param {number}    radius  Radius of the circle
-  * @param {GEOM.XY|GEOM.XZ|GEOM.YZ}  plane
-  * @return {GeomCircle}
-  */
-  static fromPoint(p, radius, { plane = GEOM.XY } = {}) {
-    const v = plane === GEOM.XY ? new GeomVector(radius, radius, 0) :
-              plane === GEOM.XZ ? new GeomVector(radius, 0, radius) :
-                                  new GeomVector(0, radius, radius);
-    return new this(p, v);                                      
-  }
- 
+
   // -------------- METHODS --------------------- // 
  /**
   * Are two circles equivalent?
@@ -49,7 +31,7 @@ export class GeomCircle {
   */
   equivalent(c) {
     if(!(c instanceof GeomCircle)) return false;
-    return this.p.equivalent(c.p) && this.v.equivalent(c.v);
+    return this.center.equivalent(c.center) && this.radius.equivalent(c.radius);
   }
 
    
@@ -64,8 +46,9 @@ export class GeomCircle {
   point(t) {
    t = Math.normalizeRadians(t);
   
-   return new GeomPoint(Math.cos(t) * this.v.magnitude + this.p.x,
-                        Math.sin(t) * this.v.magnitude + this.p.y);
+   return new GeomPoint(Math.cos(t) * this.radius + this.center.x,
+                        Math.sin(t) * this.radius + this.center.y,
+                        this.center.z);
   }
   
  /**
@@ -91,6 +74,6 @@ export class GeomCircle {
   draw(color = COLORS.gray, alpha = 1, width = 1) {
     canvas.controls.debug
       .lineStyle(width, color, alpha)
-      .drawCircle(this.p.x, this.p.y, this.v.magnitudeXY);   
+      .drawCircle(this.center.x, this.center.y, this.radius);   
   }
 }
