@@ -12,6 +12,7 @@ export const GEOM = {
   XY: 1,
   YZ: 2,
   XZ: 3,
+  PROJECTED: 4,
   QUADRANT: { SW: 1, SE: 2, NE: 3, NW: 4 }
 }
 
