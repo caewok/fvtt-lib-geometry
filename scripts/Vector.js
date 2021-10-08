@@ -299,14 +299,32 @@ export class GeomVector extends Array {
   * @return {number}
   */
   static orient2D(p1, p2, p3, { plane = GEOM.XY, use_robust = true } = {}) {
-    const dim1 = (plane === GEOM.YZ) ? "y" : "x";
-    const dim2 = (plane === GEOM.XY) ? "y" : "z";
-    const fn = use_robust ? orient2d : orient2dfast;
+    let dim1;
+    let dim2;
+  
+    if(plane === GEOM.PROJECTED) {
+      // construct a 2D plane from the 3 points
+      // determine orientation on that plane
+      const pl = new GeomPlane(p1, p2, p3);
+      p1 = transformPointToPlane(p1);
+      p2 = transformPointToPlane(p2);
+      p3 = transformPointToPlane(p3);
+      
+      dim1 = "x";
+      dim2 = "y";
     
+    } else {
+      const dim1 = (plane === GEOM.YZ) ? "y" : "x";
+      const dim2 = (plane === GEOM.XY) ? "y" : "z";
+    }
+  
+    const fn = use_robust ? orient2d : orient2dfast;  
     return fn(p1[dim1], p1[dim2],
               p2[dim1], p2[dim2],
               p3[dim1], p3[dim2]); 
   }
+  
+  
   
  /**
   * CCW for four points or vectors in 3D. 
@@ -333,8 +351,8 @@ export class GeomVector extends Array {
   *                                              faster orient test.
   * @return {GEOM.CLOCKWISE|GEOM.COLLINEAR|GEOM.COUNTERCLOCKWISE}
   */ 
-  static ccw2D(p1, p2, p3, {use_robust = true} = {}) {
-    const res = this.orient2D(p1, p2, p3, { use_robust });
+  static ccw2D(p1, p2, p3, { plane = GEOM.XY,use_robust = true } = {}) {
+    const res = this.orient2D(p1, p2, p3, { plane, use_robust });
     return res < 0 ? GEOM.CLOCKWISE :
            res > 0 ? GEOM.COUNTERCLOCKWISE :
            GEOM.COLLINEAR;
@@ -481,7 +499,7 @@ export class GeomVector extends Array {
   add(v) { return this.constructor.fromArray(math.add(this, v)); }
   
   /**
-   * Subtract another vector to this one
+   * Subtract another vector from this one
    * @param {GeomVector} v
    * @return {GeomVector}
    */
