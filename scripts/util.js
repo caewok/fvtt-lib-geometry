@@ -1,18 +1,39 @@
-const PRESET_EPSILON = 1e-8;
+/** Utility Functions **/
 
- /*
-  * Test if two numbers are almost equal, given a small error window.
-  * See https://www.toptal.com/python/computational-geometry-in-python-from-theory-to-implementation
-  * @param {number} x         First number
-  * @param {number} y         Second number for comparison
-  * @param {number} EPSILON   Small number representing error within which the numbers 
-  *                           will be considered equal
-  * See Number.EPSILON for smallest possible error number.
-  * Given the use in light measurements over long distances, probably make this 
-  * relatively small in case comparing small angles.
-  *
-  * @return {boolean} True if x and y are within the error of each other.
-  */
-export almostEqual(x, y, EPSILON = PRESET_EPSILON) {
-  return Math.abs(x - y) < EPSILON;
+'use strict';
+
+/**
+ * Sort 2D points from northeast to southwest, such that smaller x values
+ * are negative and when x is equal, smaller y values are negative
+ * @param {Point} a		First x,y object to compare.
+ * @param {Point} b		Second x,y object to compare.
+ * @return {number}		Difference between x values or if equal, between y values,
+ *                    such that smaller coordinates are sorted first. See array sort.
+ *
+ * Performance: https://jsbench.me/nikyhj8c9s
+ */
+export function compareXY(a, b) {
+	return ( a.x === b.x ) ? ( a.y - b.y ) : ( a.x - b.x );
+}
+
+/**
+ * Same as compareXY function but uses near equality to test if the x values are equal.
+ * May be necessary when using calculated floats for x coordinates.
+ * Uses Foundry's almostEqual function.
+ * @param {Point} a		First x,y object to compare.
+ * @param {Point} b		Second x,y object to compare.
+ * @return {number}		Difference between x values or if equal, between y values,
+ *                    such that smaller coordinates are sorted first. See array sort.
+ */
+export function compareXYAlmost(a, b) {
+	return ( a.x.almostEqual(b.x) ) ? ( a.y - b.y ) : ( a.x - b.x );
+}
+
+/**
+ * Returns the integer key used by Foundry's PolygonVertex
+ * @param {Point} p		Object with x,y values to calculate a key
+ * @return {number}		Integer representing the rounded x,y values
+ */
+export function keyForPoint(p) {
+	return ( Math.round(p.x) << 16 ) ^ Math.round(p.y);
 }
