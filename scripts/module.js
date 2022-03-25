@@ -1,34 +1,32 @@
+/* globals
+Hooks,
+game
+*/
+
+'use strict';
 export const MODULE_ID = 'libgeometry';
 
-import { GEOM_CONSTANTS } from "./constants.js";
+import { Intersections } from "./Intersections.js";
+import { IntersectionsSort } from "./IntersectionsSort.js";
 
-import { GeomPoint } from "./Point.js";
-import { GeomPixelPoint } from "./PixelPoint.js";
+import { OrderedPolygonEdge } from "./OrderedPolygonEdge.js";
 
-import { GeomVector } from "./Vector.js";
-import { GeomPixelVector } from "./PixelVector.js";
+import TestIntersections from "../tests/Intersections.test.js";
 
-import { GeomLine } from "./Line.js";
-import { GeomPixelLine } from "./PixelLine.js";
-
-import { GeomRay } from "./Ray.js";
-
-import { determinent } from "mathjs";
 
 
 Hooks.once('init', async function() {
   game.modules.get(MODULE_ID).api = {
-    GEOM_CONSTANTS = GEOM_CONSTANTS,
-    
-    GeomPoint = GeomPoint,
-    GeomPixelPoint = GeomPixelPoint,
-    
-    GeomVector = GeomVector,
-    GeomPixelVector = GeomPixelVector,
-    
-    GeomLine = GeomLine,
-    GeomPixelLine = GeomPixelLine,
-    
-    GeomRay = GeomRay
+    Intersections: Intersections,
+    IntersectionsSort: IntersectionsSort,
+    OrderedPolygonEdge: OrderedPolygonEdge,
   };
-}
+
+  game.modules.get(MODULE_ID).testing = {
+		TestIntersections: TestIntersections,
+  };
+
+  game.modules.get(MODULE_ID).benchmarking = {
+
+  };
+});

@@ -1,4 +1,8 @@
 /** Add to Ray a getter for nw and se **/
+/* globals
+Ray
+*/
+
 'use strict';
 
 import compareXY from "./util.js";
@@ -11,16 +15,16 @@ import compareXY from "./util.js";
  *
  *
  */
-Object.defineProperty(Ray.prototype, "nw") {
-	get() {
-	  const is_nw = compareXY(this.A, this.B) < 0;
-		return is_nw ? this.A : this.B;
-	}
-}
+Object.defineProperty(Ray.prototype, "nw", {
+  get() {
+    const is_nw = compareXY(this.A, this.B) < 0;
+    return is_nw ? this.A : this.B;
+  }
+});
 
-Object.defineProperty(Ray.prototype, "se") {
-	get() {
-	  const is_nw = compareXY(this.A, this.B) < 0;
-		return is_nw ? this.A : this.B;
-	}
-}
+Object.defineProperty(Ray.prototype, "se", {
+  get() {
+    const is_nw = compareXY(this.A, this.B) < 0;
+    return is_nw ? this.A : this.B;
+  }
+});

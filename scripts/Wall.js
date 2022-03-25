@@ -1,4 +1,8 @@
 /** Add to Wall a getter for nw and se **/
+/* globals
+Wall
+*/
+
 'use strict';
 
 import compareXY from "./util.js";
@@ -33,7 +37,7 @@ middle ground, particularly for walls where nw and se are already calculated els
  *
  * Note: It would probably be faster to just calculate the se and nw values up front
  */
-Object.defineProperty(Wall.prototype, "nw") {
+Object.defineProperty(Wall.prototype, "nw", {
 	get() {
 		if(!this._nw) {
 			const is_nw = compareXY(this.A, this.B) < 0;
@@ -42,9 +46,9 @@ Object.defineProperty(Wall.prototype, "nw") {
 		}
 		return this._nw;
 	}
-}
+});
 
-Object.defineProperty(Wall.prototype, "se") {
+Object.defineProperty(Wall.prototype, "se", {
 	get() {
 		if(!this._se) {
 			const is_nw = compareXY(this.A, this.B) < 0;
@@ -53,6 +57,6 @@ Object.defineProperty(Wall.prototype, "se") {
 		}
 		return this._se;
 	}
-}
+});
 
 

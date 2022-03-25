@@ -25,7 +25,8 @@
     
   ],
   "esmodules": [
-    "/scripts/module.js"
+    "/scripts/module.js",
+    "/scripts/lib/unit.js"
   ],
   "languages": [
     {

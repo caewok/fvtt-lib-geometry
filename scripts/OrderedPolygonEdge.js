@@ -1,7 +1,12 @@
 /** Extend the PolygonEdge class to order the walls **/
+
+/* globals
+PolygonEdge,
+CONST,
+*/
 'use strict';
 
-import compareXY from "./util.js";
+import { compareXY } from "./util.js";
 
 /**
  * The Wall class is only really useful if you intend to build a wall—--it is overkill
@@ -31,7 +36,7 @@ export class OrderedPolygonEdge extends PolygonEdge {
   * Assists with testing for intersections between walls, or between walls and other
   * segment-like objects.
   */
-	get() {
+	get nw() {
 		if(!this._nw) {
 			const is_nw = compareXY(this.A, this.B) < 0;
 			this._nw = is_nw ? this.A : this.B;
@@ -40,7 +45,7 @@ export class OrderedPolygonEdge extends PolygonEdge {
 		return this._nw;
 	}
 
-	get() {
+	get se() {
 		if(!this._se) {
 			const is_nw = compareXY(this.A, this.B) < 0;
 			this._nw = is_nw ? this.A : this.B;
