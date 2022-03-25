@@ -37,3 +37,11 @@ export function compareXYAlmost(a, b) {
 export function keyForPoint(p) {
 	return ( Math.round(p.x) << 16 ) ^ Math.round(p.y);
 }
+
+export function clearVertexLabels() {
+	canvas.controls.debug.polygonText.removeChildren();
+}
+
+export function clearDrawings() {
+  canvas.controls.debug.clear();
+}

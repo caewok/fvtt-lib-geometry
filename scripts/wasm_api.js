@@ -1,4 +1,7 @@
 /** Functions to facilitate communication with WASM code **/
 
-// Also see PIXI.Polygon code
+// See also PIXI.js additions
+
+
+
 
