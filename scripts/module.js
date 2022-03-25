@@ -3,6 +3,16 @@ Hooks,
 game
 */
 
+/*
+api = game.modules.get(`libgeometry`).api
+
+To test:
+testing = game.modules.get(`libgeometry`).testing
+testing.TestIntersections()
+
+
+*/
+
 'use strict';
 export const MODULE_ID = 'libgeometry';
 
