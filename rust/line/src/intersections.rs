@@ -205,8 +205,8 @@ pub fn ix_sort_double_f64(segments1: &mut [OrderedSegment<f64>], segments2: &mut
 	segments1.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
 	segments2.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
 
-	dbg!(&segments1);
-	dbg!(&segments2);
+// 	dbg!(&segments1);
+// 	dbg!(&segments2);
 
 	// no longer need mutability after the sort
 	let segments1 = segments1;
@@ -217,21 +217,21 @@ pub fn ix_sort_double_f64(segments1: &mut [OrderedSegment<f64>], segments2: &mut
 		for sj in &mut *segments2 {
 			// if we have not yet reached the left end, we can skip
 			if sj.is_left(si) {
-				println!("Continuing at {},{}", si.idx, sj.idx);
+// 				println!("Continuing at {},{}", si.idx, sj.idx);
 			continue; }
 
 			// if we reach the right end, we can skip the rest
 			if sj.is_right(si) {
-				println!("Breaking at {},{}", si.idx, sj.idx);
+// 				println!("Breaking at {},{}", si.idx, sj.idx);
 			break; }
 
 			if !si.intersects(sj) {
-				println!("No intersection at {}, {}", si.idx, sj.idx);
+// 				println!("No intersection at {}, {}", si.idx, sj.idx);
 			continue; }
 			let res = si.line_intersection(sj);
 
 			if let Some(ix) = res {
-				println!("Recording ix {},{} at {},{}", ix.x(), ix.y(), si.idx, sj.idx);
+// 				println!("Recording ix {},{} at {},{}", ix.x(), ix.y(), si.idx, sj.idx);
 
 				ixs.push( IxResultFloat {
 					ix,

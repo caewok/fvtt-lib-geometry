@@ -6,17 +6,20 @@ use num_traits::{Num};
 use rand::prelude::Distribution;
 use rand::distributions::Standard;
 use rand::distributions::uniform::SampleUniform;
+use serde::{Serialize, Deserialize};
 use geo::Line;
 
 
 
 // Create a simple struct for an ordered Line, where a is ne of b
-#[derive(Debug, Copy, Clone, PartialEq)]
+#[derive(Debug, Copy, Clone, PartialEq, Serialize, Deserialize)]
 pub struct OrderedSegment<T>
 	where T: CoordNum + Num,
 {
 	pub start: Coordinate<T>,
 	pub end: Coordinate<T>,
+
+	#[serde(default)]
 	pub idx: usize, // needed to easily track intersections
 }
 
