@@ -1,5 +1,10 @@
 /** Additions to the Polygon Edge Class **/
 
+/* globals
+PolygonEdge,
+canvas
+*/
+
 import { COLORS } from "./constants.js";
 
 Object.defineProperty(PolygonEdge.prototype, "draw", {

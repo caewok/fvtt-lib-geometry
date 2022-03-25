@@ -24,6 +24,45 @@ foundry
 'use strict';
 
 
+
+
+
+export function IntersectionSetup({ reportIntersection,
+                                    testForIntersection
+                                    } = {}) {
+	function reportIntersectionDefault(ix, i, j, s1, s2) {
+		return { ix, i: i, j: j, s1: s1, s2: s2 };
+	}
+
+	function testForIntersectionDefault(s1, s2) {
+		if(!foundry.utils.lineSegmentIntersects(s1.A, s1.B, s2.A, s2.B)) return false;
+		return foundry.utils.lineLineIntersection(s1.A, s1.B, s2.A, s2.B);
+	}
+
+	reportIntersection = reportIntersection ?? reportIntersectionDefault;
+  testForIntersection = testForIntersection ?? testForIntersectionDefault;
+
+	function bruteSingle(segments) {
+    const results = [];
+    const ln = segments.length;
+    for(let i = 0; i < ln; i += 1) {
+      const si = segments[i];
+      // Skip segments already visited
+      for(let j = (i + 1); j < ln; j += 1) {
+        const sj = segments[j];
+        const ix = testForIntersection(si, sj);
+        if(ix) {
+          results.push(reportIntersection(ix, i, j, si, sj));
+        }
+      }
+    }
+    return results;
+  }
+
+  return bruteSingle;
+}
+
+
 export class Intersections {
 
  /**
@@ -36,7 +75,8 @@ export class Intersections {
   * @return {Object} Data to store for the intersection.
   */
   static reportIntersection(ix, i, j, s1, s2) {
-    return { ix, i: i, j: j, s1: s1, s2: s2 };
+    //return { ix, i: i, j: j, s1: s1, s2: s2 };
+    return { ix, i: i, j: j }
   }
 
 

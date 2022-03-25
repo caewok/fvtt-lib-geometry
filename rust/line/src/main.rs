@@ -37,6 +37,6 @@ fn main() {
 	];
 
 
-	dbg!(ix_sort_double_f64(&mut segments0, &mut segments1));
+	dbg!(ix_sort_double_f64(&mut segments0, &mut segments1, false));
 
 }

@@ -36,6 +36,12 @@ impl<T> PartialOrd for OrderedSegment<T>
 impl<T> OrderedSegment<T>
 	where T: CoordNum,
 {
+	pub fn new_ordered_with_idx<C>(start: C, end: C, idx: usize) -> OrderedSegment<T>
+		where C: Into<Coordinate<T>>
+	{
+		Self { start: start.into(), end: end.into(), idx }
+	}
+
 	pub fn new_with_idx<C>(start: C, end: C, idx: usize) -> OrderedSegment<T>
 		where C: Into<Coordinate<T>>
 	{

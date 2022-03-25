@@ -128,74 +128,105 @@ pub fn brute_double_f64(coordinates0: &[f64], coordinates1: &[f64]) -> Option<Bo
 }
 
 #[wasm_bindgen]
-pub fn sort_i32(coordinates: &[i32]) -> Option<Box<[f64]>> {
+pub fn sort_i32(coordinates: &[i32], ordered: bool, sorted: bool) -> Option<Box<[f64]>> {
 	let n_coords = coordinates.len();
 
 	// build segments
 	let mut segments = Vec::<OrderedSegment<i32>>::with_capacity(n_coords / 4);
-	for i in (0..n_coords).step_by(4) {
-		segments.push(OrderedSegment::new_with_idx((coordinates[i], coordinates[i+1]), (coordinates[i+2], coordinates[i+3]), i / 4));
+	if ordered {
+		for i in (0..n_coords).step_by(4) {
+			segments.push(OrderedSegment::new_ordered_with_idx((coordinates[i], coordinates[i+1]), (coordinates[i+2], coordinates[i+3]), i / 4));
+		}
+	} else {
+		for i in (0..n_coords).step_by(4) {
+			segments.push(OrderedSegment::new_with_idx((coordinates[i], coordinates[i+1]), (coordinates[i+2], coordinates[i+3]), i / 4));
+		}
 	}
 
-	let ixs = ix_sort_single_i32(&mut segments);
+	let ixs = ix_sort_single_i32(&mut segments, sorted);
 	bundle_ix(ixs)
 }
 
 #[wasm_bindgen]
-pub fn sort_f64(coordinates: &[f64]) -> Option<Box<[f64]>> {
+pub fn sort_f64(coordinates: &[f64], ordered: bool, sorted: bool) -> Option<Box<[f64]>> {
 	let n_coords = coordinates.len();
 
 	// build segments
 	let mut segments = Vec::<OrderedSegment<f64>>::with_capacity(n_coords / 4);
-	for i in (0..n_coords).step_by(4) {
-		segments.push(OrderedSegment::new_with_idx((coordinates[i], coordinates[i+1]), (coordinates[i+2], coordinates[i+3]), i / 4));
+	if ordered {
+		for i in (0..n_coords).step_by(4) {
+			segments.push(OrderedSegment::new_ordered_with_idx((coordinates[i], coordinates[i+1]), (coordinates[i+2], coordinates[i+3]), i / 4));
+		}
+	} else {
+		for i in (0..n_coords).step_by(4) {
+			segments.push(OrderedSegment::new_with_idx((coordinates[i], coordinates[i+1]), (coordinates[i+2], coordinates[i+3]), i / 4));
+		}
 	}
 
-	let ixs = ix_sort_single_f64(&mut segments);
+	let ixs = ix_sort_single_f64(&mut segments, sorted);
 	bundle_ix(ixs)
 }
 
 #[wasm_bindgen]
-pub fn sort_double_i32(coordinates0: &[i32], coordinates1: &[i32]) -> Option<Box<[f64]>> {
+pub fn sort_double_i32(coordinates0: &[i32], coordinates1: &[i32], ordered: bool, sorted: bool) -> Option<Box<[f64]>> {
 	let n_coords0 = coordinates0.len();
+	let n_coords1 = coordinates1.len();
 
 	// build segments
 	let mut segments0 = Vec::<OrderedSegment<i32>>::with_capacity(n_coords0 / 4);
-	for i in (0..n_coords0).step_by(4) {
-		segments0.push(OrderedSegment::new_with_idx((coordinates0[i], coordinates0[i+1]), (coordinates0[i+2], coordinates0[i+3]), i / 4));
-	}
-
-	let n_coords1 = coordinates1.len();
-
-	// build segments
 	let mut segments1 = Vec::<OrderedSegment<i32>>::with_capacity(n_coords1 / 4);
-	for i in (0..n_coords1).step_by(4) {
-		segments1.push(OrderedSegment::new_with_idx((coordinates1[i], coordinates1[i+1]), (coordinates1[i+2], coordinates1[i+3]), i / 4));
+	if ordered {
+		for i in (0..n_coords0).step_by(4) {
+			segments0.push(OrderedSegment::new_ordered_with_idx((coordinates0[i], coordinates0[i+1]), (coordinates0[i+2], coordinates0[i+3]), i / 4));
+		}
+
+		for i in (0..n_coords1).step_by(4) {
+			segments1.push(OrderedSegment::new_ordered_with_idx((coordinates1[i], coordinates1[i+1]), (coordinates1[i+2], coordinates1[i+3]), i / 4));
+		}
+	} else {
+		for i in (0..n_coords0).step_by(4) {
+			segments0.push(OrderedSegment::new_with_idx((coordinates0[i], coordinates0[i+1]), (coordinates0[i+2], coordinates0[i+3]), i / 4));
+		}
+
+		for i in (0..n_coords1).step_by(4) {
+			segments1.push(OrderedSegment::new_with_idx((coordinates1[i], coordinates1[i+1]), (coordinates1[i+2], coordinates1[i+3]), i / 4));
+		}
 	}
 
-	let ixs = ix_sort_double_i32(&mut segments0, &mut segments1);
+
+	let ixs = ix_sort_double_i32(&mut segments0, &mut segments1, sorted);
 	bundle_ix(ixs)
 }
 
 #[wasm_bindgen]
-pub fn sort_double_f64(coordinates0: &[f64], coordinates1: &[f64]) -> Option<Box<[f64]>> {
+pub fn sort_double_f64(coordinates0: &[f64], coordinates1: &[f64], ordered: bool, sorted: bool) -> Option<Box<[f64]>> {
 	let n_coords0 = coordinates0.len();
-
-	// build segments
-	let mut segments0 = Vec::<OrderedSegment<f64>>::with_capacity(n_coords0 / 4);
-	for i in (0..n_coords0).step_by(4) {
-		segments0.push(OrderedSegment::new_with_idx((coordinates0[i], coordinates0[i+1]), (coordinates0[i+2], coordinates0[i+3]), i / 4));
-	}
-
 	let n_coords1 = coordinates1.len();
 
 	// build segments
+	let mut segments0 = Vec::<OrderedSegment<f64>>::with_capacity(n_coords0 / 4);
 	let mut segments1 = Vec::<OrderedSegment<f64>>::with_capacity(n_coords1 / 4);
-	for i in (0..n_coords1).step_by(4) {
-		segments1.push(OrderedSegment::new_with_idx((coordinates1[i], coordinates1[i+1]), (coordinates1[i+2], coordinates1[i+3]), i / 4));
+	if ordered {
+		for i in (0..n_coords0).step_by(4) {
+			segments0.push(OrderedSegment::new_ordered_with_idx((coordinates0[i], coordinates0[i+1]), (coordinates0[i+2], coordinates0[i+3]), i / 4));
+		}
+
+		for i in (0..n_coords1).step_by(4) {
+			segments1.push(OrderedSegment::new_ordered_with_idx((coordinates1[i], coordinates1[i+1]), (coordinates1[i+2], coordinates1[i+3]), i / 4));
+		}
+
+	} else {
+
+		for i in (0..n_coords0).step_by(4) {
+			segments0.push(OrderedSegment::new_with_idx((coordinates0[i], coordinates0[i+1]), (coordinates0[i+2], coordinates0[i+3]), i / 4));
+		}
+
+		for i in (0..n_coords1).step_by(4) {
+			segments1.push(OrderedSegment::new_with_idx((coordinates1[i], coordinates1[i+1]), (coordinates1[i+2], coordinates1[i+3]), i / 4));
+		}
 	}
 
-	let ixs = ix_sort_double_f64(&mut segments0, &mut segments1);
+	let ixs = ix_sort_double_f64(&mut segments0, &mut segments1, sorted);
 	bundle_ix(ixs)
 }
 

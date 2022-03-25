@@ -11,13 +11,23 @@ testing = game.modules.get(`libgeometry`).testing
 testing.TestIntersections()
 testing.TestIntersectionsWASM()
 
+To bench:
+benchmarking = game.modules.get(`libgeometry`).benchmarking;
+await benchmarking.BenchIntersectionsPlan();
+
+Or:
+b1000 = benchmarking.BenchRandomIntersections(1000);
+await b1000()
+
+orient1000 = benchmarking.BenchLine(1000)
+await orient1000()
 
 */
 
 'use strict';
 export const MODULE_ID = 'libgeometry';
 
-import { Intersections } from "./Intersections.js";
+import { Intersections, IntersectionSetup } from "./Intersections.js";
 import { IntersectionsSort } from "./IntersectionsSort.js";
 import { IntersectionsWASM_f64,
          IntersectionsSortWASM_f64,
@@ -28,16 +38,24 @@ import { OrderedPolygonEdge } from "./OrderedPolygonEdge.js";
 
 import { TestIntersections, TestIntersectionsWASM } from "../tests/Intersections.test.js";
 
+import { BenchRandomIntersections, BenchIntersectionsPlan } from "../benchmarks/BenchIntersections.bench.js";
+import { BenchLine } from "../benchmarks/BenchWASMLine.bench.js";
+
 // WASM code
 import initWASMLine from "../wasm_line/intersections_line.js";
 import * as WASMLine from "../wasm_line/intersections_line.js";
+
+
 
 
 Hooks.once('init', async function() {
 	initWASMLine();
 
   game.modules.get(MODULE_ID).api = {
+
+
     Intersections: Intersections,
+    IntersectionSetup: IntersectionSetup,
     IntersectionsSort: IntersectionsSort,
     OrderedPolygonEdge: OrderedPolygonEdge,
 
@@ -55,6 +73,8 @@ Hooks.once('init', async function() {
   };
 
   game.modules.get(MODULE_ID).benchmarking = {
-
+		BenchRandomIntersections: BenchRandomIntersections,
+		BenchIntersectionsPlan: BenchIntersectionsPlan,
+		BenchLine: BenchLine,
   };
 });

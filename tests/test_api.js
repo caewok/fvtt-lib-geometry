@@ -17,7 +17,7 @@ export function test(description, fn) {
   try { fn(); console.log("PASSED!\n"); } catch(error) { console.log(error); }
 }
 
-export function announceGroup(description) {
-	console.log(`\nGroup: ${description}\n----------\n`);
+export function announceTestGroup(description) {
+	console.log(`\nTest Group: ${description}\n----------\n`);
 }
 

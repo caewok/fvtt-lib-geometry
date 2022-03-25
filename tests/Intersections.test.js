@@ -10,7 +10,7 @@ import { IntersectionsWASM_f64,
 
 import { OrderedPolygonEdge } from "../scripts/OrderedPolygonEdge.js";
 
-import { assert, test, announceGroup } from "./test_api.js";
+import { assert, test, announceTestGroup } from "./test_api.js";
 
 
 // Basic test: known inputs, outputs
@@ -47,7 +47,7 @@ export const TestIntersections = (function () {
   ];
 
   function run() {
-    announceGroup("JS Intersections");
+    announceTestGroup("JS Intersections");
 
     test('single brute intersection basic works', () => {
       let ix_res = Intersections.single(basic_segments);
@@ -137,7 +137,7 @@ export const TestIntersectionsWASM = (function () {
   ];
 
   function run() {
-    announceGroup("WASM Intersections");
+    announceTestGroup("WASM Intersections");
 
     test('single brute intersection basic works', () => {
       let ix_res = IntersectionsWASM_f64.single(basic_segments);

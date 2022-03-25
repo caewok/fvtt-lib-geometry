@@ -108,9 +108,9 @@ pub fn ix_brute_double_f64(segments1: &[OrderedSegment<f64>], segments2: &[Order
 	ixs
 }
 
-pub fn ix_sort_single_i32(segments: &mut [OrderedSegment<i32>]) -> SmallVec<[IxResultFloat; 4]>
+pub fn ix_sort_single_i32(segments: &mut [OrderedSegment<i32>], sorted: bool) -> SmallVec<[IxResultFloat; 4]>
 {
-	segments.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
+	if !sorted { segments.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap()); }
 	let segments = segments; // no longer need mutability
 
 	let mut ixs = SmallVec::<[IxResultFloat; 4]>::new();
@@ -137,9 +137,9 @@ pub fn ix_sort_single_i32(segments: &mut [OrderedSegment<i32>]) -> SmallVec<[IxR
 	ixs
 }
 
-pub fn ix_sort_single_f64(segments: &mut [OrderedSegment<f64>]) -> SmallVec<[IxResultFloat; 4]>
+pub fn ix_sort_single_f64(segments: &mut [OrderedSegment<f64>], sorted: bool) -> SmallVec<[IxResultFloat; 4]>
 {
-	segments.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
+	if !sorted { segments.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap()); }
 	let segments = segments; // no longer need mutability
 
 	let mut ixs = SmallVec::<[IxResultFloat; 4]>::new();
@@ -166,10 +166,12 @@ pub fn ix_sort_single_f64(segments: &mut [OrderedSegment<f64>]) -> SmallVec<[IxR
 	ixs
 }
 
-pub fn ix_sort_double_i32(segments1: &mut [OrderedSegment<i32>], segments2: &mut [OrderedSegment<i32>]) -> SmallVec<[IxResultFloat; 4]>
+pub fn ix_sort_double_i32(segments1: &mut [OrderedSegment<i32>], segments2: &mut [OrderedSegment<i32>], sorted: bool) -> SmallVec<[IxResultFloat; 4]>
 {
-	segments1.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
-	segments2.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
+	if !sorted {
+		segments1.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
+		segments2.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
+	}
 
 	// no longer need mutability after the sort
 	let segments1 = segments1;
@@ -200,10 +202,12 @@ pub fn ix_sort_double_i32(segments1: &mut [OrderedSegment<i32>], segments2: &mut
 	ixs
 }
 
-pub fn ix_sort_double_f64(segments1: &mut [OrderedSegment<f64>], segments2: &mut [OrderedSegment<f64>]) -> SmallVec<[IxResultFloat; 4]>
+pub fn ix_sort_double_f64(segments1: &mut [OrderedSegment<f64>], segments2: &mut [OrderedSegment<f64>], sorted: bool) -> SmallVec<[IxResultFloat; 4]>
 {
-	segments1.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
-	segments2.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
+	if !sorted {
+		segments1.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
+		segments2.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
+	}
 
 // 	dbg!(&segments1);
 // 	dbg!(&segments2);

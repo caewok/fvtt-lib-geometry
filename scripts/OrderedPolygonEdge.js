@@ -7,6 +7,7 @@ CONST,
 'use strict';
 
 import { compareXY } from "./util.js";
+import { randomPoint } from "../benchmarks/bench_api.js";
 
 /**
  * The Wall class is only really useful if you intend to build a wall—--it is overkill
@@ -37,21 +38,45 @@ export class OrderedPolygonEdge extends PolygonEdge {
   * segment-like objects.
   */
 	get nw() {
-		if(!this._nw) {
+		return this._nw || (() => {
 			const is_nw = compareXY(this.A, this.B) < 0;
 			this._nw = is_nw ? this.A : this.B;
 			this._se = is_nw ? this.B : this.A;
-		}
-		return this._nw;
+			return this._nw;
+		})();
 	}
 
 	get se() {
-		if(!this._se) {
+		return this._se || (() => {
 			const is_nw = compareXY(this.A, this.B) < 0;
 			this._nw = is_nw ? this.A : this.B;
 			this._se = is_nw ? this.B : this.A;
+			return this._se;
+		})();
+	}
+
+ /**
+  * Construct a single random edge
+  * @param {number} max_coord			Maximum x,y coordinate value. Min will be 0.
+  * @return {OrderedPolygonEdge}
+  */
+  static random(max_coord = 5000) {
+  	return new this(randomPoint(max_coord), randomPoint(max_coord));
+  }
+
+ /**
+  * Construct a specified number of random OrderedPolygonEdges.
+  * Primarily for testing and benchmarking.
+  * @param {number} n								Number of edges to create
+  * @param {number} max_coord				Maximum x,y coordinate value. Min will be 0.
+  * @return {OrderedPolygonEdge[]}	Array of edges, length n.
+  */
+	static randomEdges(n = 100, max_coord = 5000) {
+	  const arr = [];
+		for(let i = 0; i < n; i += 1) {
+			arr.push(this.random(max_coord));
 		}
-		return this._se;
+		return arr;
 	}
 }
 

@@ -92,7 +92,7 @@ export class IntersectionsSortWASM_f64 extends IntersectionsWASM {
   static single(segments) {
     const wasm_segments = new Float64Array(segments.length * 4);
     segments.forEach((s, idx) => wasm_segments.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
-    const wasm_ixs = WASMLine.sort_f64(wasm_segments);
+    const wasm_ixs = WASMLine.sort_f64(wasm_segments, true, false); // ordered, sorted
     return this._reportWASMSegments(wasm_ixs, segments, segments);
   }
 
@@ -112,7 +112,7 @@ export class IntersectionsSortWASM_f64 extends IntersectionsWASM {
     segments1.forEach((s, idx) => wasm_segments1.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
     segments2.forEach((s, idx) => wasm_segments2.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
 
-    const wasm_ixs = WASMLine.sort_double_f64(wasm_segments1, wasm_segments2);
+    const wasm_ixs = WASMLine.sort_double_f64(wasm_segments1, wasm_segments2, true, false);
     return this._reportWASMSegments(wasm_ixs, segments1, segments2);
   }
 }
@@ -167,8 +167,8 @@ export class IntersectionsSortWASM_i32 extends IntersectionsWASM {
   */
   static single(segments) {
     const wasm_segments = new Int32Array(segments.length * 4);
-    segments.forEach((s, idx) => wasm_segments.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
-    const wasm_ixs = WASMLine.sort_i32(wasm_segments);
+    segments.forEach((s, idx) => wasm_segments.set([s.nw.x, s.nw.y, s.se.x, s.se.y], idx * 4));
+    const wasm_ixs = WASMLine.sort_i32(wasm_segments, true, false);
     return this._reportWASMSegments(wasm_ixs, segments, segments);
   }
 
@@ -185,10 +185,10 @@ export class IntersectionsSortWASM_i32 extends IntersectionsWASM {
   static double(segments1, segments2) {
     const wasm_segments1 = new Int32Array(segments1.length * 4);
     const wasm_segments2 = new Int32Array(segments2.length * 4);
-    segments1.forEach((s, idx) => wasm_segments1.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
-    segments2.forEach((s, idx) => wasm_segments2.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
+    segments1.forEach((s, idx) => wasm_segments1.set([s.nw.x, s.nw.y, s.se.x, s.se.y], idx * 4));
+    segments2.forEach((s, idx) => wasm_segments2.set([s.nw.x, s.nw.y, s.se.x, s.se.y], idx * 4));
 
-    const wasm_ixs = WASMLine.sort_double_i32(wasm_segments1, wasm_segments2);
+    const wasm_ixs = WASMLine.sort_double_i32(wasm_segments1, wasm_segments2, true, false);
     return this._reportWASMSegments(wasm_ixs, segments1, segments2);
   }
 }
