@@ -89,10 +89,14 @@ export class IntersectionsSortWASM_f64 extends IntersectionsWASM {
   * @param {boolean} ignoreSharedEndpoints    If false, report shared endpoints
   *                                           as intersections.
   */
-  static single(segments) {
+  static single(segments, { ordered = true, sorted = false } = {}) {
     const wasm_segments = new Float64Array(segments.length * 4);
-    segments.forEach((s, idx) => wasm_segments.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
-    const wasm_ixs = WASMLine.sort_f64(wasm_segments, true, false); // ordered, sorted
+    if(ordered) {
+    	segments.forEach((s, idx) => wasm_segments.set([s.nw.x, s.nw.y, s.se.x, s.se.y], idx * 4));
+    } else {
+    	segments.forEach((s, idx) => wasm_segments.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
+    }
+    const wasm_ixs = WASMLine.sort_f64(wasm_segments, ordered, sorted); // ordered, sorted
     return this._reportWASMSegments(wasm_ixs, segments, segments);
   }
 
@@ -106,13 +110,18 @@ export class IntersectionsSortWASM_f64 extends IntersectionsWASM {
   * @param {boolean} ignoreSharedEndpoints    If false, report shared endpoints
   *                                           as intersections.
   */
-  static double(segments1, segments2) {
+  static double(segments1, segments2, { ordered = true, sorted = false } = {}) {
     const wasm_segments1 = new Float64Array(segments1.length * 4);
     const wasm_segments2 = new Float64Array(segments2.length * 4);
-    segments1.forEach((s, idx) => wasm_segments1.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
-    segments2.forEach((s, idx) => wasm_segments2.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
+    if(ordered) {
+			segments1.forEach((s, idx) => wasm_segments1.set([s.nw.x, s.nw.y, s.se.x, s.se.y], idx * 4));
+			segments2.forEach((s, idx) => wasm_segments2.set([s.nw.x, s.nw.y, s.se.x, s.se.y], idx * 4));
+    } else {
+			segments1.forEach((s, idx) => wasm_segments1.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
+			segments2.forEach((s, idx) => wasm_segments2.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
+    }
 
-    const wasm_ixs = WASMLine.sort_double_f64(wasm_segments1, wasm_segments2, true, false);
+    const wasm_ixs = WASMLine.sort_double_f64(wasm_segments1, wasm_segments2, ordered, sorted);
     return this._reportWASMSegments(wasm_ixs, segments1, segments2);
   }
 }
@@ -165,10 +174,16 @@ export class IntersectionsSortWASM_i32 extends IntersectionsWASM {
   * @param {boolean} ignoreSharedEndpoints    If false, report shared endpoints
   *                                           as intersections.
   */
-  static single(segments) {
+  static single(segments, { ordered = true, sorted = false } = {}) {
     const wasm_segments = new Int32Array(segments.length * 4);
-    segments.forEach((s, idx) => wasm_segments.set([s.nw.x, s.nw.y, s.se.x, s.se.y], idx * 4));
-    const wasm_ixs = WASMLine.sort_i32(wasm_segments, true, false);
+
+    if(ordered) {
+    	segments.forEach((s, idx) => wasm_segments.set([s.nw.x, s.nw.y, s.se.x, s.se.y], idx * 4));
+    } else {
+    	segments.forEach((s, idx) => wasm_segments.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
+    }
+
+    const wasm_ixs = WASMLine.sort_i32(wasm_segments, ordered, sorted);
     return this._reportWASMSegments(wasm_ixs, segments, segments);
   }
 
@@ -182,13 +197,19 @@ export class IntersectionsSortWASM_i32 extends IntersectionsWASM {
   * @param {boolean} ignoreSharedEndpoints    If false, report shared endpoints
   *                                           as intersections.
   */
-  static double(segments1, segments2) {
+  static double(segments1, segments2, { ordered = true, sorted = false } = {}) {
     const wasm_segments1 = new Int32Array(segments1.length * 4);
     const wasm_segments2 = new Int32Array(segments2.length * 4);
-    segments1.forEach((s, idx) => wasm_segments1.set([s.nw.x, s.nw.y, s.se.x, s.se.y], idx * 4));
-    segments2.forEach((s, idx) => wasm_segments2.set([s.nw.x, s.nw.y, s.se.x, s.se.y], idx * 4));
 
-    const wasm_ixs = WASMLine.sort_double_i32(wasm_segments1, wasm_segments2, true, false);
+    if(ordered) {
+			segments1.forEach((s, idx) => wasm_segments1.set([s.nw.x, s.nw.y, s.se.x, s.se.y], idx * 4));
+			segments2.forEach((s, idx) => wasm_segments2.set([s.nw.x, s.nw.y, s.se.x, s.se.y], idx * 4));
+    } else {
+			segments1.forEach((s, idx) => wasm_segments1.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
+			segments2.forEach((s, idx) => wasm_segments2.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
+    }
+
+    const wasm_ixs = WASMLine.sort_double_i32(wasm_segments1, wasm_segments2, ordered, sorted);
     return this._reportWASMSegments(wasm_ixs, segments1, segments2);
   }
 }

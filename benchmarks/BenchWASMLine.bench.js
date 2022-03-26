@@ -24,7 +24,7 @@ function orientPointsWASM_f64(pts) {
 }
 
 
-export function BenchLine(N = 100, { include_wasm = true, max_coords = 5000 } = {}) {
+export function BenchLine(N = 100, { include_wasm = true, max_coords = 5000, iter = 1000 } = {}) {
   // setup
   const pts = [];
   for(let i = 0; i < N; i += 1) {
@@ -37,8 +37,8 @@ export function BenchLine(N = 100, { include_wasm = true, max_coords = 5000 } = 
 
     if(include_wasm) {
       announceBenchGroup("WASM");
-      await benchmarkLoopFn(N, orientPointsWASM_i32, "orient2d_wasm_i32", pts);
-      await benchmarkLoopFn(N, orientPointsWASM_f64, "orient2d_wasm_f64", pts);
+      await benchmarkLoopFn(iter, orientPointsWASM_i32, "orient2d_wasm_i32", pts);
+      await benchmarkLoopFn(iter, orientPointsWASM_f64, "orient2d_wasm_f64", pts);
     }
   };
 
