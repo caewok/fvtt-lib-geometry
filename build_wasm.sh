@@ -9,7 +9,7 @@ out_dir="${PWD}/wasm_line"
 echo $build_dir
 echo $out_dir
 
-wasm-pack build "${build_dir}" --out-dir "${out_dir}" --target web
+wasm-pack build "${build_dir}" --out-dir "${out_dir}" --target web --release
 
 # Build Circle module
 #build_dir="${PWD}/rust/circle"
@@ -18,7 +18,7 @@ wasm-pack build "${build_dir}" --out-dir "${out_dir}" --target web
 #echo $build_dir
 #echo $out_dir
 
-#wasm-pack build "${build_dir}" --out-dir "${out_dir}" --target web
+#wasm-pack build "${build_dir}" --out-dir "${out_dir}" --target web --release
 
 # Build Polygon module
 #build_dir="${PWD}/rust/polygon"
@@ -27,4 +27,4 @@ wasm-pack build "${build_dir}" --out-dir "${out_dir}" --target web
 #echo $build_dir
 #echo $out_dir
 
-#wasm-pack build "${build_dir}" --out-dir "${out_dir}" --target web
+#wasm-pack build "${build_dir}" --out-dir "${out_dir}" --target web --release
