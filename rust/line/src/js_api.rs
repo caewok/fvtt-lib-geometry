@@ -23,6 +23,19 @@ use crate::intersections::IxResultFloat;
 
 use wasm_bindgen::prelude::*;
 
+#[wasm_bindgen]
+extern "C" {
+    // Use `js_namespace` here to bind `console.log(..)` instead of just
+    // `log(..)`
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &str);
+}
+
+macro_rules! console_log {
+    // Note that this is using the `log` function imported above
+    ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
+}
+
 fn bundle_ix(ixs: SmallVec<[IxResultFloat; 4]>) -> Option<Box<[f64]>> {
 	let ixs_ln = ixs.len();
 	if ixs_ln == 0 { return None };
@@ -42,19 +55,19 @@ fn bundle_ix(ixs: SmallVec<[IxResultFloat; 4]>) -> Option<Box<[f64]>> {
 #[wasm_bindgen]
 pub fn brute_i32(coordinates: &[i32]) -> Option<Box<[f64]>> {
 	let n_coords = coordinates.len();
-	let n_segments = n_coords / 4;
+// 	let n_segments = n_coords / 4;
 
-	println!("{} coordinates to add to construct {} segments", n_coords, n_segments);
+// 	println!("{} coordinates to add to construct {} segments", n_coords, n_segments);
 
 	// build segments
 	let mut segments = Vec::<OrderedSegment<i32>>::with_capacity(n_coords / 4);
 	for i in (0..n_coords).step_by(4) {
-		println!("Adding coordinates {},{}|{},{} at at index {}", coordinates[i], coordinates[i+1], coordinates[i+2], coordinates[i+3], i / 4);
+// 		println!("Adding coordinates {},{}|{},{} at at index {}", coordinates[i], coordinates[i+1], coordinates[i+2], coordinates[i+3], i / 4);
 		segments.push(OrderedSegment::new_with_idx((coordinates[i], coordinates[i+1]), (coordinates[i+2], coordinates[i+3]), i / 4));
 	}
 	let segments = segments; // don't need mutability anymore
 
-	println!("Locating intersections...");
+// 	println!("Locating intersections...");
 
 	let ixs = ix_brute_single_i32(&segments);
 	bundle_ix(ixs)
@@ -258,6 +271,30 @@ pub fn orient2d_f64_js(ax: f64, ay: f64, bx: f64, by: f64, cx: f64, cy: f64) -> 
 		Orientation::CounterClockwise => -1,
 		Orientation::Collinear => 0
 	}
+}
+
+#[no_mangle]
+pub fn orient2d_i32_fast(ax: i32, ay: i32, bx: i32, by: i32, cx: i32, cy: i32) -> i8 {
+	console_log!("a: {},{}, b: {},{}, c: {},{}", ax, ay, bx, by, cx, cy);
+	let (ax, ay) = (ax as i128, ay as i128);
+	let (bx, by) = (bx as i128, by as i128);
+	let (cx, cy) = (cx as i128, cy as i128);
+
+	let res = (ay - cy) * (bx - cx) - (ax - cx) * (by - cy);
+
+	if res > 0 {
+		-1
+	} else if res < 0 {
+		1
+	} else {
+		0
+	}
+}
+
+#[no_mangle]
+pub fn orient2d_f64_fast(ax: f64, ay: f64, bx: f64, by: f64, cx: f64, cy: f64) -> f64 {
+	console_log!("a: {},{}, b: {},{}, c: {},{}", ax, ay, bx, by, cx, cy);
+	-((ay - cy) * (bx - cx) - (ax - cx) * (by - cy))
 }
 
 

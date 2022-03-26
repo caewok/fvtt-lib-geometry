@@ -421,7 +421,7 @@ mod tests {
 				idx2: 2,
 			});
 
-		let ixs = ix_sort_single_f64(&mut segments);
+		let ixs = ix_sort_single_f64(&mut segments, false);
 		assert_eq!(ixs, res);
 	}
 
@@ -462,7 +462,7 @@ mod tests {
 				idx2: 1,
 			});
 
-		let ixs = ix_sort_double_f64(&mut segments1, &mut segments2);
+		let ixs = ix_sort_double_f64(&mut segments1, &mut segments2, false);
 		assert_eq!(ixs, res);
 	}
 
@@ -489,7 +489,7 @@ mod tests {
 				idx1: 1,
 				idx2: 2,
 			});
-		let ixs = ix_sort_single_i32(&mut segments);
+		let ixs = ix_sort_single_i32(&mut segments, false);
 		assert_eq!(ixs, res);
 	}
 
@@ -530,7 +530,7 @@ mod tests {
 				idx2: 1,
 			});
 
-		let ixs = ix_sort_double_i32(&mut segments1, &mut segments2);
+		let ixs = ix_sort_double_i32(&mut segments1, &mut segments2, false);
 		assert_eq!(ixs, res);
 	}
 
@@ -605,7 +605,7 @@ mod tests {
 			},
 		];
 
-		let ixs = ix_sort_double_f64(&mut segments0, &mut segments1);
+		let ixs = ix_sort_double_f64(&mut segments0, &mut segments1, false);
 		assert_eq!(ixs, expected);
 	}
 
