@@ -9,7 +9,8 @@ import { IntersectionsSort } from "../scripts/IntersectionsSort.js";
 import { IntersectionsWASM_f64,
          IntersectionsSortWASM_f64,
          IntersectionsWASM_i32,
-         IntersectionsSortWASM_i32 } from "../scripts/IntersectionsWASM.js";
+         IntersectionsSortWASM_i32,
+         IntersectionWASMFast_f64 } from "../scripts/IntersectionsWASM.js";
 
 import { OrderedPolygonEdge } from "../scripts/OrderedPolygonEdge.js";
 
@@ -19,6 +20,8 @@ export function BenchRandomIntersections(N = 10, { include_wasm = true, max_coor
 	const segments2 = OrderedPolygonEdge.randomEdges(N, max_coords);
 
 	const alt_brute = IntersectionSetup();
+  const instance = game.modules.get(`libgeometry`).api.WASMLineInstance;
+
 
   return async function run() {
 		announceBenchGroup(`Intersections ${N} segments`);
@@ -34,6 +37,10 @@ export function BenchRandomIntersections(N = 10, { include_wasm = true, max_coor
 			announceBenchGroup(`Intersections WASM f64 ${N} segments`);
 			await benchmarkLoop(iter, IntersectionsWASM_f64, "single", segments1);
 			await benchmarkLoop(iter, IntersectionsWASM_f64, "double", segments1, segments2);
+
+			announceBenchGroup(`Intersections WASM f64 ${N} segments`);
+			await benchmarkLoop(iter, IntersectionWASMFast_f64, "single", segments1, instance);
+// 			await benchmarkLoop(iter, IntersectionsWASM_f64, "double", segments1, segments2);
 
 			announceBenchGroup(`Intersections Sort WASM f64 ${N} segments`);
 			await benchmarkLoop(iter, IntersectionsSortWASM_f64, "single", segments1);
@@ -54,6 +61,8 @@ export function BenchRandomIntersections(N = 10, { include_wasm = true, max_coor
 			announceBenchGroup(`Intersections Sort WASM i32 ${N} segments (unordered)`);
 			await benchmarkLoop(iter, IntersectionsSortWASM_i32, "single", segments1, { ordered: false });
 			await benchmarkLoop(iter, IntersectionsSortWASM_i32, "double", segments1, segments2, { ordered: false });
+
+
 		}
   }
 }

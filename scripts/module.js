@@ -16,6 +16,7 @@ benchmarking = game.modules.get(`libgeometry`).benchmarking;
 await benchmarking.BenchIntersectionsPlan();
 
 Or:
+benchmarking = game.modules.get(`libgeometry`).benchmarking;
 b1000 = benchmarking.BenchRandomIntersections(1000);
 await b1000()
 
@@ -32,7 +33,8 @@ import { IntersectionsSort } from "./IntersectionsSort.js";
 import { IntersectionsWASM_f64,
          IntersectionsSortWASM_f64,
          IntersectionsWASM_i32,
-         IntersectionsSortWASM_i32 } from "./IntersectionsWASM.js";
+         IntersectionsSortWASM_i32,
+         IntersectionWASMFast_f64 } from "./IntersectionsWASM.js";
 
 import { OrderedPolygonEdge } from "./OrderedPolygonEdge.js";
 
@@ -65,6 +67,10 @@ Hooks.once('init', async function() {
     IntersectionsSortWASM_f64: IntersectionsSortWASM_f64,
     IntersectionsWASM_i32: IntersectionsWASM_i32,
     IntersectionsSortWASM_i32: IntersectionsSortWASM_i32,
+    IntersectionWASMFast_f64: IntersectionWASMFast_f64,
+
+    // WASM instance
+    WASMLineInstance: await WASMLine.default(),
   };
 
   game.modules.get(MODULE_ID).testing = {

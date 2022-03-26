@@ -50,7 +50,8 @@ pub fn sum_copy(data: &[f64]) -> f64 {
 
 #[wasm_bindgen]
 pub fn sum_no_copy(ptr: *mut f64, count: usize) -> f64 {
-	let data = unsafe { std::slice::from_raw_parts(ptr, count) };
+// 	let data = unsafe { std::slice::from_raw_parts(ptr, count) };
+    let data = unsafe { Vec::from_raw_parts(ptr, count, count) };
 	data.iter().sum()
 }
 
@@ -67,9 +68,63 @@ pub fn get_array(ptr: *mut f64, count: usize) -> js_sys::Float64Array {
     unsafe { js_sys::Float64Array::view(std::slice::from_raw_parts(ptr, count)) }
 }
 
+// https://radu-matei.com/blog/practical-guide-to-wasm-memory/
+#[no_mangle]
+pub fn alloc(len: usize) -> *mut f64 {
+	let mut buf = Vec::with_capacity(len);
+	let ptr = buf.as_mut_ptr();
+	std::mem::forget(buf);
+	ptr
+}
+
+#[no_mangle]
+pub fn array_sum(ptr: *mut f64, len: usize) -> f64 {
+  let data = unsafe { Vec::from_raw_parts(ptr, len, len) };
+  data.iter().sum()
+}
 
 
+// Alternative using allocations
+// return an array, indicating its length in the first element
+#[no_mangle]
+pub fn alloc_f64(len: usize) -> *mut f64 {
+	let mut buf = Vec::with_capacity(len);
+	let ptr = buf.as_mut_ptr();
+	std::mem::forget(buf);
+	ptr
+}
 
+#[no_mangle]
+pub fn brute_f64_ptr(ptr: *mut f64, len: usize) -> *mut f64 {
+	let coordinates = unsafe { Vec::from_raw_parts(ptr, len, len) };
+	let mut segments = Vec::<OrderedSegment<f64>>::with_capacity(len / 4);
+
+// 	console_log!("Pointer data starts with {},{},{},{}", coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
+
+	for i in (0..len).step_by(4) {
+		// don't care about order for brute
+		segments.push(OrderedSegment::new_ordered_with_idx((coordinates[i], coordinates[i+1]), (coordinates[i+2], coordinates[i+3]), i / 4));
+	}
+	let segments = segments; // don't need mutability anymore
+
+// 	console_log!("{} segments. First is {},{}|{},{}", segments.len(), segments[0].start.x, segments[0].start.y, segments[0].end.x, segments[0].end.y);
+
+	let ixs = ix_brute_single_f64(&segments);
+// 	console_log!("{} intersections. First is {}, {}", ixs.len(), ixs[0].ix.x(), ixs[0].ix.y());
+
+	// build return array: 4 elements per intersection + 1 to indicate length
+	let mut buf = Vec::<f64>::with_capacity((ixs.len() * 4) + 1);
+	buf.push(ixs.len() as f64);
+	for obj in ixs {
+		buf.push(obj.ix.x());
+		buf.push(obj.ix.y());
+		buf.push(obj.idx1 as f64);
+		buf.push(obj.idx2 as f64);
+	}
+	let ptr = buf.as_mut_ptr();
+	std::mem::forget(buf);
+	ptr
+}
 
 
 fn bundle_ix(ixs: SmallVec<[IxResultFloat; 4]>) -> Option<Box<[f64]>> {
@@ -99,7 +154,8 @@ pub fn brute_i32(coordinates: &[i32]) -> Option<Box<[f64]>> {
 	let mut segments = Vec::<OrderedSegment<i32>>::with_capacity(n_coords / 4);
 	for i in (0..n_coords).step_by(4) {
 // 		println!("Adding coordinates {},{}|{},{} at at index {}", coordinates[i], coordinates[i+1], coordinates[i+2], coordinates[i+3], i / 4);
-		segments.push(OrderedSegment::new_with_idx((coordinates[i], coordinates[i+1]), (coordinates[i+2], coordinates[i+3]), i / 4));
+		// don't care about ordering for brute
+		segments.push(OrderedSegment::new_ordered_with_idx((coordinates[i], coordinates[i+1]), (coordinates[i+2], coordinates[i+3]), i / 4));
 	}
 	let segments = segments; // don't need mutability anymore
 
@@ -116,7 +172,7 @@ pub fn brute_f64(coordinates: &[f64]) -> Option<Box<[f64]>> {
 	// build segments
 	let mut segments = Vec::<OrderedSegment<f64>>::with_capacity(n_coords / 4);
 	for i in (0..n_coords).step_by(4) {
-		segments.push(OrderedSegment::new_with_idx((coordinates[i], coordinates[i+1]), (coordinates[i+2], coordinates[i+3]), i / 4));
+		segments.push(OrderedSegment::new_ordered_with_idx((coordinates[i], coordinates[i+1]), (coordinates[i+2], coordinates[i+3]), i / 4));
 	}
 	let segments = segments; // don't need mutability anymore
 
@@ -131,7 +187,7 @@ pub fn brute_double_i32(coordinates0: &[i32], coordinates1: &[i32]) -> Option<Bo
 	// build segments
 	let mut segments0 = Vec::<OrderedSegment<i32>>::with_capacity(n_coords0 / 4);
 	for i in (0..n_coords0).step_by(4) {
-		segments0.push(OrderedSegment::new_with_idx((coordinates0[i], coordinates0[i+1]), (coordinates0[i+2], coordinates0[i+3]), i / 4));
+		segments0.push(OrderedSegment::new_ordered_with_idx((coordinates0[i], coordinates0[i+1]), (coordinates0[i+2], coordinates0[i+3]), i / 4));
 	}
 	let segments0 = segments0; // don't need mutability anymore
 
@@ -140,7 +196,7 @@ pub fn brute_double_i32(coordinates0: &[i32], coordinates1: &[i32]) -> Option<Bo
 	// build segments
 	let mut segments1 = Vec::<OrderedSegment<i32>>::with_capacity(n_coords1 / 4);
 	for i in (0..n_coords1).step_by(4) {
-		segments1.push(OrderedSegment::new_with_idx((coordinates1[i], coordinates1[i+1]), (coordinates1[i+2], coordinates1[i+3]), i / 4));
+		segments1.push(OrderedSegment::new_ordered_with_idx((coordinates1[i], coordinates1[i+1]), (coordinates1[i+2], coordinates1[i+3]), i / 4));
 	}
 
 	let segments0 = segments0; // don't need mutability anymore
@@ -157,7 +213,7 @@ pub fn brute_double_f64(coordinates0: &[f64], coordinates1: &[f64]) -> Option<Bo
 	// build segments
 	let mut segments0 = Vec::<OrderedSegment<f64>>::with_capacity(n_coords0 / 4);
 	for i in (0..n_coords0).step_by(4) {
-		segments0.push(OrderedSegment::new_with_idx((coordinates0[i], coordinates0[i+1]), (coordinates0[i+2], coordinates0[i+3]), i / 4));
+		segments0.push(OrderedSegment::new_ordered_with_idx((coordinates0[i], coordinates0[i+1]), (coordinates0[i+2], coordinates0[i+3]), i / 4));
 	}
 	let segments0 = segments0; // don't need mutability anymore
 
@@ -166,7 +222,7 @@ pub fn brute_double_f64(coordinates0: &[f64], coordinates1: &[f64]) -> Option<Bo
 	// build segments
 	let mut segments1 = Vec::<OrderedSegment<f64>>::with_capacity(n_coords1 / 4);
 	for i in (0..n_coords1).step_by(4) {
-		segments1.push(OrderedSegment::new_with_idx((coordinates1[i], coordinates1[i+1]), (coordinates1[i+2], coordinates1[i+3]), i / 4));
+		segments1.push(OrderedSegment::new_ordered_with_idx((coordinates1[i], coordinates1[i+1]), (coordinates1[i+2], coordinates1[i+3]), i / 4));
 	}
 
 	let segments0 = segments0; // don't need mutability anymore
