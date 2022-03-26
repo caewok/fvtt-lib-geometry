@@ -36,6 +36,42 @@ macro_rules! console_log {
     ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
 }
 
+
+// test copy versus pointers
+// https://users.rust-lang.org/t/pass-js-float64array-to-rust-using-wasm/55669/16
+#[wasm_bindgen]
+pub fn sum_copy(data: &[f64]) -> f64 {
+// 	console_log!("data length {}", data.len());
+
+//     console_log!("{} {} {}", data[0], data[1], data[2]);
+
+	data.iter().sum()
+}
+
+#[wasm_bindgen]
+pub fn sum_no_copy(ptr: *mut f64, count: usize) -> f64 {
+	let data = unsafe { std::slice::from_raw_parts(ptr, count) };
+	data.iter().sum()
+}
+
+#[wasm_bindgen]
+pub fn get_vec_pointer(count: usize) -> *mut f64 {
+    let mut v = Vec::with_capacity(count);
+    let ptr = v.as_mut_ptr();
+    std::mem::forget(v);
+    ptr
+}
+
+#[wasm_bindgen]
+pub fn get_array(ptr: *mut f64, count: usize) -> js_sys::Float64Array {
+    unsafe { js_sys::Float64Array::view(std::slice::from_raw_parts(ptr, count)) }
+}
+
+
+
+
+
+
 fn bundle_ix(ixs: SmallVec<[IxResultFloat; 4]>) -> Option<Box<[f64]>> {
 	let ixs_ln = ixs.len();
 	if ixs_ln == 0 { return None };
@@ -275,7 +311,7 @@ pub fn orient2d_f64_js(ax: f64, ay: f64, bx: f64, by: f64, cx: f64, cy: f64) -> 
 
 #[no_mangle]
 pub fn orient2d_i32_fast(ax: i32, ay: i32, bx: i32, by: i32, cx: i32, cy: i32) -> i8 {
-	console_log!("a: {},{}, b: {},{}, c: {},{}", ax, ay, bx, by, cx, cy);
+// 	console_log!("a: {},{}, b: {},{}, c: {},{}", ax, ay, bx, by, cx, cy);
 	let (ax, ay) = (ax as i128, ay as i128);
 	let (bx, by) = (bx as i128, by as i128);
 	let (cx, cy) = (cx as i128, cy as i128);
@@ -293,7 +329,7 @@ pub fn orient2d_i32_fast(ax: i32, ay: i32, bx: i32, by: i32, cx: i32, cy: i32) -
 
 #[no_mangle]
 pub fn orient2d_f64_fast(ax: f64, ay: f64, bx: f64, by: f64, cx: f64, cy: f64) -> f64 {
-	console_log!("a: {},{}, b: {},{}, c: {},{}", ax, ay, bx, by, cx, cy);
+// 	console_log!("a: {},{}, b: {},{}, c: {},{}", ax, ay, bx, by, cx, cy);
 	-((ay - cy) * (bx - cx) - (ax - cx) * (by - cy))
 }
 
