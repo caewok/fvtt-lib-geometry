@@ -1,6 +1,5 @@
 use geo::{Point};
 use crate::segment::{OrderedSegment, SimpleIntersect};
-use smallvec::SmallVec;
 
 #[derive(Debug, PartialEq)]
 pub struct IxResultFloat {
@@ -16,9 +15,9 @@ pub struct IxResultFloat {
 // 	Int(IxResult<i64>),
 // }
 
-pub fn ix_brute_single_i32(segments: &[OrderedSegment<i32>]) -> SmallVec<[IxResultFloat; 4]>
+pub fn ix_brute_single_i32(segments: &[OrderedSegment<i32>]) -> Vec<IxResultFloat>
 {
-	let mut ixs = SmallVec::<[IxResultFloat; 4]>::new();
+	let mut ixs = Vec::<IxResultFloat>::new();
 	for(i, si) in segments.iter().enumerate() {
 		for sj in &segments[(i + 1)..] {
 // 			println!("ix_brute_single");
@@ -41,9 +40,9 @@ pub fn ix_brute_single_i32(segments: &[OrderedSegment<i32>]) -> SmallVec<[IxResu
 	ixs
 }
 
-pub fn ix_brute_single_f64(segments: &[OrderedSegment<f64>]) -> SmallVec<[IxResultFloat; 4]>
+pub fn ix_brute_single_i64(segments: &[OrderedSegment<i64>]) -> Vec<IxResultFloat>
 {
-	let mut ixs = SmallVec::<[IxResultFloat; 4]>::new();
+	let mut ixs = Vec::<IxResultFloat>::new();
 	for(i, si) in segments.iter().enumerate() {
 		for sj in &segments[(i + 1)..] {
 // 			println!("ix_brute_single");
@@ -66,9 +65,34 @@ pub fn ix_brute_single_f64(segments: &[OrderedSegment<f64>]) -> SmallVec<[IxResu
 	ixs
 }
 
-pub fn ix_brute_double_i32(segments1: &[OrderedSegment<i32>], segments2: &[OrderedSegment<i32>]) -> SmallVec<[IxResultFloat; 4]>
+pub fn ix_brute_single_f64(segments: &[OrderedSegment<f64>]) -> Vec<IxResultFloat>
 {
-	let mut ixs = SmallVec::<[IxResultFloat; 4]>::new();
+	let mut ixs = Vec::<IxResultFloat>::new();
+	for(i, si) in segments.iter().enumerate() {
+		for sj in &segments[(i + 1)..] {
+// 			println!("ix_brute_single");
+// 			dbg!(&si);
+// 			dbg!(&sj);
+			if !si.intersects(sj) { continue; }
+			let res = si.line_intersection(sj);
+			if let Some(ix) = res {
+// 				println!("Found intersection {},{} at index {},{}", ix.x(), ix.y(), si.idx, sj.idx);
+
+				ixs.push( IxResultFloat {
+					ix,
+					idx1: si.idx,
+					idx2: sj.idx,
+				});
+			}
+		}
+	}
+
+	ixs
+}
+
+pub fn ix_brute_double_i32(segments1: &[OrderedSegment<i32>], segments2: &[OrderedSegment<i32>]) -> Vec<IxResultFloat>
+{
+	let mut ixs = Vec::<IxResultFloat>::new();
 	for si in segments1 {
 		for sj in segments2 {
 			if !si.intersects(sj) { continue; }
@@ -87,9 +111,9 @@ pub fn ix_brute_double_i32(segments1: &[OrderedSegment<i32>], segments2: &[Order
 	ixs
 }
 
-pub fn ix_brute_double_f64(segments1: &[OrderedSegment<f64>], segments2: &[OrderedSegment<f64>]) -> SmallVec<[IxResultFloat; 4]>
+pub fn ix_brute_double_f64(segments1: &[OrderedSegment<f64>], segments2: &[OrderedSegment<f64>]) -> Vec<IxResultFloat>
 {
-	let mut ixs = SmallVec::<[IxResultFloat; 4]>::new();
+	let mut ixs = Vec::<IxResultFloat>::new();
 	for si in segments1 {
 		for sj in segments2 {
 			if !si.intersects(sj) { continue; }
@@ -108,12 +132,12 @@ pub fn ix_brute_double_f64(segments1: &[OrderedSegment<f64>], segments2: &[Order
 	ixs
 }
 
-pub fn ix_sort_single_i32(segments: &mut [OrderedSegment<i32>], sorted: bool) -> SmallVec<[IxResultFloat; 4]>
+pub fn ix_sort_single_i32(segments: &mut [OrderedSegment<i32>], sorted: bool) -> Vec<IxResultFloat>
 {
 	if !sorted { segments.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap()); }
 	let segments = segments; // no longer need mutability
 
-	let mut ixs = SmallVec::<[IxResultFloat; 4]>::new();
+	let mut ixs = Vec::<IxResultFloat>::new();
 	for(i, si) in segments.iter().enumerate() {
 		for sj in &segments[(i + 1)..] {
 			// if we have not yet reached the left end, we can skip
@@ -137,12 +161,12 @@ pub fn ix_sort_single_i32(segments: &mut [OrderedSegment<i32>], sorted: bool) ->
 	ixs
 }
 
-pub fn ix_sort_single_f64(segments: &mut [OrderedSegment<f64>], sorted: bool) -> SmallVec<[IxResultFloat; 4]>
+pub fn ix_sort_single_i64(segments: &mut [OrderedSegment<i64>], sorted: bool) -> Vec<IxResultFloat>
 {
 	if !sorted { segments.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap()); }
 	let segments = segments; // no longer need mutability
 
-	let mut ixs = SmallVec::<[IxResultFloat; 4]>::new();
+	let mut ixs = Vec::<IxResultFloat>::new();
 	for(i, si) in segments.iter().enumerate() {
 		for sj in &segments[(i + 1)..] {
 			// if we have not yet reached the left end, we can skip
@@ -166,7 +190,36 @@ pub fn ix_sort_single_f64(segments: &mut [OrderedSegment<f64>], sorted: bool) ->
 	ixs
 }
 
-pub fn ix_sort_double_i32(segments1: &mut [OrderedSegment<i32>], segments2: &mut [OrderedSegment<i32>], sorted: bool) -> SmallVec<[IxResultFloat; 4]>
+pub fn ix_sort_single_f64(segments: &mut [OrderedSegment<f64>], sorted: bool) -> Vec<IxResultFloat>
+{
+	if !sorted { segments.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap()); }
+	let segments = segments; // no longer need mutability
+
+	let mut ixs = Vec::<IxResultFloat>::new();
+	for(i, si) in segments.iter().enumerate() {
+		for sj in &segments[(i + 1)..] {
+			// if we have not yet reached the left end, we can skip
+			if sj.is_left(si) { continue; }
+
+			// if we reach the right end, we can skip the rest
+			if sj.is_right(si) { break; }
+
+			if !si.intersects(sj) { continue; }
+			let res = si.line_intersection(sj);
+			if let Some(ix) = res {
+				ixs.push( IxResultFloat {
+					ix,
+					idx1: si.idx,
+					idx2: sj.idx,
+				});
+			}
+		}
+	}
+
+	ixs
+}
+
+pub fn ix_sort_double_i32(segments1: &mut [OrderedSegment<i32>], segments2: &mut [OrderedSegment<i32>], sorted: bool) -> Vec<IxResultFloat>
 {
 	if !sorted {
 		segments1.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
@@ -177,7 +230,7 @@ pub fn ix_sort_double_i32(segments1: &mut [OrderedSegment<i32>], segments2: &mut
 	let segments1 = segments1;
 	let segments2 = segments2;
 
-	let mut ixs = SmallVec::<[IxResultFloat; 4]>::new();
+	let mut ixs = Vec::<IxResultFloat>::new();
 	for si in segments1 {
 		for sj in &mut *segments2 {
 			// if we have not yet reached the left end, we can skip
@@ -202,7 +255,7 @@ pub fn ix_sort_double_i32(segments1: &mut [OrderedSegment<i32>], segments2: &mut
 	ixs
 }
 
-pub fn ix_sort_double_f64(segments1: &mut [OrderedSegment<f64>], segments2: &mut [OrderedSegment<f64>], sorted: bool) -> SmallVec<[IxResultFloat; 4]>
+pub fn ix_sort_double_f64(segments1: &mut [OrderedSegment<f64>], segments2: &mut [OrderedSegment<f64>], sorted: bool) -> Vec<IxResultFloat>
 {
 	if !sorted {
 		segments1.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
@@ -216,7 +269,7 @@ pub fn ix_sort_double_f64(segments1: &mut [OrderedSegment<f64>], segments2: &mut
 	let segments1 = segments1;
 	let segments2 = segments2;
 
-	let mut ixs = SmallVec::<[IxResultFloat; 4]>::new();
+	let mut ixs = Vec::<IxResultFloat>::new();
 	for si in segments1 {
 		for sj in &mut *segments2 {
 			// if we have not yet reached the left end, we can skip
@@ -252,7 +305,6 @@ pub fn ix_sort_double_f64(segments1: &mut [OrderedSegment<f64>], segments2: &mut
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use smallvec::smallvec;
 
 // ---------------- BENCHMARK FLOAT VERSIONS
 
@@ -269,7 +321,7 @@ mod tests {
 		let s2: OrderedSegment<f64> = OrderedSegment::new_with_idx((2500., 2100.), (2900., 2100.), 2);
 
 		let segments = vec![s0, s1, s2];
-		let mut res = SmallVec::<[IxResultFloat; 4]>::new();
+		let mut res = Vec::<IxResultFloat>::new();
 		res.push(
 			IxResultFloat {
 				ix: Point::new(2469.866666666667, 1900.),
@@ -297,7 +349,7 @@ mod tests {
 		let s2: OrderedSegment<f64> = OrderedSegment::new_with_idx((2500., 2100.), (2900., 2100.), 2);
 
 		let segments = vec![s0, s1, s2];
-		let mut res = SmallVec::<[IxResultFloat; 4]>::new();
+		let mut res = Vec::<IxResultFloat>::new();
 		res.push(
 			IxResultFloat {
 				ix: Point::new(2469.866666666667, 1900.),
@@ -337,7 +389,7 @@ mod tests {
 		let s2: OrderedSegment<i32> = OrderedSegment::new_with_idx((2500, 2100), (2900, 2100), 2);
 
 		let segments = vec![s0, s1, s2];
-		let mut res = SmallVec::<[IxResultFloat; 4]>::new();
+		let mut res = Vec::<IxResultFloat>::new();
 		res.push(
 			IxResultFloat {
 				ix: Point::new(2469.866666666667, 1900.),
@@ -365,7 +417,7 @@ mod tests {
 		let s2: OrderedSegment<i32> = OrderedSegment::new_with_idx((2500, 2100), (2900, 2100), 2);
 
 		let segments = vec![s0, s1, s2];
-		let mut res = SmallVec::<[IxResultFloat; 4]>::new();
+		let mut res = Vec::<IxResultFloat>::new();
 		res.push(
 			IxResultFloat {
 				ix: Point::new(2469.866666666667, 1900.),
@@ -407,7 +459,7 @@ mod tests {
 		let s2: OrderedSegment<f64> = OrderedSegment::new_with_idx((2500., 2100.), (2900., 2100.), 2);
 
 		let mut segments = vec![s0, s1, s2];
-		let mut res = SmallVec::<[IxResultFloat; 4]>::new();
+		let mut res = Vec::<IxResultFloat>::new();
 		res.push(
 			IxResultFloat {
 				ix: Point::new(2469.866666666667, 1900.),
@@ -436,7 +488,7 @@ mod tests {
 
 		let mut segments1 = vec![s0, s1, s2];
 		let mut segments2 = segments1.clone();
-		let mut res = SmallVec::<[IxResultFloat; 4]>::new();
+		let mut res = Vec::<IxResultFloat>::new();
 		res.push(
 			IxResultFloat {
 				ix: Point::new(2469.866666666667, 1900.),
@@ -476,7 +528,7 @@ mod tests {
 		let s2: OrderedSegment<i32> = OrderedSegment::new_with_idx((2500, 2100), (2900, 2100), 2);
 
 		let mut segments = vec![s0, s1, s2];
-		let mut res = SmallVec::<[IxResultFloat; 4]>::new();
+		let mut res = Vec::<IxResultFloat>::new();
 		res.push(
 			IxResultFloat {
 				ix: Point::new(2469.866666666667, 1900.),
@@ -504,7 +556,7 @@ mod tests {
 
 		let mut segments1 = vec![s0, s1, s2];
 		let mut segments2 = segments1.clone();
-		let mut res = SmallVec::<[IxResultFloat; 4]>::new();
+		let mut res = Vec::<IxResultFloat>::new();
 		res.push(
 			IxResultFloat {
 				ix: Point::new(2469.866666666667, 1900.),
@@ -562,7 +614,7 @@ mod tests {
 			OrderedSegment::new_with_idx(p13, p10, 3),
 		];
 
-		let expected: SmallVec<[IxResultFloat; 4]> = smallvec![
+		let expected: Vec<IxResultFloat> = vec![
 			IxResultFloat {
 				ix: Point::new(450., 100.),
 				idx1: 0,
@@ -637,7 +689,7 @@ mod tests {
 			OrderedSegment::new_with_idx(p13, p10, 3),
 		];
 
-		let expected: SmallVec<[IxResultFloat; 4]> = smallvec![
+		let expected: Vec<IxResultFloat> = vec![
 			IxResultFloat {
 				ix: Point::new(450., 100.),
 				idx1: 0,
@@ -683,5 +735,6 @@ mod tests {
 		let ixs = ix_brute_double_f64(&segments0, &segments1);
 		assert_eq!(ixs, expected);
 	}
+
 
 }

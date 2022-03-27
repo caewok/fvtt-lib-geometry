@@ -8,7 +8,7 @@ use rand::distributions::Standard;
 use rand::distributions::uniform::SampleUniform;
 use serde::{Serialize, Deserialize};
 use geo::Line;
-
+// use rug::{ Assign, Integer }; // rug dependency does not compile under aarch
 
 
 // Create a simple struct for an ordered Line, where a is ne of b
@@ -176,6 +176,13 @@ impl From<OrderedSegment<i64>> for OrderedSegment<f64> {
 	}
 }
 
+impl From<OrderedSegment<i16>> for OrderedSegment<f64> {
+	fn from(item: OrderedSegment<i16>) -> Self {
+		let (ax, ay, bx, by) = item.coords();
+		Self::new((ax as f64, ay as f64), (bx as f64, by as f64))
+	}
+}
+
 impl From<OrderedSegment<f64>> for OrderedSegment<i32> {
 	fn from(item: OrderedSegment<f64>) -> Self {
 		let (ax, ay, bx, by) = item.coords();
@@ -290,9 +297,11 @@ impl SimpleIntersect for OrderedSegment<f64> {
 	}
 }
 
-impl SimpleIntersect for OrderedSegment<i32> {
+impl SimpleIntersect for OrderedSegment<i16> {
 	#[inline]
 	fn intersects(&self, other: &Self) -> bool {
+
+		// moving to i128 here does nothing helpful to performance
 		let (a, b) = self.coordinates();
 		let (c, d) = other.coordinates();
 
@@ -315,6 +324,74 @@ impl SimpleIntersect for OrderedSegment<i32> {
 		let (ax, ay, bx, by) = self.coords();
 		let (cx, cy, dx, dy) = other.coords();
 
+		// need to upconvert b/c it is easy to overflow with all the multiplication below
+		let (ax, ay) = (ax as i64, ay as i64);
+		let (bx, by) = (bx as i64, by as i64);
+		let (cx, cy) = (cx as i64, cy as i64);
+		let (dx, dy) = (dx as i64, dy as i64);
+
+		let d1x = bx - ax;
+		let d1y = by - ay;
+		let d2x = dx - cx;
+		let d2y = dy - cy;
+
+		let x_dnm = d1y * d2x - d2y * d1x;
+		if x_dnm == 0 { return None; }
+
+		let y_dnm = d1x * d2y - d2x * d1y;
+		if y_dnm == 0 { return None; }
+
+		let x_num = ax * d1y * d2x - cx * d2y * d1x + cy * d1x * d2x - ay * d1x * d2x;
+		let y_num = ay * d1x * d2y - cy * d2x * d1y + cx * d1y * d2y - ax * d1y * d2y;
+
+		// euclid vs division of float: both are basically same for performance
+		let quot_x = x_num.div_euclid(x_dnm);
+		let rem_x = x_num.rem_euclid(x_dnm);
+		let ratio_x = (quot_x as f64) + (rem_x as f64 / x_dnm as f64);
+
+		let quot_y = y_num.div_euclid(y_dnm);
+		let rem_y = y_num.rem_euclid(y_dnm);
+		let ratio_y = (quot_y as f64) + (rem_y as f64 / y_dnm as f64);
+
+
+		Some(Point::new(ratio_x, ratio_y))
+	}
+}
+
+impl SimpleIntersect for OrderedSegment<i32> {
+	#[inline]
+	fn intersects(&self, other: &Self) -> bool {
+
+		// moving to i128 here does nothing helpful to performance
+		let (a, b) = self.coordinates();
+// 		let (a, b): (Coordinate<i128>, Coordinate<i128>) = (Coordinate { x: a.x as i128, y: a.y as i128 },
+// 		                                  Coordinate { x: b.x as i128, y: b.y as i128 });
+
+
+		let (c, d) = other.coordinates();
+// 		let (c, d): (Coordinate<i128>, Coordinate<i128>) = (Coordinate { x: c.x as i128, y: c.y as i128 },
+// 		                                  Coordinate { x: d.x as i128, y: d.y as i128 });
+
+		let xa = a.orient2d(b, c);
+		let xb = a.orient2d(b, d);
+
+		// may intersect in an overlapping line or not intersect at all
+		if xa == Orientation::Collinear && xb == Orientation::Collinear { return false; }
+
+		let xc = c.orient2d(d, a);
+		let xd = c.orient2d(d, b);
+
+		if xa != xb && xc != xd { return true; }
+
+		false
+	}
+
+	#[inline]
+	fn line_intersection(&self, other: &Self) -> Option<Point<f64>> {
+		let (ax, ay, bx, by) = self.coords();
+		let (cx, cy, dx, dy) = other.coords();
+
+		// need to upconvert b/c it is easy to overflow with all the multiplication below
 		let (ax, ay) = (ax as i128, ay as i128);
 		let (bx, by) = (bx as i128, by as i128);
 		let (cx, cy) = (cx as i128, cy as i128);
@@ -329,7 +406,7 @@ impl SimpleIntersect for OrderedSegment<i32> {
 
 		// End result will be a coordinate, but with infinite lines the coordinate
 		// intersection conceivably could exceed the coordinate bounds
-		// cannot be infinitely large given integer coordinates.
+		// but cannot be infinitely large given integer coordinates.
 		// instead, the largest is if one line is along the canvas border and starts
 		// at the other canvas corner and moves down to the bottom corner - 1.
 		// So worst case should be:
@@ -455,6 +532,199 @@ impl SimpleIntersect for OrderedSegment<i32> {
 	}
 }
 
+impl SimpleIntersect for OrderedSegment<i64> {
+	#[inline]
+	fn intersects(&self, other: &Self) -> bool {
+		let (a, b) = self.coordinates();
+		let (c, d) = other.coordinates();
+
+		let xa = a.orient2d(b, c);
+		let xb = a.orient2d(b, d);
+
+		// may intersect in an overlapping line or not intersect at all
+		if xa == Orientation::Collinear && xb == Orientation::Collinear { return false; }
+
+		let xc = c.orient2d(d, a);
+		let xd = c.orient2d(d, b);
+
+		if xa != xb && xc != xd { return true; }
+
+		false
+	}
+
+	#[inline]
+	fn line_intersection(&self, other: &Self) -> Option<Point<f64>> {
+		// use foundry.utils.lineLineIntersection method
+		let (ax, ay, bx, by) = self.coords();
+		let (cx, cy, dx, dy) = other.coords();
+
+		// need to upconvert b/c it is easy to overflow with all the multiplication below
+		let (ax, ay) = (ax as i128, ay as i128);
+		let (bx, by) = (bx as i128, by as i128);
+		let (cx, cy) = (cx as i128, cy as i128);
+		let (dx, dy) = (dx as i128, dy as i128);
+
+		let dnm = (dy - cy) * (bx - ax) - (dx - cx) * (by - ay);
+		if dnm == 0 { return None; }
+
+		let t0 = (dx - cx) * (ay - cy) - (dy - cy) * (ax - cx);
+
+		let quot_t = t0.div_euclid(dnm);
+		let rem_t = t0.rem_euclid(dnm);
+		let t0 = (quot_t as f64) + (rem_t as f64 / dnm as f64);
+
+		let x = ax as f64 + t0 * (bx as f64 - ax as f64);
+		let y = ay as f64 + t0 * (by as f64 - ax as f64);
+
+		Some(Point::new(x,y))
+	}
+
+	// works but is slow and rug won't compile
+	// #[inline]
+// 	fn line_intersection(&self, other: &Self) -> Option<Point<f64>> {
+// 		let (ax, ay, bx, by) = self.coords();
+// 		let (cx, cy, dx, dy) = other.coords();
+//
+//
+// 		// Wrapping reaches the correct answer for addition, subtraction, multiplication
+// 		// only if the end result is within the bounds.
+// 		// hypothesis:
+// 		// calculating x and y denominators could wrap all the way back to 0.
+// 		// d1y * d2x - d2y * d1x
+// 		// d1y, etc.: MAX - MIN = MAX or MIN (~ -MAX) are possible.
+// 		// MAX * MAX - (-MAX) * MAX = MAX^2 + MAX^2 = 2 MAX ^2
+//
+// 		// so could check each one and do something else (what?) if saturated.
+// 		// if we knew the last was saturated, we would know denom is not 0
+// 		// but we would be screwed when trying to divide
+//
+// 		let (ax, ay, bx, by) = ( Integer::from(ax), Integer::from(ay),
+// 								 Integer::from(bx), Integer::from(by) );
+//
+// 		let (cx, cy, dx, dy) = ( Integer::from(cx), Integer::from(cy),
+// 								 Integer::from(dx), Integer::from(dy) );
+//
+//
+// 		// https://docs.rs/rug/1.12.0/rug/index.html#incomplete-computation-values
+// 		let mut d1x = Integer::new();
+// 		let mut d1y = Integer::new();
+// 		let mut d2x = Integer::new();
+// 		let mut d2y = Integer::new();
+//
+// 		// need to use ax, ay, cx, cy below, so they must be borrowed here
+//
+// 		d1x.assign(&bx - &ax);
+// 		d1y.assign(&by - &ay);
+// 		d2x.assign(&dx - &cx);
+// 		d2y.assign(&dy - &cy);
+//
+// 		let mut d1y_mult_d2x = Integer::new();
+// 		let mut d1x_mult_d2y = Integer::new();
+// 		let mut d2y_mult_d1x = Integer::new();
+// 		let mut d2x_mult_d1y = Integer::new();
+//
+// 		d1y_mult_d2x.assign(&d1y * &d2x);
+// 		d1x_mult_d2y.assign(&d1x * &d2y);
+// 		d2y_mult_d1x.assign(&d2y * &d1x);
+// 		d2x_mult_d1y.assign(&d2x * &d1y);
+//
+// 		let x_dnm = Integer::from(&d1y_mult_d2x - &d2y_mult_d1x);
+// // 		let x_dnm = Integer::from(d1y * d2x - d2y * d1x);
+// 		if x_dnm == Integer::ZERO { return None; }
+//
+// 		let y_dnm = Integer::from(&d1x_mult_d2y - &d2x_mult_d1y);
+// // 		let y_dnm = Integer::from(d1x * d2y - d2x * d1y);
+// 		if y_dnm == Integer::ZERO { return None; }
+//
+// 		// the rest must be done sequentially
+// 		// preserve order of operation by grouping the multiplications
+// 		let mut buffer1 = Integer::new();
+// 		let mut buffer2 = Integer::new();
+// 		let mut buffer3 = Integer::new();
+// 		let mut buffer4 = Integer::new();
+// 		let mut buffer5 = Integer::new();
+// 		let mut buffer6 = Integer::new();
+// 		let mut buffer7 = Integer::new();
+// 		let mut buffer8 = Integer::new();
+//
+// 		buffer1.assign(&ax * &d1y_mult_d2x);
+// 		let buffer1 = buffer1;
+//
+// 		buffer2.assign(&cx * &d2y_mult_d1x);
+// 		let buffer2 = buffer2;
+//
+// 		buffer3.assign(&cy * &d1x);
+// 		let buffer3 = buffer3;
+// 		buffer4.assign(&buffer3 * &d2x);
+// 		let buffer4 = buffer4;
+//
+// 		buffer5.assign(&ay * &d1x);
+// 		let buffer5 = buffer5;
+// 		buffer6.assign(&buffer5 * &d2x);
+// 		let buffer6 = buffer6;
+//
+// 		buffer7.assign(&buffer1 - &buffer2);
+// 		let buffer7 = buffer7;
+//
+// 		buffer8.assign(&buffer4 - &buffer6);
+// 		let buffer8 = buffer8;
+//
+// 		let x_num = Integer::from(&buffer7 + &buffer8);
+//
+// 		let mut buffer1 = Integer::new();
+// 		let mut buffer2 = Integer::new();
+// 		let mut buffer3 = Integer::new();
+// 		let mut buffer4 = Integer::new();
+// 		let mut buffer5 = Integer::new();
+// 		let mut buffer6 = Integer::new();
+// 		let mut buffer7 = Integer::new();
+// 		let mut buffer8 = Integer::new();
+//
+// 		buffer1.assign(&ay * &d1x_mult_d2y);
+// 		let buffer1 = buffer1;
+//
+// 		buffer2.assign(&cy * &d2x_mult_d1y);
+// 		let buffer2 = buffer2;
+//
+// 		buffer3.assign(&cx * &d1y);
+// 		let buffer3 = buffer3;
+// 		buffer4.assign(&buffer3 * &d2y);
+// 		let buffer4 = buffer4;
+//
+// 		buffer5.assign(&ax * &d1y);
+// 		let buffer5 = buffer5;
+// 		buffer6.assign(&buffer5 * &d2y);
+// 		let buffer6 = buffer6;
+//
+// 		buffer7.assign(&buffer1 - &buffer2);
+// 		let buffer7 = buffer7;
+//
+// 		buffer8.assign(&buffer4 - &buffer6);
+// 		let buffer8 = buffer8;
+//
+//
+// 		let y_num = Integer::from(&buffer7 + & buffer8);
+//
+//
+// // 		let x_num = Integer::from(&ax * &d1y_mult_d2x - &cx * &d2y_mult_d1x + &cy * &d1x * &d2x - &ay * &d1x * &d2x);
+// // 		let y_num = Integer::from(&ay * &d1x_mult_d2y - &cy * &d2x_mult_d1y + &cx * &d1y * &d2y - &ax * &d1y * &d2y);
+//
+// // 		let x_num = Integer::from(&ax * d1y * d2x - &cx * d2y * d1x + &cy * d1x * d2x - &ay * d1x * d2x);
+// // 		let y_num = Integer::from(&ay * d1x * d2y - &cy * d2x * d1y + &cx * d1y * d2y - &ax * d1y * d2y);
+//
+// 		let x_dnm_f = x_dnm.to_f64();
+// 		let y_dnm_f = y_dnm.to_f64();
+//
+// 		let (quot_x, rem_x) = x_num.div_rem_euc(x_dnm);
+// 		let ratio_x:f64 = (quot_x.to_f64()) + (rem_x.to_f64() / x_dnm_f);
+//
+// 		let (quot_y, rem_y) = y_num.div_rem_euc(y_dnm);
+// 		let ratio_y:f64 = (quot_y.to_f64()) + (rem_y.to_f64() / y_dnm_f);
+//
+// 		Some(Point::new(ratio_x, ratio_y))
+// 	}
+}
+
 
 #[cfg(test)]
 mod tests {
@@ -508,6 +778,18 @@ mod tests {
 	}
 
 	#[test]
+	fn intersects_i16_works() {
+		let s0: OrderedSegment<i16> = OrderedSegment::new((2300, 1900), (4200, 1900));
+		let s1: OrderedSegment<i16> = OrderedSegment::new((2387, 1350), (2500, 2100));
+		let s2: OrderedSegment<i16> = OrderedSegment::new((2387, 1350), (3200, 1900));
+		let s3: OrderedSegment<i16> = OrderedSegment::new((2500, 2100), (2900, 2100));
+
+		assert!(s0.intersects(&s1));
+		assert!(s0.intersects(&s2));
+		assert!(!s0.intersects(&s3));
+	}
+
+	#[test]
 	fn intersects_i32_works() {
 		let s0: OrderedSegment<i32> = OrderedSegment::new((2300, 1900), (4200, 1900));
 		let s1: OrderedSegment<i32> = OrderedSegment::new((2387, 1350), (2500, 2100));
@@ -517,6 +799,24 @@ mod tests {
 		assert!(s0.intersects(&s1));
 		assert!(s0.intersects(&s2));
 		assert!(!s0.intersects(&s3));
+	}
+
+	#[test]
+	fn intersects_i16_overflow_works() {
+		let nw = (i16::MIN, i16::MIN);
+		let sw = (i16::MIN, i16::MAX);
+		let ne = (i16::MAX, i16::MIN);
+		let se = (i16::MAX, i16::MAX);
+// 		let z: (i32, i32) = (0, 0);
+
+		let ne_sw: OrderedSegment<i16> = OrderedSegment::new(ne, sw);
+		let se_nw: OrderedSegment<i16> = OrderedSegment::new(se, nw);
+		let ne_nw: OrderedSegment<i16> = OrderedSegment::new(ne, nw);
+		let se_sw: OrderedSegment<i16> = OrderedSegment::new(se, sw);
+
+		assert!(ne_sw.intersects(&se_nw));
+		assert!(ne_sw.intersects(&ne_nw));
+		assert!(!ne_nw.intersects(&se_sw));
 	}
 
 	#[test]
@@ -535,6 +835,72 @@ mod tests {
 		assert!(ne_sw.intersects(&se_nw));
 		assert!(ne_sw.intersects(&ne_nw));
 		assert!(!ne_nw.intersects(&se_sw));
+	}
+
+	#[test]
+	fn intersects_i64_works() {
+		let s0: OrderedSegment<i64> = OrderedSegment::new((2300, 1900), (4200, 1900));
+		let s1: OrderedSegment<i64> = OrderedSegment::new((2387, 1350), (2500, 2100));
+		let s2: OrderedSegment<i64> = OrderedSegment::new((2387, 1350), (3200, 1900));
+		let s3: OrderedSegment<i64> = OrderedSegment::new((2500, 2100), (2900, 2100));
+
+		assert!(s0.intersects(&s1));
+		assert!(s0.intersects(&s2));
+		assert!(!s0.intersects(&s3));
+	}
+
+	#[test]
+	fn intersects_i64_overflow_works() {
+		let nw = (i64::MIN, i64::MIN);
+		let sw = (i64::MIN, i64::MAX);
+		let ne = (i64::MAX, i64::MIN);
+		let se = (i64::MAX, i64::MAX);
+// 		let z: (i32, i32) = (0, 0);
+
+		let ne_sw: OrderedSegment<i64> = OrderedSegment::new(ne, sw);
+		let se_nw: OrderedSegment<i64> = OrderedSegment::new(se, nw);
+		let ne_nw: OrderedSegment<i64> = OrderedSegment::new(ne, nw);
+		let se_sw: OrderedSegment<i64> = OrderedSegment::new(se, sw);
+
+		assert!(ne_sw.intersects(&se_nw));
+		assert!(ne_sw.intersects(&ne_nw));
+		assert!(!ne_nw.intersects(&se_sw));
+	}
+
+	#[test]
+	fn intersects_random_i16_f64_equal() {
+		let max_iter = 100;
+
+		for _ in 0..max_iter {
+			let s0_i = OrderedSegment::<i16>::random_range(-10000, 10000);
+			let s0_f: OrderedSegment<f64> = s0_i.into();
+
+			let s1_i =  OrderedSegment::<i16>::random_range(-10000, 10000);
+			let s1_f: OrderedSegment<f64> = s1_i.into();
+
+			let res_i = s0_i.intersects(&s1_i);
+			let res_f = s0_f.intersects(&s1_f);
+
+			assert_eq!(res_i, res_f);
+		}
+	}
+
+	#[test]
+	fn intersects_random_i32_f64_equal() {
+		let max_iter = 100;
+
+		for _ in 0..max_iter {
+			let s0_i = OrderedSegment::<i32>::random_range(-10000, 10000);
+			let s0_f: OrderedSegment<f64> = s0_i.into();
+
+			let s1_i =  OrderedSegment::<i32>::random_range(-10000, 10000);
+			let s1_f: OrderedSegment<f64> = s1_i.into();
+
+			let res_i = s0_i.intersects(&s1_i);
+			let res_f = s0_f.intersects(&s1_f);
+
+			assert_eq!(res_i, res_f);
+		}
 	}
 
 // ---------------- SEGMENT LINE INTERSECTION
@@ -560,6 +926,65 @@ mod tests {
 		assert_eq!(s1.line_intersection(&s3), Some(res13));
 		assert_eq!(s2.line_intersection(&s3), Some(res23));
 	}
+
+	#[test]
+	fn line_intersection_i16_works() {
+		let s0: OrderedSegment<i16> = OrderedSegment::new((2300, 1900), (4200, 1900));
+		let s1: OrderedSegment<i16> = OrderedSegment::new((2387, 1350), (2500, 2100));
+		let s2: OrderedSegment<i16> = OrderedSegment::new((2387, 1350), (3200, 1900));
+		let s3: OrderedSegment<i16> = OrderedSegment::new((2500, 2100), (2900, 2100));
+
+		let res01: Point<f64> = Point::new(2469.866666666667, 1900.); // s0 x s1
+		let res02: Point<f64> = Point::new(3200., 1900.); // s0 x s2
+		// s0 x s3: null
+		let res12: Point<f64> = Point::new(2387., 1350.); // s1 x s2 intersect at p2
+		let res13: Point<f64> = Point::new(2500., 2100.); //s1 x s4 intersect
+		let res23: Point<f64> = Point::new(3495.6363636363635, 2100.);
+
+		assert_eq!(s0.line_intersection(&s1), Some(res01));
+		assert_eq!(s0.line_intersection(&s2), Some(res02));
+		assert_eq!(s0.line_intersection(&s3), None);
+
+		assert_eq!(s1.line_intersection(&s2), Some(res12));
+		assert_eq!(s1.line_intersection(&s3), Some(res13));
+		assert_eq!(s2.line_intersection(&s3), Some(res23));
+	}
+
+
+	#[test]
+	fn line_intersection_i16_overflow_works() {
+		let nw = (i16::MIN, i16::MIN);
+		let sw = (i16::MIN, i16::MAX);
+		let ne = (i16::MAX, i16::MIN);
+		let se = (i16::MAX, i16::MAX);
+// 		let z: (i32, i32) = (0, 0);
+
+		let ne_sw: OrderedSegment<i16> = OrderedSegment::new(ne, sw);
+		let se_nw: OrderedSegment<i16> = OrderedSegment::new(se, nw);
+		let ne_nw: OrderedSegment<i16> = OrderedSegment::new(ne, nw);
+		let se_sw: OrderedSegment<i16> = OrderedSegment::new(se, sw);
+
+		let res1: Point::<f64> = Point::new(-0.5, -0.5);
+		let res2: Point::<f64> = Point::new(i16::MAX.into(), i16::MIN.into());
+
+		assert_eq!(ne_sw.line_intersection(&se_nw), Some(res1));
+		assert_eq!(ne_sw.line_intersection(&ne_nw), Some(res2));
+		assert_eq!(ne_nw.line_intersection(&se_sw), None);
+	}
+
+	#[test]
+	fn line_intersection_i16_overflow_severe_works() {
+
+		// s0: (MIN, MIN),(MIN, MAX)
+		// s1: (MAX, MIN), (MAX - 1, MAX)
+		let vert: OrderedSegment<i16> = OrderedSegment::new((i16::MIN, i16::MIN), (i16::MIN, i16::MAX));
+		let near_horiz: OrderedSegment<i16> = OrderedSegment::new((i16::MAX, i16::MIN), (i16::MAX - 1, i16::MAX));
+
+		let res1: Point::<f64> = Point::new( -32768., 4294803457.);
+
+		assert_eq!(vert.line_intersection(&near_horiz), Some(res1));
+	}
+
 
 	#[test]
 	fn line_intersection_i32_works() {
@@ -618,4 +1043,103 @@ mod tests {
 
 		assert_eq!(vert.line_intersection(&near_horiz), Some(res1));
 	}
+
+	// i64 currently not functional
+//
+// 	#[test]
+// 	fn line_intersection_i64_works() {
+// 		let s0: OrderedSegment<i64> = OrderedSegment::new((2300, 1900), (4200, 1900));
+// 		let s1: OrderedSegment<i64> = OrderedSegment::new((2387, 1350), (2500, 2100));
+// 		let s2: OrderedSegment<i64> = OrderedSegment::new((2387, 1350), (3200, 1900));
+// 		let s3: OrderedSegment<i64> = OrderedSegment::new((2500, 2100), (2900, 2100));
+//
+// 		let res01: Point<f64> = Point::new(2469.866666666667, 1900.); // s0 x s1
+// 		let res02: Point<f64> = Point::new(3200., 1900.); // s0 x s2
+// 		// s0 x s3: null
+// 		let res12: Point<f64> = Point::new(2387., 1350.); // s1 x s2 intersect at p2
+// 		let res13: Point<f64> = Point::new(2500., 2100.); //s1 x s4 intersect
+// 		let res23: Point<f64> = Point::new(3495.6363636363635, 2100.);
+//
+// 		assert_eq!(s0.line_intersection(&s1), Some(res01));
+// 		assert_eq!(s0.line_intersection(&s2), Some(res02));
+// 		assert_eq!(s0.line_intersection(&s3), None);
+//
+// 		assert_eq!(s1.line_intersection(&s2), Some(res12));
+// 		assert_eq!(s1.line_intersection(&s3), Some(res13));
+// 		assert_eq!(s2.line_intersection(&s3), Some(res23));
+// 	}
+//
+// 	// technically, res2 here is not an accurate result, just in the ballpark?
+// 	// the i64::MAX and i64::MIN coords will be rounded to get f64
+// 	#[test]
+// 	fn line_intersection_i64_overflow_works() {
+// 		let nw = (i64::MIN, i64::MIN);
+// 		let sw = (i64::MIN, i64::MAX);
+// 		let ne = (i64::MAX, i64::MIN);
+// 		let se = (i64::MAX, i64::MAX);
+// // 		let z: (i32, i32) = (0, 0);
+//
+// 		let ne_sw: OrderedSegment<i64> = OrderedSegment::new(ne, sw);
+// 		let se_nw: OrderedSegment<i64> = OrderedSegment::new(se, nw);
+// 		let ne_nw: OrderedSegment<i64> = OrderedSegment::new(ne, nw);
+// 		let se_sw: OrderedSegment<i64> = OrderedSegment::new(se, sw);
+//
+// 		let res1: Point::<f64> = Point::new(-0.5, -0.5);
+// // 		let res2: Point::<f64> = Point::new(i64::MAX.into(), i64::MIN.into());
+// 		let res2: Point::<f64> = Point::new(f64::MAX, f64::MIN);
+//
+// 		assert_eq!(ne_sw.line_intersection(&se_nw), Some(res1));
+// 		assert_eq!(ne_sw.line_intersection(&ne_nw), Some(res2));
+// 		assert_eq!(ne_nw.line_intersection(&se_sw), None);
+// 	}
+//
+// 	#[test]
+// 	fn line_intersection_i64_overflow_severe_works() {
+//
+// 		// s0: (MIN, MIN),(MIN, MAX)
+// 		// s1: (MAX, MIN), (MAX - 1, MAX)
+// 		let vert: OrderedSegment<i64> = OrderedSegment::new((i64::MIN, i64::MIN), (i64::MIN, i64::MAX));
+// 		let near_horiz: OrderedSegment<i64> = OrderedSegment::new((i64::MAX, i64::MIN), (i64::MAX - 1, i64::MAX));
+//
+// 		let res1: Point::<f64> = Point::new(-9.223372036854776e18, 3.4028236692093843e38);
+//
+// 		assert_eq!(vert.line_intersection(&near_horiz), Some(res1));
+// 	}
+
+	#[test]
+	fn line_intersection_random_i16_f64_equal() {
+		let max_iter = 100;
+
+		for _ in 0..max_iter {
+			let s0_i = OrderedSegment::<i16>::random_range(-10000, 10000);
+			let s0_f: OrderedSegment<f64> = s0_i.into();
+
+			let s1_i =  OrderedSegment::<i16>::random_range(-10000, 10000);
+			let s1_f: OrderedSegment<f64> = s1_i.into();
+
+			let res_i = s0_i.line_intersection(&s1_i);
+			let res_f = s0_f.line_intersection(&s1_f);
+
+			assert_eq!(res_i, res_f);
+		}
+	}
+
+	#[test]
+	fn line_intersection_random_i32_f64_equal() {
+		let max_iter = 100;
+
+		for _ in 0..max_iter {
+			let s0_i = OrderedSegment::<i32>::random_range(-10000, 10000);
+			let s0_f: OrderedSegment<f64> = s0_i.into();
+
+			let s1_i =  OrderedSegment::<i32>::random_range(-10000, 10000);
+			let s1_f: OrderedSegment<f64> = s1_i.into();
+
+			let res_i = s0_i.line_intersection(&s1_i);
+			let res_f = s0_f.line_intersection(&s1_f);
+
+			assert_eq!(res_i, res_f);
+		}
+	}
+
 }

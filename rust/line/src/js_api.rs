@@ -18,7 +18,6 @@ use crate::point::SimpleOrient;
 use crate::segment::OrderedSegment;
 use geo::algorithm::kernels::Orientation;
 use geo::Coordinate;
-use smallvec::SmallVec;
 use crate::intersections::IxResultFloat;
 
 use wasm_bindgen::prelude::*;
@@ -127,7 +126,7 @@ pub fn brute_f64_ptr(ptr: *mut f64, len: usize) -> *mut f64 {
 }
 
 
-fn bundle_ix(ixs: SmallVec<[IxResultFloat; 4]>) -> Option<Box<[f64]>> {
+fn bundle_ix(ixs: Vec<IxResultFloat>) -> Option<Box<[f64]>> {
 	let ixs_ln = ixs.len();
 	if ixs_ln == 0 { return None };
 
@@ -142,6 +141,82 @@ fn bundle_ix(ixs: SmallVec<[IxResultFloat; 4]>) -> Option<Box<[f64]>> {
 
 	Some(buf.into_boxed_slice())
 }
+
+
+// Test using a union to switch back and forth between arrays and coordinates or segments
+#[repr(C)]
+pub union CoordOrArray {
+	arr: [f64; 2],
+	coord: Coordinate<f64>
+}
+
+impl CoordOrArray {
+	// returns a reference to the storage as Coordinate<f64>
+	pub fn as_coord(&mut self) -> &mut Coordinate<f64> {
+		unsafe {
+			&mut self.coord
+		}
+	}
+
+	pub fn as_array(&mut self) -> &mut [f64; 2] {
+		unsafe {
+			&mut self.arr
+		}
+	}
+
+	pub fn to_coord(&mut self) -> Coordinate<f64> {
+		unsafe {
+			self.coord
+		}
+	}
+}
+
+
+#[wasm_bindgen]
+pub fn array_to_coord(ptr: *mut f64, count: usize) {
+	let data = unsafe { Vec::from_raw_parts(ptr, count, count) };
+
+	let mut vec = Vec::<CoordOrArray>::with_capacity(count / 2);
+	for i in (0..count).step_by(2) {
+		vec.push(CoordOrArray { arr: [data[i], data[i+1]] });
+	}
+
+	let c0 = vec[0].as_coord();
+	console_log!("c0 is {},{}", c0.x, c0.y);
+
+	let arr0 = vec[0].as_array();
+	console_log!("arr0 is {},{}", arr0[0], arr0[1]);
+}
+
+#[wasm_bindgen]
+pub fn array_to_coord2(ptr: *mut CoordOrArray, count: usize) {
+	let mut data = unsafe { Vec::from_raw_parts(ptr, count, count) };
+
+	let c0 = data[0].as_coord();
+	console_log!("c0 is {},{}", c0.x, c0.y);
+
+	let arr0 = data[0].as_array();
+	console_log!("arr0 is {},{}", arr0[0], arr0[1]);
+}
+
+
+#[wasm_bindgen]
+pub fn brute_f64_coord_ptr(ptr: *mut CoordOrArray, count: usize) -> Option<Box<[f64]>> {
+	let mut data = unsafe { Vec::from_raw_parts(ptr, count, count) };
+
+	// build segments
+	let mut segments = Vec::<OrderedSegment<f64>>::with_capacity(count / 2);
+	for i in (0..count).step_by(2) {
+		let c0 = data[i].to_coord();
+		let c1 = data[i + 1].to_coord();
+		segments.push(OrderedSegment::new_ordered_with_idx(c0, c1, i / 2));
+	}
+	let segments = segments; // don't need mutability anymore
+
+	let ixs = ix_brute_single_f64(&segments);
+	bundle_ix(ixs)
+}
+
 
 #[wasm_bindgen]
 pub fn brute_i32(coordinates: &[i32]) -> Option<Box<[f64]>> {

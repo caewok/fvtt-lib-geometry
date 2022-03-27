@@ -10,13 +10,14 @@ use intersections_line::intersections::{
 	ix_sort_single_i32,
 	ix_sort_double_f64,
 	ix_sort_double_i32,
+	ix_brute_single_i64,
+	ix_sort_single_i64,
 };
 use geo::{CoordNum, Coordinate, Point};
 use rand::prelude::Distribution;
 use rand::distributions::Standard;
 use rand::distributions::uniform::SampleUniform;
 use criterion::black_box as bb_;
-use std::fs;
 
 // cargo bench -- ixs to filter to intersections
 // open -a "Google Chrome" target/criterion/report/index.html
@@ -73,15 +74,23 @@ fn bench_orient2d(c: &mut Criterion) {
 // 		BatchSize::SmallInput)
 // 	});
 //
-// 	group.bench_function("i64", move |b| {
-// 		b.iter_batched(|| BenchData::<i64>::new(),
-// 		|data| {
-// 			orient2d(data.p0.into(), data.p1.into(), data.p2.into());
-// 		},
-// 		BatchSize::SmallInput)
-// 	});
-//
+	group.bench_function("i64", move |b| {
+		b.iter_batched(|| BenchData::<i64>::new(),
+		|data| {
+			data.c0.orient2d(bb_(data.c1), bb_(data.c2));
+		},
+		BatchSize::SmallInput)
+	});
+
 	group.bench_function("i32", move |b| {
+		b.iter_batched(|| BenchData::<i32>::new(),
+		|data| {
+			data.c0.orient2d(bb_(data.c1), bb_(data.c2));
+		},
+		BatchSize::SmallInput)
+	});
+
+	group.bench_function("i16", move |b| {
 		b.iter_batched(|| BenchData::<i32>::new(),
 		|data| {
 			data.c0.orient2d(bb_(data.c1), bb_(data.c2));
@@ -137,14 +146,14 @@ fn bench_segment_intersects(c: &mut Criterion) {
 		},
 		BatchSize::SmallInput)
 	});
-//
-// 	group.bench_function("i64", move |b| {
-// 		b.iter_batched(|| BenchData::<i64>::new(),
-// 		|data| {
-// 				data.s0.intersects(&data.s1);
-// 		},
-// 		BatchSize::SmallInput)
-// 	});
+
+	group.bench_function("i64", move |b| {
+		b.iter_batched(|| BenchData::<i64>::new(),
+		|data| {
+				data.s0.intersects(&bb_(data.s1));
+		},
+		BatchSize::SmallInput)
+	});
 //
 // 	group.bench_function("f32", move |b| {
 // 		b.iter_batched(|| BenchData::<f32>::new(),
@@ -176,14 +185,14 @@ fn bench_segment_intersection(c: &mut Criterion) {
 		},
 		BatchSize::SmallInput)
 	});
-//
-// 	group.bench_function("i64", move |b| {
-// 		b.iter_batched(|| BenchData::<i64>::new(),
-// 		|data| {
-// 				data.s0.line_intersection(&data.s1);
-// 		},
-// 		BatchSize::SmallInput)
-// 	});
+
+	group.bench_function("i64", move |b| {
+		b.iter_batched(|| BenchData::<i64>::new(),
+		|data| {
+				data.s0.line_intersection(&bb_(data.s1));
+		},
+		BatchSize::SmallInput)
+	});
 //
 // 	group.bench_function("f32", move |b| {
 // 		b.iter_batched(|| BenchData::<f32>::new(),
@@ -204,11 +213,16 @@ fn bench_segment_intersection(c: &mut Criterion) {
 	group.finish();
 }
 
+
+// For Foundry all (nearly all?) segments will be positive, with canvas size
+// likely well under 10000.
+// make sure integers and floats all use a comparable range
+
 fn generate_segments_f64(n: usize) -> Vec<OrderedSegment<f64>>
 {
 	let mut segments = vec![];
 	for _ in 0..n {
-	  segments.push(OrderedSegment::<f64>::random_range(0., 5000.));
+	  segments.push(OrderedSegment::<f64>::random_range(0., 10000.));
 	}
 	segments
 }
@@ -217,11 +231,19 @@ fn generate_segments_i32(n: usize) -> Vec<OrderedSegment<i32>>
 {
 	let mut segments = vec![];
 	for _ in 0..n {
-	  segments.push(OrderedSegment::<i32>::random_range(0, 5000));
+	  segments.push(OrderedSegment::<i32>::random_range(0, 10000));
 	}
 	segments
 }
 
+fn generate_segments_i64(n: usize) -> Vec<OrderedSegment<i64>>
+{
+	let mut segments = vec![];
+	for _ in 0..n {
+	  segments.push(OrderedSegment::<i64>::random_range(0, 10000));
+	}
+	segments
+}
 
 fn bench_ixs_single(c: &mut Criterion) {
 	let mut group = c.benchmark_group("ixs_single");
@@ -246,6 +268,18 @@ fn bench_ixs_single(c: &mut Criterion) {
 
 		group.bench_function(BenchmarkId::new("sort int", n), |b| {
 			b.iter_batched (|| generate_segments_i32(n), |mut data| ix_sort_single_i32(bb_(&mut data[..]), false), BatchSize::SmallInput)
+		});
+	}
+
+	for n in [100, 500, 1000, 1500, 2000].iter() {
+		let n = *n as usize;
+		group.throughput(Throughput::Elements(n as u64));
+		group.bench_function(BenchmarkId::new("brute int64", n), |b| {
+			b.iter_batched (|| generate_segments_i64(n), |data| ix_brute_single_i64(bb_(&data[..])), BatchSize::SmallInput)
+		});
+
+		group.bench_function(BenchmarkId::new("sort int64", n), |b| {
+			b.iter_batched (|| generate_segments_i64(n), |mut data| ix_sort_single_i64(bb_(&mut data[..]), false), BatchSize::SmallInput)
 		});
 	}
 	group.finish();
