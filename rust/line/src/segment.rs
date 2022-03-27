@@ -3,92 +3,32 @@ use geo::algorithm::kernels::Orientation;
 use crate::point::{SimpleOrient, GenerateRandom};
 use std::cmp::Ordering;
 use num_traits::{Num};
+// use num_traits::identities::Zero;
 use rand::prelude::Distribution;
 use rand::distributions::Standard;
 use rand::distributions::uniform::SampleUniform;
-use serde::{Serialize, Deserialize};
 use geo::Line;
 // use rug::{ Assign, Integer }; // rug dependency does not compile under aarch
 
 
-// Create a simple struct for an ordered Line, where a is ne of b
-#[derive(Debug, Copy, Clone, PartialEq, Serialize, Deserialize)]
-pub struct OrderedSegment<T>
-	where T: CoordNum + Num,
-{
-	pub start: Coordinate<T>,
-	pub end: Coordinate<T>,
+// Trait for NW to SE Ordering
+pub trait NWSEOrdering {
+	// partial_cmp means one object is at least partially to the nw
+	fn partial_nw(&self, other: &Self) -> Ordering;
 
-	#[serde(default)]
-	pub idx: usize, // needed to easily track intersections
+	// is_nw means self is entirely nw of the other
+	fn is_nw(&self, other: &Self) -> bool;
+
+	// is_se means self is entirely se of the other
+	fn is_se(&self, other: &Self) -> bool;
 }
 
-impl<T> PartialOrd for OrderedSegment<T>
+impl<T> NWSEOrdering for Coordinate<T>
 	where T: CoordNum,
 {
-	fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-		Some(OrderedSegment::compare_xy(self.start, other.start))
-	}
-}
-
-
-
-impl<T> OrderedSegment<T>
-	where T: CoordNum,
-{
-	pub fn new_ordered_with_idx<C>(start: C, end: C, idx: usize) -> OrderedSegment<T>
-		where C: Into<Coordinate<T>>
-	{
-		Self { start: start.into(), end: end.into(), idx }
-	}
-
-	pub fn new_with_idx<C>(start: C, end: C, idx: usize) -> OrderedSegment<T>
-		where C: Into<Coordinate<T>>
-	{
-		let start: Coordinate<T> = start.into();
-		let end: Coordinate<T> = end.into();
-		let order = OrderedSegment::compare_xy(start, end);
-
-		match order {
-			Ordering::Less => Self { start, end, idx },
-			Ordering::Equal => Self { start, end, idx },
-			Ordering::Greater => Self { start: end, end: start, idx },
-		}
-	}
-
-	pub fn new<C>(start: C, end: C) -> OrderedSegment<T>
-		where C: Into<Coordinate<T>>
-	{
-		let start: Coordinate<T> = start.into();
-		let end: Coordinate<T> = end.into();
-		let order = OrderedSegment::compare_xy(start, end);
-		let idx: usize = 0;
-
-		match order {
-			Ordering::Less => Self { start, end, idx },
-			Ordering::Equal => Self { start, end, idx },
-			Ordering::Greater => Self { start: end, end: start, idx },
-		}
-	}
-
-	pub fn set_idx(&mut self, idx: usize) {
-		self.idx = idx;
-	}
-
-	pub fn compare_xy<C>(start: C, end: C) -> Ordering
-		where C: Into<Coordinate<T>>
-	{
-		let start: Coordinate<T> = start.into();
-		let end: Coordinate<T> = end.into();
-
-		let (ax, ay) = start.x_y();
-		let (bx, by) = end.x_y();
-
-		// following doesn't work b/c it wants T: Iterator for reasons...
-// 		let order = ax.cmp(bx);
-// 		if let Ordering::Equal = order {
-// 			order = ay.cmp(by)
-// 		}
+	fn partial_nw(&self, other: &Self) -> Ordering {
+		let (ax, ay) = self.x_y();
+		let (bx, by) = other.x_y();
 
 		if ax == bx {
 			if ay == by {
@@ -106,6 +46,83 @@ impl<T> OrderedSegment<T>
 		}
 	}
 
+	fn is_nw(&self, other: &Self) -> bool {
+		// for Coordinates, they are either completely to the left or not at all
+		self.partial_nw(other) == Ordering::Less
+	}
+
+	fn is_se(&self, other: &Self) -> bool {
+		self.partial_nw(other) == Ordering::Greater
+	}
+}
+
+
+
+
+// Create a simple struct for an ordered Line, where a is ne of b
+// Provide a method to order the struct but don't order on creation
+// Keep all same types for start, end, and index so that
+// union can be used to switch it with an array
+
+//#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone)] // just to see how far we can get without copying
+pub struct OrderedSegment<T>
+	where T: CoordNum + Num,
+{
+	pub start: Coordinate<T>,
+	pub end: Coordinate<T>,
+	pub idx: T, // needed to easily track intersections
+}
+
+
+impl<T> OrderedSegment<T>
+	where T: CoordNum,
+{
+	pub fn new<C>(start: C, end: C) -> OrderedSegment<T>
+		where C: Into<Coordinate<T>>
+	{
+		Self { start: start.into(), end: end.into(), idx: T::zero() }
+	}
+
+	pub fn new_with_idx<C>(start: C, end: C, idx: T) -> OrderedSegment<T>
+		where C: Into<Coordinate<T>>
+	{
+		Self { start: start.into(), end: end.into(), idx }
+	}
+
+	pub fn new_reorder(start: Coordinate<T>, end: Coordinate<T>) -> OrderedSegment<T>
+	{
+		let order = start.partial_nw(&end);
+		let (start, end) = match order {
+			Ordering::Greater => (end, start),
+			Ordering::Less => (start, end),
+			Ordering::Equal => (start, end),
+		};
+
+		Self { start, end, idx: T::zero() }
+	}
+
+	pub fn new_reorder_with_index(start: Coordinate<T>, end: Coordinate<T>, idx: T) -> OrderedSegment<T>
+	{
+		let order = start.partial_nw(&end);
+		let (start, end) = match order {
+			Ordering::Greater => (end, start),
+			Ordering::Less => (start, end),
+			Ordering::Equal => (start, end),
+		};
+
+		Self { start, end, idx }
+	}
+
+	pub fn reorder(&mut self) {
+		let order = self.start.partial_nw(&self.end);
+		if order == Ordering::Greater {
+			let old_start = self.start;
+			self.start = self.end.into();
+			self.end = old_start.into();
+		};
+	}
+
 	// difference in coordinates (∆x, ∆y)
 	pub fn delta(&self) -> Coordinate<T> {
 		self.end - self.start
@@ -113,13 +130,11 @@ impl<T> OrderedSegment<T>
 
 	// change in 'x' component
 	pub fn dx(&self) -> T {
-		//self.delta().x
 		self.end.x - self.start.x
 	}
 
 	// change in 'y' component
 	pub fn dy(&self) -> T {
-// 		self.delta().y
 		self.end.y - self.start.y
 	}
 
@@ -143,21 +158,39 @@ impl<T> OrderedSegment<T>
 		(self.start.x, self.start.y, self.end.x, self.end.y)
 	}
 
-	// use compare_xy to determine if one segment is partially to the left of the other
-// 	pub fn cmp_segments(&self, other: &Self) -> Ordering {
-// 		OrderedSegment::compare_xy(self.start, other.start)
-// 	}
+}
 
-	// segment is completely left of the other, meaning self.end < other.start
-	pub fn is_left(&self, other: &Self) -> bool {
-		let res = OrderedSegment::compare_xy(self.end, other.start);
-		res == Ordering::Less
+impl<T> NWSEOrdering for OrderedSegment<T>
+	where T: CoordNum
+{
+	fn partial_nw(&self, other: &Self) -> Ordering {
+		self.start.partial_nw(&other.start)
 	}
 
-	// segment is completely right of the other, meaning self.start > other.end
-	pub fn is_right(&self, other: &Self) -> bool {
-		let res = OrderedSegment::compare_xy(self.start, other.end);
-		res == Ordering::Greater
+	fn is_nw(&self, other: &Self) -> bool {
+		// Self is nw if its end point is nw of the other's start point
+		self.end.partial_nw(&other.start) == Ordering::Less
+	}
+
+	fn is_se(&self, other: &Self) -> bool {
+		// Self is se if its start point is se of the other's end point
+		self.start.partial_nw(&other.end) == Ordering::Greater
+	}
+}
+
+// impl<T> PartialOrd for OrderedSegment<T>
+// 	where T: CoordNum,
+// {
+// 	fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+// 		Some(OrderedSegment::compare_xy(self.start, other.start))
+// 	}
+// }
+
+impl<T> PartialEq for OrderedSegment<T>
+	where T: CoordNum,
+{
+	fn eq(&self, other: &Self) -> bool {
+		self.start == other.start && self.end == other.end
 	}
 }
 
@@ -733,7 +766,10 @@ mod tests {
 // ---------------- SEGMENT CREATION
 	#[test]
 	fn create_float_works() {
-		let s: OrderedSegment<f64> = OrderedSegment::random();
+		let mut s: OrderedSegment<f64> = OrderedSegment::random();
+		s.reorder();
+		let s = s; // no further need for mutate
+
 		let (ax, ay, bx, by) = s.coords();
 
 		assert!(ax <= 1.);
@@ -755,7 +791,10 @@ mod tests {
 
 	#[test]
 	fn create_int_works() {
-		let s: OrderedSegment<i64> = OrderedSegment::random();
+		let mut s: OrderedSegment<i64> = OrderedSegment::random();
+		s.reorder();
+		let s = s; // no further need for mutate
+
 		let (ax, ay, bx, by) = s.coords();
 		assert!(ax < bx || ax == bx && ay <= by);
 
@@ -872,11 +911,13 @@ mod tests {
 		let max_iter = 100;
 
 		for _ in 0..max_iter {
+			// testing w/o copy, so re-construct the random values
+
 			let s0_i = OrderedSegment::<i16>::random_range(-10000, 10000);
-			let s0_f: OrderedSegment<f64> = s0_i.into();
+			let s0_f: OrderedSegment<f64> = s0_i.clone().into();
 
 			let s1_i =  OrderedSegment::<i16>::random_range(-10000, 10000);
-			let s1_f: OrderedSegment<f64> = s1_i.into();
+			let s1_f: OrderedSegment<f64> = s1_i.clone().into();
 
 			let res_i = s0_i.intersects(&s1_i);
 			let res_f = s0_f.intersects(&s1_f);
@@ -891,10 +932,10 @@ mod tests {
 
 		for _ in 0..max_iter {
 			let s0_i = OrderedSegment::<i32>::random_range(-10000, 10000);
-			let s0_f: OrderedSegment<f64> = s0_i.into();
+			let s0_f: OrderedSegment<f64> = s0_i.clone().into();
 
 			let s1_i =  OrderedSegment::<i32>::random_range(-10000, 10000);
-			let s1_f: OrderedSegment<f64> = s1_i.into();
+			let s1_f: OrderedSegment<f64> = s1_i.clone().into();
 
 			let res_i = s0_i.intersects(&s1_i);
 			let res_f = s0_f.intersects(&s1_f);
@@ -1112,10 +1153,10 @@ mod tests {
 
 		for _ in 0..max_iter {
 			let s0_i = OrderedSegment::<i16>::random_range(-10000, 10000);
-			let s0_f: OrderedSegment<f64> = s0_i.into();
+			let s0_f: OrderedSegment<f64> = s0_i.clone().into();
 
 			let s1_i =  OrderedSegment::<i16>::random_range(-10000, 10000);
-			let s1_f: OrderedSegment<f64> = s1_i.into();
+			let s1_f: OrderedSegment<f64> = s1_i.clone().into();
 
 			let res_i = s0_i.line_intersection(&s1_i);
 			let res_f = s0_f.line_intersection(&s1_f);
@@ -1130,10 +1171,10 @@ mod tests {
 
 		for _ in 0..max_iter {
 			let s0_i = OrderedSegment::<i32>::random_range(-10000, 10000);
-			let s0_f: OrderedSegment<f64> = s0_i.into();
+			let s0_f: OrderedSegment<f64> = s0_i.clone().into();
 
 			let s1_i =  OrderedSegment::<i32>::random_range(-10000, 10000);
-			let s1_f: OrderedSegment<f64> = s1_i.into();
+			let s1_f: OrderedSegment<f64> = s1_i.clone().into();
 
 			let res_i = s0_i.line_intersection(&s1_i);
 			let res_f = s0_f.line_intersection(&s1_f);

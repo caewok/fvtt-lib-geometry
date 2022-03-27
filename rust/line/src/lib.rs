@@ -13,6 +13,6 @@
 
 pub mod point;
 pub mod segment;
-pub mod intersections;
-pub mod js_api;
+//pub mod intersections;
+//pub mod js_api;
 
