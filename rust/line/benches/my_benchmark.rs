@@ -222,7 +222,10 @@ fn generate_segments_f64(n: usize) -> Vec<OrderedSegment<f64>>
 {
 	let mut segments = vec![];
 	for _ in 0..n {
-	  segments.push(OrderedSegment::<f64>::random_range(0., 10000.));
+		let mut s = OrderedSegment::<f64>::random_range(0., 10000.);
+		s.reorder();
+		let s = s;
+	  	segments.push(s);
 	}
 	segments
 }
@@ -231,7 +234,10 @@ fn generate_segments_i32(n: usize) -> Vec<OrderedSegment<i32>>
 {
 	let mut segments = vec![];
 	for _ in 0..n {
-	  segments.push(OrderedSegment::<i32>::random_range(0, 10000));
+		let mut s = OrderedSegment::<i32>::random_range(0, 10000);
+		s.reorder();
+		let s = s;
+	  	segments.push(s);
 	}
 	segments
 }
@@ -240,14 +246,17 @@ fn generate_segments_i64(n: usize) -> Vec<OrderedSegment<i64>>
 {
 	let mut segments = vec![];
 	for _ in 0..n {
-	  segments.push(OrderedSegment::<i64>::random_range(0, 10000));
+		let mut s = OrderedSegment::<i64>::random_range(0, 10000);
+		s.reorder();
+		let s = s;
+	  	segments.push(s);
 	}
 	segments
 }
 
 fn bench_ixs_single(c: &mut Criterion) {
 	let mut group = c.benchmark_group("ixs_single");
-	for n in [100, 500, 1000, 1500, 2000].iter() {
+	for n in [100, 1000, 2000].iter() {
 		let n = *n as usize;
 		group.throughput(Throughput::Elements(n as u64));
 		group.bench_function(BenchmarkId::new("brute float", n), |b| {
@@ -259,7 +268,7 @@ fn bench_ixs_single(c: &mut Criterion) {
 		});
 	}
 
-	for n in [100, 500, 1000, 1500, 2000].iter() {
+	for n in [100, 1000, 2000].iter() {
 		let n = *n as usize;
 		group.throughput(Throughput::Elements(n as u64));
 		group.bench_function(BenchmarkId::new("brute int", n), |b| {
@@ -271,7 +280,7 @@ fn bench_ixs_single(c: &mut Criterion) {
 		});
 	}
 
-	for n in [100, 500, 1000, 1500, 2000].iter() {
+	for n in [100, 1000, 2000].iter() {
 		let n = *n as usize;
 		group.throughput(Throughput::Elements(n as u64));
 		group.bench_function(BenchmarkId::new("brute int64", n), |b| {
@@ -287,7 +296,7 @@ fn bench_ixs_single(c: &mut Criterion) {
 
 fn bench_ixs_double(c: &mut Criterion) {
 	let mut group = c.benchmark_group("ixs_double");
-	for n in [50, 100, 500, 1000].iter() {
+	for n in [50, 500, 1000].iter() {
 		let n = *n as usize;
 		group.throughput(Throughput::Elements(n as u64));
 		group.bench_function(BenchmarkId::new("brute float", n), |b| {
@@ -299,7 +308,7 @@ fn bench_ixs_double(c: &mut Criterion) {
 		});
 	}
 
-	for n in [50, 100, 500, 1000].iter() {
+	for n in [50, 500, 1000].iter() {
 		let n = *n as usize;
 		group.throughput(Throughput::Elements(n as u64));
 		group.bench_function(BenchmarkId::new("brute int", n), |b| {

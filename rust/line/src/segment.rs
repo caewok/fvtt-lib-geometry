@@ -64,8 +64,8 @@ impl<T> NWSEOrdering for Coordinate<T>
 // Keep all same types for start, end, and index so that
 // union can be used to switch it with an array
 
-//#[derive(Debug, Copy, Clone)]
-#[derive(Debug, Clone)] // just to see how far we can get without copying
+#[derive(Debug, Copy, Clone)] // need Copy for the Union
+// #[derive(Debug, Clone)] // just to see how far we can get without copying
 pub struct OrderedSegment<T>
 	where T: CoordNum + Num,
 {
@@ -78,16 +78,14 @@ pub struct OrderedSegment<T>
 impl<T> OrderedSegment<T>
 	where T: CoordNum,
 {
-	pub fn new<C>(start: C, end: C) -> OrderedSegment<T>
-		where C: Into<Coordinate<T>>
+	pub fn new(start: Coordinate<T>, end: Coordinate<T>) -> OrderedSegment<T>
 	{
-		Self { start: start.into(), end: end.into(), idx: T::zero() }
+		Self { start, end, idx: T::zero() }
 	}
 
-	pub fn new_with_idx<C>(start: C, end: C, idx: T) -> OrderedSegment<T>
-		where C: Into<Coordinate<T>>
+	pub fn new_with_idx(start: Coordinate<T>, end: Coordinate<T>, idx: T) -> OrderedSegment<T>
 	{
-		Self { start: start.into(), end: end.into(), idx }
+		Self { start, end, idx }
 	}
 
 	pub fn new_reorder(start: Coordinate<T>, end: Coordinate<T>) -> OrderedSegment<T>
@@ -197,37 +195,37 @@ impl<T> PartialEq for OrderedSegment<T>
 impl From<OrderedSegment<f64>> for OrderedSegment<i64> {
 	fn from(item: OrderedSegment<f64>) -> Self {
 		let (ax, ay, bx, by) = item.coords();
-		Self::new((ax.round() as i64, ay.round() as i64),
-		          (bx.round() as i64, by.round() as i64))
+		Self::new((ax.round() as i64, ay.round() as i64).into(),
+		          (bx.round() as i64, by.round() as i64).into())
 	}
 }
 
 impl From<OrderedSegment<i64>> for OrderedSegment<f64> {
 	fn from(item: OrderedSegment<i64>) -> Self {
 		let (ax, ay, bx, by) = item.coords();
-		Self::new((ax as f64, ay as f64), (bx as f64, by as f64))
+		Self::new((ax as f64, ay as f64).into(), (bx as f64, by as f64).into())
 	}
 }
 
 impl From<OrderedSegment<i16>> for OrderedSegment<f64> {
 	fn from(item: OrderedSegment<i16>) -> Self {
 		let (ax, ay, bx, by) = item.coords();
-		Self::new((ax as f64, ay as f64), (bx as f64, by as f64))
+		Self::new((ax as f64, ay as f64).into(), (bx as f64, by as f64).into())
 	}
 }
 
 impl From<OrderedSegment<f64>> for OrderedSegment<i32> {
 	fn from(item: OrderedSegment<f64>) -> Self {
 		let (ax, ay, bx, by) = item.coords();
-		Self::new((ax.round() as i32, ay.round() as i32),
-		          (bx.round() as i32, by.round() as i32))
+		Self::new((ax.round() as i32, ay.round() as i32).into(),
+		          (bx.round() as i32, by.round() as i32).into())
 	}
 }
 
 impl From<OrderedSegment<i32>> for OrderedSegment<f64> {
 	fn from(item: OrderedSegment<i32>) -> Self {
 		let (ax, ay, bx, by) = item.coords();
-		Self::new((ax as f64, ay as f64), (bx as f64, by as f64))
+		Self::new((ax as f64, ay as f64).into(), (bx as f64, by as f64).into())
 	}
 }
 
@@ -235,7 +233,7 @@ impl From<Line<f64>> for OrderedSegment<f64> {
 	fn from(item: Line<f64>) -> Self {
 		let (ax, ay) = item.start.x_y();
 		let (bx, by) = item.end.x_y();
-		Self::new((ax, ay), (bx, by))
+		Self::new((ax, ay).into(), (bx, by).into())
  	}
 }
 
@@ -252,15 +250,15 @@ impl<T> GenerateRandom for OrderedSegment<T>
 	type MaxType = T;
 
 	fn random() -> Self {
-		Self::new(Point::random(), Point::random())
+		Self::new(Coordinate::random(), Coordinate::random())
 	}
 
 	fn random_range(min: T, max: T) -> Self {
-		Self::new(Point::random_range(min, max), Point::random_range(min, max))
+		Self::new(Coordinate::random_range(min, max), Coordinate::random_range(min, max))
 	}
 
 	fn random_pos(max: T) -> Self {
-		Self::new(Point::random_pos(max), Point::random_pos(max))
+		Self::new(Coordinate::random_pos(max), Coordinate::random_pos(max))
 	}
 }
 
@@ -785,7 +783,7 @@ mod tests {
 		assert!(ax < bx || ax == bx && ay <= by);
 
 		let (a, b) = s.points();
-		let s_dupe = OrderedSegment::new(a, b);
+		let s_dupe = OrderedSegment::new(a.into(), b.into());
 		assert_eq!(s, s_dupe);
 	}
 
@@ -799,17 +797,17 @@ mod tests {
 		assert!(ax < bx || ax == bx && ay <= by);
 
 		let (a, b) = s.points();
-		let s_dupe = OrderedSegment::new(a, b);
+		let s_dupe = OrderedSegment::new(a.into(), b.into());
 		assert_eq!(s, s_dupe);
 	}
 
 // ---------------- SEGMENT INTERSECTS
 	#[test]
 	fn intersects_f64_works() {
-		let s0: OrderedSegment<f64> = OrderedSegment::new((2300., 1900.), (4200., 1900.));
-		let s1: OrderedSegment<f64> = OrderedSegment::new((2387., 1350.), (2500., 2100.));
-		let s2: OrderedSegment<f64> = OrderedSegment::new((2387., 1350.), (3200., 1900.));
-		let s3: OrderedSegment<f64> = OrderedSegment::new((2500., 2100.), (2900., 2100.));
+		let s0: OrderedSegment<f64> = OrderedSegment::new((2300., 1900.).into(), (4200., 1900.).into());
+		let s1: OrderedSegment<f64> = OrderedSegment::new((2387., 1350.).into(), (2500., 2100.).into());
+		let s2: OrderedSegment<f64> = OrderedSegment::new((2387., 1350.).into(), (3200., 1900.).into());
+		let s3: OrderedSegment<f64> = OrderedSegment::new((2500., 2100.).into(), (2900., 2100.).into());
 
 		assert!(s0.intersects(&s1));
 		assert!(s0.intersects(&s2));
@@ -818,10 +816,10 @@ mod tests {
 
 	#[test]
 	fn intersects_i16_works() {
-		let s0: OrderedSegment<i16> = OrderedSegment::new((2300, 1900), (4200, 1900));
-		let s1: OrderedSegment<i16> = OrderedSegment::new((2387, 1350), (2500, 2100));
-		let s2: OrderedSegment<i16> = OrderedSegment::new((2387, 1350), (3200, 1900));
-		let s3: OrderedSegment<i16> = OrderedSegment::new((2500, 2100), (2900, 2100));
+		let s0: OrderedSegment<i16> = OrderedSegment::new((2300, 1900).into(), (4200, 1900).into());
+		let s1: OrderedSegment<i16> = OrderedSegment::new((2387, 1350).into(), (2500, 2100).into());
+		let s2: OrderedSegment<i16> = OrderedSegment::new((2387, 1350).into(), (3200, 1900).into());
+		let s3: OrderedSegment<i16> = OrderedSegment::new((2500, 2100).into(), (2900, 2100).into());
 
 		assert!(s0.intersects(&s1));
 		assert!(s0.intersects(&s2));
@@ -830,10 +828,10 @@ mod tests {
 
 	#[test]
 	fn intersects_i32_works() {
-		let s0: OrderedSegment<i32> = OrderedSegment::new((2300, 1900), (4200, 1900));
-		let s1: OrderedSegment<i32> = OrderedSegment::new((2387, 1350), (2500, 2100));
-		let s2: OrderedSegment<i32> = OrderedSegment::new((2387, 1350), (3200, 1900));
-		let s3: OrderedSegment<i32> = OrderedSegment::new((2500, 2100), (2900, 2100));
+		let s0: OrderedSegment<i32> = OrderedSegment::new((2300, 1900).into(), (4200, 1900).into());
+		let s1: OrderedSegment<i32> = OrderedSegment::new((2387, 1350).into(), (2500, 2100).into());
+		let s2: OrderedSegment<i32> = OrderedSegment::new((2387, 1350).into(), (3200, 1900).into());
+		let s3: OrderedSegment<i32> = OrderedSegment::new((2500, 2100).into(), (2900, 2100).into());
 
 		assert!(s0.intersects(&s1));
 		assert!(s0.intersects(&s2));
@@ -848,10 +846,10 @@ mod tests {
 		let se = (i16::MAX, i16::MAX);
 // 		let z: (i32, i32) = (0, 0);
 
-		let ne_sw: OrderedSegment<i16> = OrderedSegment::new(ne, sw);
-		let se_nw: OrderedSegment<i16> = OrderedSegment::new(se, nw);
-		let ne_nw: OrderedSegment<i16> = OrderedSegment::new(ne, nw);
-		let se_sw: OrderedSegment<i16> = OrderedSegment::new(se, sw);
+		let ne_sw: OrderedSegment<i16> = OrderedSegment::new(ne.into(), sw.into());
+		let se_nw: OrderedSegment<i16> = OrderedSegment::new(se.into(), nw.into());
+		let ne_nw: OrderedSegment<i16> = OrderedSegment::new(ne.into(), nw.into());
+		let se_sw: OrderedSegment<i16> = OrderedSegment::new(se.into(), sw.into());
 
 		assert!(ne_sw.intersects(&se_nw));
 		assert!(ne_sw.intersects(&ne_nw));
@@ -866,10 +864,10 @@ mod tests {
 		let se = (i32::MAX, i32::MAX);
 // 		let z: (i32, i32) = (0, 0);
 
-		let ne_sw: OrderedSegment<i32> = OrderedSegment::new(ne, sw);
-		let se_nw: OrderedSegment<i32> = OrderedSegment::new(se, nw);
-		let ne_nw: OrderedSegment<i32> = OrderedSegment::new(ne, nw);
-		let se_sw: OrderedSegment<i32> = OrderedSegment::new(se, sw);
+		let ne_sw: OrderedSegment<i32> = OrderedSegment::new(ne.into(), sw.into());
+		let se_nw: OrderedSegment<i32> = OrderedSegment::new(se.into(), nw.into());
+		let ne_nw: OrderedSegment<i32> = OrderedSegment::new(ne.into(), nw.into());
+		let se_sw: OrderedSegment<i32> = OrderedSegment::new(se.into(), sw.into());
 
 		assert!(ne_sw.intersects(&se_nw));
 		assert!(ne_sw.intersects(&ne_nw));
@@ -878,10 +876,10 @@ mod tests {
 
 	#[test]
 	fn intersects_i64_works() {
-		let s0: OrderedSegment<i64> = OrderedSegment::new((2300, 1900), (4200, 1900));
-		let s1: OrderedSegment<i64> = OrderedSegment::new((2387, 1350), (2500, 2100));
-		let s2: OrderedSegment<i64> = OrderedSegment::new((2387, 1350), (3200, 1900));
-		let s3: OrderedSegment<i64> = OrderedSegment::new((2500, 2100), (2900, 2100));
+		let s0: OrderedSegment<i64> = OrderedSegment::new((2300, 1900).into(), (4200, 1900).into());
+		let s1: OrderedSegment<i64> = OrderedSegment::new((2387, 1350).into(), (2500, 2100).into());
+		let s2: OrderedSegment<i64> = OrderedSegment::new((2387, 1350).into(), (3200, 1900).into());
+		let s3: OrderedSegment<i64> = OrderedSegment::new((2500, 2100).into(), (2900, 2100).into());
 
 		assert!(s0.intersects(&s1));
 		assert!(s0.intersects(&s2));
@@ -896,10 +894,10 @@ mod tests {
 		let se = (i64::MAX, i64::MAX);
 // 		let z: (i32, i32) = (0, 0);
 
-		let ne_sw: OrderedSegment<i64> = OrderedSegment::new(ne, sw);
-		let se_nw: OrderedSegment<i64> = OrderedSegment::new(se, nw);
-		let ne_nw: OrderedSegment<i64> = OrderedSegment::new(ne, nw);
-		let se_sw: OrderedSegment<i64> = OrderedSegment::new(se, sw);
+		let ne_sw: OrderedSegment<i64> = OrderedSegment::new(ne.into(), sw.into());
+		let se_nw: OrderedSegment<i64> = OrderedSegment::new(se.into(), nw.into());
+		let ne_nw: OrderedSegment<i64> = OrderedSegment::new(ne.into(), nw.into());
+		let se_sw: OrderedSegment<i64> = OrderedSegment::new(se.into(), sw.into());
 
 		assert!(ne_sw.intersects(&se_nw));
 		assert!(ne_sw.intersects(&ne_nw));
@@ -947,10 +945,10 @@ mod tests {
 // ---------------- SEGMENT LINE INTERSECTION
 	#[test]
 	fn line_intersection_f64_works() {
-		let s0: OrderedSegment<f64> = OrderedSegment::new((2300., 1900.), (4200., 1900.));
-		let s1: OrderedSegment<f64> = OrderedSegment::new((2387., 1350.), (2500., 2100.));
-		let s2: OrderedSegment<f64> = OrderedSegment::new((2387., 1350.), (3200., 1900.));
-		let s3: OrderedSegment<f64> = OrderedSegment::new((2500., 2100.), (2900., 2100.));
+		let s0: OrderedSegment<f64> = OrderedSegment::new((2300., 1900.).into(), (4200., 1900.).into());
+		let s1: OrderedSegment<f64> = OrderedSegment::new((2387., 1350.).into(), (2500., 2100.).into());
+		let s2: OrderedSegment<f64> = OrderedSegment::new((2387., 1350.).into(), (3200., 1900.).into());
+		let s3: OrderedSegment<f64> = OrderedSegment::new((2500., 2100.).into(), (2900., 2100.).into());
 
 		let res01: Point<f64> = Point::new(2469.866666666667, 1900.); // s0 x s1
 		let res02: Point<f64> = Point::new(3200., 1900.); // s0 x s2
@@ -970,10 +968,10 @@ mod tests {
 
 	#[test]
 	fn line_intersection_i16_works() {
-		let s0: OrderedSegment<i16> = OrderedSegment::new((2300, 1900), (4200, 1900));
-		let s1: OrderedSegment<i16> = OrderedSegment::new((2387, 1350), (2500, 2100));
-		let s2: OrderedSegment<i16> = OrderedSegment::new((2387, 1350), (3200, 1900));
-		let s3: OrderedSegment<i16> = OrderedSegment::new((2500, 2100), (2900, 2100));
+		let s0: OrderedSegment<i16> = OrderedSegment::new((2300, 1900).into(), (4200, 1900).into());
+		let s1: OrderedSegment<i16> = OrderedSegment::new((2387, 1350).into(), (2500, 2100).into());
+		let s2: OrderedSegment<i16> = OrderedSegment::new((2387, 1350).into(), (3200, 1900).into());
+		let s3: OrderedSegment<i16> = OrderedSegment::new((2500, 2100).into(), (2900, 2100).into());
 
 		let res01: Point<f64> = Point::new(2469.866666666667, 1900.); // s0 x s1
 		let res02: Point<f64> = Point::new(3200., 1900.); // s0 x s2
@@ -1000,10 +998,10 @@ mod tests {
 		let se = (i16::MAX, i16::MAX);
 // 		let z: (i32, i32) = (0, 0);
 
-		let ne_sw: OrderedSegment<i16> = OrderedSegment::new(ne, sw);
-		let se_nw: OrderedSegment<i16> = OrderedSegment::new(se, nw);
-		let ne_nw: OrderedSegment<i16> = OrderedSegment::new(ne, nw);
-		let se_sw: OrderedSegment<i16> = OrderedSegment::new(se, sw);
+		let ne_sw: OrderedSegment<i16> = OrderedSegment::new(ne.into(), sw.into());
+		let se_nw: OrderedSegment<i16> = OrderedSegment::new(se.into(), nw.into());
+		let ne_nw: OrderedSegment<i16> = OrderedSegment::new(ne.into(), nw.into());
+		let se_sw: OrderedSegment<i16> = OrderedSegment::new(se.into(), sw.into());
 
 		let res1: Point::<f64> = Point::new(-0.5, -0.5);
 		let res2: Point::<f64> = Point::new(i16::MAX.into(), i16::MIN.into());
@@ -1018,8 +1016,8 @@ mod tests {
 
 		// s0: (MIN, MIN),(MIN, MAX)
 		// s1: (MAX, MIN), (MAX - 1, MAX)
-		let vert: OrderedSegment<i16> = OrderedSegment::new((i16::MIN, i16::MIN), (i16::MIN, i16::MAX));
-		let near_horiz: OrderedSegment<i16> = OrderedSegment::new((i16::MAX, i16::MIN), (i16::MAX - 1, i16::MAX));
+		let vert: OrderedSegment<i16> = OrderedSegment::new((i16::MIN, i16::MIN).into(), (i16::MIN, i16::MAX).into());
+		let near_horiz: OrderedSegment<i16> = OrderedSegment::new((i16::MAX, i16::MIN).into(), (i16::MAX - 1, i16::MAX).into());
 
 		let res1: Point::<f64> = Point::new( -32768., 4294803457.);
 
@@ -1029,10 +1027,10 @@ mod tests {
 
 	#[test]
 	fn line_intersection_i32_works() {
-		let s0: OrderedSegment<i32> = OrderedSegment::new((2300, 1900), (4200, 1900));
-		let s1: OrderedSegment<i32> = OrderedSegment::new((2387, 1350), (2500, 2100));
-		let s2: OrderedSegment<i32> = OrderedSegment::new((2387, 1350), (3200, 1900));
-		let s3: OrderedSegment<i32> = OrderedSegment::new((2500, 2100), (2900, 2100));
+		let s0: OrderedSegment<i32> = OrderedSegment::new((2300, 1900).into(), (4200, 1900).into());
+		let s1: OrderedSegment<i32> = OrderedSegment::new((2387, 1350).into(), (2500, 2100).into());
+		let s2: OrderedSegment<i32> = OrderedSegment::new((2387, 1350).into(), (3200, 1900).into());
+		let s3: OrderedSegment<i32> = OrderedSegment::new((2500, 2100).into(), (2900, 2100).into());
 
 		let res01: Point<f64> = Point::new(2469.866666666667, 1900.); // s0 x s1
 		let res02: Point<f64> = Point::new(3200., 1900.); // s0 x s2
@@ -1059,10 +1057,10 @@ mod tests {
 		let se = (i32::MAX, i32::MAX);
 // 		let z: (i32, i32) = (0, 0);
 
-		let ne_sw: OrderedSegment<i32> = OrderedSegment::new(ne, sw);
-		let se_nw: OrderedSegment<i32> = OrderedSegment::new(se, nw);
-		let ne_nw: OrderedSegment<i32> = OrderedSegment::new(ne, nw);
-		let se_sw: OrderedSegment<i32> = OrderedSegment::new(se, sw);
+		let ne_sw: OrderedSegment<i32> = OrderedSegment::new(ne.into(), sw.into());
+		let se_nw: OrderedSegment<i32> = OrderedSegment::new(se.into(), nw.into());
+		let ne_nw: OrderedSegment<i32> = OrderedSegment::new(ne.into(), nw.into());
+		let se_sw: OrderedSegment<i32> = OrderedSegment::new(se.into(), sw.into());
 
 		let res1: Point::<f64> = Point::new(-0.5, -0.5);
 		let res2: Point::<f64> = Point::new(i32::MAX.into(), i32::MIN.into());
@@ -1077,8 +1075,8 @@ mod tests {
 
 		// s0: (MIN, MIN),(MIN, MAX)
 		// s1: (MAX, MIN), (MAX - 1, MAX)
-		let vert: OrderedSegment<i32> = OrderedSegment::new((i32::MIN, i32::MIN), (i32::MIN, i32::MAX));
-		let near_horiz: OrderedSegment<i32> = OrderedSegment::new((i32::MAX, i32::MIN), (i32::MAX - 1, i32::MAX));
+		let vert: OrderedSegment<i32> = OrderedSegment::new((i32::MIN, i32::MIN).into(), (i32::MIN, i32::MAX).into());
+		let near_horiz: OrderedSegment<i32> = OrderedSegment::new((i32::MAX, i32::MIN).into(), (i32::MAX - 1, i32::MAX).into());
 
 		let res1: Point::<f64> = Point::new(-2147483648., 18446744062972133000.);
 

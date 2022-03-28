@@ -39,6 +39,30 @@ impl<T> GenerateRandom for Point<T>
 	}
 }
 
+impl<T> GenerateRandom for Coordinate<T>
+	where T: CoordNum + SampleUniform, Standard: Distribution<T>,
+{
+	type MaxType = T;
+
+	fn random() -> Self {
+		let (x, y) = rand::random::<(T, T)>();
+		Self { x,  y }
+	}
+
+	fn random_range(min: T, max: T) -> Self
+	{
+		let mut rng = rand::thread_rng();
+		Self { x: rng.gen_range(min..=max), y: rng.gen_range(min..=max) }
+	}
+
+	fn random_pos(max: T) -> Self
+	{
+		let mut rng = rand::thread_rng();
+		let min = num_traits::zero();
+		Self { x: rng.gen_range(min..=max), y: rng.gen_range(min..=max) }
+	}
+}
+
 /*
 Using T for different types is possible, but it is very difficult to handle integer overflow.
 If passed i32, it is possible to overflow with the subtraction or multiplication.

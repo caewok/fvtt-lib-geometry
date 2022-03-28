@@ -215,14 +215,14 @@ export class IntersectionsSortWASM_i32 extends IntersectionsWASM {
 }
 
 function copySegments_f64(segments, instance) {
-  const num_coords = segments.length * 4;
-  const ptr = instance.alloc_f64(num_coords);
-  const mem = new Float64Array(instance.memory.buffer, ptr, num_coords);
+	const num_coords = segments.length * 4;
+ 	const ptr = instance.alloc_f64(num_coords + segments.length); // plus an index
+ 	const mem = new Float64Array(instance.memory.buffer, ptr, num_coords + segments.length);
 
-  // copy A, B if order doesn't matter
-  // copy nw, se otherwise
-  segments.forEach((s, idx) => mem.set([s.A.x, s.A.y, s.B.x, s.B.y], idx * 4));
-  return ptr;
+ 	// copy A, B if order doesn't matter
+ 	// copy nw, se otherwise
+	segments.forEach((s, idx) => mem.set([s.A.x, s.A.y, s.B.x, s.B.y, idx], idx * 5))
+ 	return ptr;
 }
 
 
@@ -262,7 +262,7 @@ export class IntersectionWASMFast_f64 extends IntersectionsWASM {
   */
   static single(segments, instance) {
     const segments_ptr = copySegments_f64(segments, instance);
-    const wasm_ixs = WASMLine.brute_f64_coord_ptr(segments_ptr, segments.length * 2);
+    const wasm_ixs = WASMLine.brute_f64_segment_ptr(segments_ptr, segments.length);
     return this._reportWASMSegments(wasm_ixs, segments, segments);
 
 //     let res_ptr = api.WASMLine.brute_f64_coord_ptr(segments_ptr, segments.length * 2);
