@@ -18,7 +18,7 @@ await benchmarking.BenchIntersectionsPlan();
 Or:
 benchmarking = game.modules.get(`libgeometry`).benchmarking;
 b1000 = benchmarking.BenchRandomIntersections(1000);
-await b1000()
+b1000()
 
 orient1000 = benchmarking.BenchLine(1000)
 await orient1000()

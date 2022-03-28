@@ -64,8 +64,8 @@ impl<T> NWSEOrdering for Coordinate<T>
 // Keep all same types for start, end, and index so that
 // union can be used to switch it with an array
 
-#[derive(Debug, Copy, Clone)] // need Copy for the Union
-// #[derive(Debug, Clone)] // just to see how far we can get without copying
+// #[derive(Debug, Copy, Clone)] // need Copy for the Union
+#[derive(Debug, Clone)] // just to see how far we can get without copying
 pub struct OrderedSegment<T>
 	where T: CoordNum + Num,
 {
