@@ -9,7 +9,7 @@ use rand::distributions::Standard;
 use rand::distributions::uniform::SampleUniform;
 use geo::Line;
 // use rug::{ Assign, Integer }; // rug dependency does not compile under aarch
-
+use wasm_bindgen::prelude::*;
 
 // Trait for NW to SE Ordering
 pub trait NWSEOrdering {
@@ -64,8 +64,9 @@ impl<T> NWSEOrdering for Coordinate<T>
 // Keep all same types for start, end, and index so that
 // union can be used to switch it with an array
 
-// #[derive(Debug, Copy, Clone)] // need Copy for the Union
-#[derive(Debug, Clone)] // just to see how far we can get without copying
+#[wasm_bindgen]
+#[derive(Debug, Copy, Clone)] // need Copy for the Union
+// #[derive(Debug, Clone)] // just to see how far we can get without copying
 pub struct OrderedSegment<T>
 	where T: CoordNum + Num,
 {
@@ -266,7 +267,7 @@ impl<T> GenerateRandom for OrderedSegment<T>
 
 pub trait SimpleIntersect<B = Self> {
 	fn intersects(&self, other: &B) -> bool;
-	fn line_intersection(&self, other: &B) -> Option<Point<f64>>;
+	fn line_intersection(&self, other: &B) -> Option<Coordinate<f64>>;
 }
 
 // all intersects are the same but we have not implemented orient2d for all,
@@ -290,7 +291,7 @@ impl SimpleIntersect for OrderedSegment<f64> {
 		false
 	}
 
-	fn line_intersection(&self, other: &Self) -> Option<Point<f64>> {
+	fn line_intersection(&self, other: &Self) -> Option<Coordinate<f64>> {
 // 		let (ax, ay, bx, by) = self.coords();
 // 		let (cx, cy, dx, dy) = other.coords();
 // 		println!("\nintersecting {},{}|{},{} x {},{}|{},{}", ax, ay, bx, by, cx, cy, dx, dy);
@@ -324,7 +325,7 @@ impl SimpleIntersect for OrderedSegment<f64> {
 		let ratio_x = x_num / x_dnm;
 		let ratio_y = y_num / y_dnm;
 
-		Some(Point::new(ratio_x, ratio_y))
+		Some(Coordinate { x: ratio_x, y: ratio_y })
 	}
 }
 
@@ -351,7 +352,7 @@ impl SimpleIntersect for OrderedSegment<i16> {
 	}
 
 	#[inline]
-	fn line_intersection(&self, other: &Self) -> Option<Point<f64>> {
+	fn line_intersection(&self, other: &Self) -> Option<Coordinate<f64>> {
 		let (ax, ay, bx, by) = self.coords();
 		let (cx, cy, dx, dy) = other.coords();
 
@@ -385,7 +386,7 @@ impl SimpleIntersect for OrderedSegment<i16> {
 		let ratio_y = (quot_y as f64) + (rem_y as f64 / y_dnm as f64);
 
 
-		Some(Point::new(ratio_x, ratio_y))
+		Some(Coordinate { x: ratio_x, y: ratio_y })
 	}
 }
 
@@ -418,7 +419,7 @@ impl SimpleIntersect for OrderedSegment<i32> {
 	}
 
 	#[inline]
-	fn line_intersection(&self, other: &Self) -> Option<Point<f64>> {
+	fn line_intersection(&self, other: &Self) -> Option<Coordinate<f64>> {
 		let (ax, ay, bx, by) = self.coords();
 		let (cx, cy, dx, dy) = other.coords();
 
@@ -559,7 +560,7 @@ impl SimpleIntersect for OrderedSegment<i32> {
 // 		let ratio_x = (x_num as f64) / (x_dnm as f64);
 // 		let ratio_y = (y_num as f64) / (y_dnm as f64);
 
-		Some(Point::new(ratio_x, ratio_y))
+		Some(Coordinate { x: ratio_x, y: ratio_y })
 	}
 }
 
@@ -584,7 +585,7 @@ impl SimpleIntersect for OrderedSegment<i64> {
 	}
 
 	#[inline]
-	fn line_intersection(&self, other: &Self) -> Option<Point<f64>> {
+	fn line_intersection(&self, other: &Self) -> Option<Coordinate<f64>> {
 		// use foundry.utils.lineLineIntersection method
 		let (ax, ay, bx, by) = self.coords();
 		let (cx, cy, dx, dy) = other.coords();
@@ -607,7 +608,7 @@ impl SimpleIntersect for OrderedSegment<i64> {
 		let x = ax as f64 + t0 * (bx as f64 - ax as f64);
 		let y = ay as f64 + t0 * (by as f64 - ax as f64);
 
-		Some(Point::new(x,y))
+		Some(Coordinate { x, y })
 	}
 
 	// works but is slow and rug won't compile
@@ -950,12 +951,12 @@ mod tests {
 		let s2: OrderedSegment<f64> = OrderedSegment::new((2387., 1350.).into(), (3200., 1900.).into());
 		let s3: OrderedSegment<f64> = OrderedSegment::new((2500., 2100.).into(), (2900., 2100.).into());
 
-		let res01: Point<f64> = Point::new(2469.866666666667, 1900.); // s0 x s1
-		let res02: Point<f64> = Point::new(3200., 1900.); // s0 x s2
+		let res01: Coordinate<f64> = Coordinate { x: 2469.866666666667, y: 1900. }; // s0 x s1
+		let res02: Coordinate<f64> = Coordinate { x: 3200., y: 1900. }; // s0 x s2
 		// s0 x s3: null
-		let res12: Point<f64> = Point::new(2387., 1350.); // s1 x s2 intersect at p2
-		let res13: Point<f64> = Point::new(2500., 2100.); //s1 x s4 intersect
-		let res23: Point<f64> = Point::new(3495.6363636363635, 2100.);
+		let res12: Coordinate<f64> = Coordinate { x: 2387., y: 1350. }; // s1 x s2 intersect at p2
+		let res13: Coordinate<f64> = Coordinate { x: 2500., y: 2100. }; //s1 x s4 intersect
+		let res23: Coordinate<f64> = Coordinate { x: 3495.6363636363635, y: 2100. };
 
 		assert_eq!(s0.line_intersection(&s1), Some(res01));
 		assert_eq!(s0.line_intersection(&s2), Some(res02));
@@ -973,12 +974,12 @@ mod tests {
 		let s2: OrderedSegment<i16> = OrderedSegment::new((2387, 1350).into(), (3200, 1900).into());
 		let s3: OrderedSegment<i16> = OrderedSegment::new((2500, 2100).into(), (2900, 2100).into());
 
-		let res01: Point<f64> = Point::new(2469.866666666667, 1900.); // s0 x s1
-		let res02: Point<f64> = Point::new(3200., 1900.); // s0 x s2
+		let res01: Coordinate<f64> = Coordinate { x: 2469.866666666667, y: 1900. }; // s0 x s1
+		let res02: Coordinate<f64> = Coordinate { x: 3200., y: 1900. }; // s0 x s2
 		// s0 x s3: null
-		let res12: Point<f64> = Point::new(2387., 1350.); // s1 x s2 intersect at p2
-		let res13: Point<f64> = Point::new(2500., 2100.); //s1 x s4 intersect
-		let res23: Point<f64> = Point::new(3495.6363636363635, 2100.);
+		let res12: Coordinate<f64> = Coordinate { x: 2387., y: 1350. }; // s1 x s2 intersect at p2
+		let res13: Coordinate<f64> = Coordinate { x: 2500., y: 2100. }; //s1 x s4 intersect
+		let res23: Coordinate<f64> = Coordinate { x: 3495.6363636363635, y: 2100. };
 
 		assert_eq!(s0.line_intersection(&s1), Some(res01));
 		assert_eq!(s0.line_intersection(&s2), Some(res02));
@@ -1003,8 +1004,8 @@ mod tests {
 		let ne_nw: OrderedSegment<i16> = OrderedSegment::new(ne.into(), nw.into());
 		let se_sw: OrderedSegment<i16> = OrderedSegment::new(se.into(), sw.into());
 
-		let res1: Point::<f64> = Point::new(-0.5, -0.5);
-		let res2: Point::<f64> = Point::new(i16::MAX.into(), i16::MIN.into());
+		let res1: Coordinate::<f64> = Coordinate { x: -0.5, y: -0.5 };
+		let res2: Coordinate::<f64> = Coordinate { x: i16::MAX.into(), y: i16::MIN.into() };
 
 		assert_eq!(ne_sw.line_intersection(&se_nw), Some(res1));
 		assert_eq!(ne_sw.line_intersection(&ne_nw), Some(res2));
@@ -1019,7 +1020,7 @@ mod tests {
 		let vert: OrderedSegment<i16> = OrderedSegment::new((i16::MIN, i16::MIN).into(), (i16::MIN, i16::MAX).into());
 		let near_horiz: OrderedSegment<i16> = OrderedSegment::new((i16::MAX, i16::MIN).into(), (i16::MAX - 1, i16::MAX).into());
 
-		let res1: Point::<f64> = Point::new( -32768., 4294803457.);
+		let res1: Coordinate::<f64> = Coordinate { x: -32768., y: 4294803457. };
 
 		assert_eq!(vert.line_intersection(&near_horiz), Some(res1));
 	}
@@ -1032,12 +1033,12 @@ mod tests {
 		let s2: OrderedSegment<i32> = OrderedSegment::new((2387, 1350).into(), (3200, 1900).into());
 		let s3: OrderedSegment<i32> = OrderedSegment::new((2500, 2100).into(), (2900, 2100).into());
 
-		let res01: Point<f64> = Point::new(2469.866666666667, 1900.); // s0 x s1
-		let res02: Point<f64> = Point::new(3200., 1900.); // s0 x s2
+		let res01: Coordinate<f64> = Coordinate { x: 2469.866666666667, y: 1900. }; // s0 x s1
+		let res02: Coordinate<f64> = Coordinate { x: 3200., y: 1900. }; // s0 x s2
 		// s0 x s3: null
-		let res12: Point<f64> = Point::new(2387., 1350.); // s1 x s2 intersect at p2
-		let res13: Point<f64> = Point::new(2500., 2100.); //s1 x s4 intersect
-		let res23: Point<f64> = Point::new(3495.6363636363635, 2100.);
+		let res12: Coordinate<f64> = Coordinate { x: 2387., y: 1350. }; // s1 x s2 intersect at p2
+		let res13: Coordinate<f64> = Coordinate { x: 2500., y: 2100. }; //s1 x s4 intersect
+		let res23: Coordinate<f64> = Coordinate { x: 3495.6363636363635, y: 2100. };
 
 		assert_eq!(s0.line_intersection(&s1), Some(res01));
 		assert_eq!(s0.line_intersection(&s2), Some(res02));
@@ -1062,8 +1063,8 @@ mod tests {
 		let ne_nw: OrderedSegment<i32> = OrderedSegment::new(ne.into(), nw.into());
 		let se_sw: OrderedSegment<i32> = OrderedSegment::new(se.into(), sw.into());
 
-		let res1: Point::<f64> = Point::new(-0.5, -0.5);
-		let res2: Point::<f64> = Point::new(i32::MAX.into(), i32::MIN.into());
+		let res1: Coordinate::<f64> = Coordinate { x: -0.5, y: -0.5 };
+		let res2: Coordinate::<f64> = Coordinate { x: i32::MAX.into(), y: i32::MIN.into() };
 
 		assert_eq!(ne_sw.line_intersection(&se_nw), Some(res1));
 		assert_eq!(ne_sw.line_intersection(&ne_nw), Some(res2));
@@ -1078,7 +1079,7 @@ mod tests {
 		let vert: OrderedSegment<i32> = OrderedSegment::new((i32::MIN, i32::MIN).into(), (i32::MIN, i32::MAX).into());
 		let near_horiz: OrderedSegment<i32> = OrderedSegment::new((i32::MAX, i32::MIN).into(), (i32::MAX - 1, i32::MAX).into());
 
-		let res1: Point::<f64> = Point::new(-2147483648., 18446744062972133000.);
+		let res1: Coordinate::<f64> = Coordinate { x: -2147483648., y: 18446744062972133000. };
 
 		assert_eq!(vert.line_intersection(&near_horiz), Some(res1));
 	}

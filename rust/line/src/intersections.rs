@@ -1,12 +1,14 @@
-use geo::{ Point };
+use geo::{ Coordinate };
 use crate::segment::{OrderedSegment, SimpleIntersect, NWSEOrdering };
+use wasm_bindgen::prelude::*;
 
 // make idx1 and idx2 same bit length as point
+#[wasm_bindgen]
 #[derive(Debug, PartialEq)]
 pub struct IxResultFloat {
-	pub ix: Point<f64>,
-	pub idx1: i64,
-	pub idx2: i64,
+	pub ix: Coordinate<f64>,
+	pub idx1: f64,
+	pub idx2: f64,
 }
 
 // Need enum to store different IxResults
@@ -56,8 +58,8 @@ pub fn ix_brute_single_i64(segments: &[OrderedSegment<i64>]) -> Vec<IxResultFloa
 
 				ixs.push( IxResultFloat {
 					ix,
-					idx1: si.idx,
-					idx2: sj.idx,
+					idx1: num_traits::cast(si.idx).unwrap(),
+					idx2: num_traits::cast(sj.idx).unwrap(),
 				});
 			}
 		}
@@ -81,8 +83,8 @@ pub fn ix_brute_single_f64(segments: &[OrderedSegment<f64>]) -> Vec<IxResultFloa
 
 				ixs.push( IxResultFloat {
 					ix,
-					idx1: num_traits::cast(si.idx).unwrap(),
-					idx2: num_traits::cast(sj.idx).unwrap(),
+					idx1: si.idx,
+					idx2: sj.idx,
 				});
 			}
 		}
@@ -123,8 +125,8 @@ pub fn ix_brute_double_f64(segments1: &[OrderedSegment<f64>], segments2: &[Order
 			if let Some(ix) = res {
 				ixs.push( IxResultFloat {
 					ix,
-					idx1: num_traits::cast(si.idx).unwrap(),
-					idx2: num_traits::cast(sj.idx).unwrap(),
+					idx1: si.idx,
+					idx2: sj.idx,
 				});
 			}
 		}
@@ -181,8 +183,8 @@ pub fn ix_sort_single_i64(segments: &mut [OrderedSegment<i64>], sorted: bool) ->
 			if let Some(ix) = res {
 				ixs.push( IxResultFloat {
 					ix,
-					idx1: si.idx,
-					idx2: sj.idx,
+					idx1: num_traits::cast(si.idx).unwrap(),
+					idx2: num_traits::cast(sj.idx).unwrap(),
 				});
 			}
 		}
@@ -210,8 +212,8 @@ pub fn ix_sort_single_f64(segments: &mut [OrderedSegment<f64>], sorted: bool) ->
 			if let Some(ix) = res {
 				ixs.push( IxResultFloat {
 					ix,
-					idx1: num_traits::cast(si.idx).unwrap(),
-					idx2: num_traits::cast(sj.idx).unwrap(),
+					idx1: si.idx,
+					idx2: sj.idx,
 				});
 			}
 		}
@@ -293,8 +295,8 @@ pub fn ix_sort_double_f64(segments1: &mut [OrderedSegment<f64>], segments2: &mut
 
 				ixs.push( IxResultFloat {
 					ix,
-					idx1: num_traits::cast(si.idx).unwrap(),
-					idx2: num_traits::cast(sj.idx).unwrap(),
+					idx1: si.idx,
+					idx2: sj.idx,
 				});
 			}
 		}
@@ -312,6 +314,62 @@ mod tests {
 
 // ---------------- TESTING
 
+	struct Expected {
+		single: Vec<IxResultFloat>,
+		double: Vec<IxResultFloat>,
+	}
+
+	impl Expected {
+		fn new() -> Self {
+			let mut expected_single = Vec::<IxResultFloat>::new();
+			expected_single.push(
+				IxResultFloat {
+					ix: Coordinate { x: 2469.866666666667, y: 1900. },
+					idx1: 0.,
+					idx2: 1.,
+				});
+			expected_single.push(
+				IxResultFloat {
+					ix: Coordinate { x: 2500., y: 2100. },
+					idx1: 1.,
+					idx2: 2.,
+				});
+
+			let mut expected_double = Vec::<IxResultFloat>::new();
+			expected_double.push(
+			IxResultFloat {
+				ix: Coordinate { x: 2469.866666666667, y: 1900. },
+				idx1: 0.,
+				idx2: 1.,
+			});
+			expected_double.push(
+				IxResultFloat {
+					ix: Coordinate { x: 2469.866666666667, y: 1900. },
+					idx1: 1.,
+					idx2: 0.,
+				});
+			expected_double.push(
+				IxResultFloat {
+					ix: Coordinate { x: 2500., y: 2100. },
+					idx1: 1.,
+					idx2: 2.,
+				});
+			expected_double.push(
+				IxResultFloat {
+					ix: Coordinate { x: 2500., y: 2100. },
+					idx1: 2.,
+					idx2: 1.,
+				});
+
+			Expected {
+				single: expected_single,
+				double: expected_double,
+			}
+		}
+
+	}
+
+
 // ---------------- BRUTE
 	#[test]
 	fn brute_single_float_works() {
@@ -323,22 +381,10 @@ mod tests {
 		let s2: OrderedSegment<f64> = OrderedSegment::new_with_idx((2500., 2100.).into(), (2900., 2100.).into(), 2.);
 
 		let segments = vec![s0, s1, s2];
-		let mut res = Vec::<IxResultFloat>::new();
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2469.866666666667, 1900.),
-				idx1: 0,
-				idx2: 1,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2500., 2100.),
-				idx1: 1,
-				idx2: 2,
-			});
+		let expected = Expected::new();
 
 		let ixs = ix_brute_single_f64(&segments);
-		assert_eq!(ixs, res);
+		assert_eq!(ixs, expected.single);
 	}
 
 	#[test]
@@ -351,34 +397,10 @@ mod tests {
 		let s2: OrderedSegment<f64> = OrderedSegment::new_with_idx((2500., 2100.).into(), (2900., 2100.).into(), 2.);
 
 		let segments = vec![s0, s1, s2];
-		let mut res = Vec::<IxResultFloat>::new();
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2469.866666666667, 1900.),
-				idx1: 0,
-				idx2: 1,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2469.866666666667, 1900.),
-				idx1: 1,
-				idx2: 0,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2500., 2100.),
-				idx1: 1,
-				idx2: 2,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2500., 2100.),
-				idx1: 2,
-				idx2: 1,
-			});
+		let expected = Expected::new();
 
 		let ixs = ix_brute_double_f64(&segments, &segments);
-		assert_eq!(ixs, res);
+		assert_eq!(ixs, expected.double);
 	}
 
 	#[test]
@@ -391,22 +413,10 @@ mod tests {
 		let s2: OrderedSegment<i32> = OrderedSegment::new_with_idx((2500, 2100).into(), (2900, 2100).into(), 2);
 
 		let segments = vec![s0, s1, s2];
-		let mut res = Vec::<IxResultFloat>::new();
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2469.866666666667, 1900.),
-				idx1: 0,
-				idx2: 1,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2500., 2100.),
-				idx1: 1,
-				idx2: 2,
-			});
+		let expected = Expected::new();
 
 		let ixs = ix_brute_single_i32(&segments);
-		assert_eq!(ixs, res);
+		assert_eq!(ixs, expected.single);
 	}
 
 	#[test]
@@ -419,34 +429,10 @@ mod tests {
 		let s2: OrderedSegment<i32> = OrderedSegment::new_with_idx((2500, 2100).into(), (2900, 2100).into(), 2);
 
 		let segments = vec![s0, s1, s2];
-		let mut res = Vec::<IxResultFloat>::new();
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2469.866666666667, 1900.),
-				idx1: 0,
-				idx2: 1,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2469.866666666667, 1900.),
-				idx1: 1,
-				idx2: 0,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2500., 2100.),
-				idx1: 1,
-				idx2: 2,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2500., 2100.),
-				idx1: 2,
-				idx2: 1,
-			});
+		let expected = Expected::new();
 
 		let ixs = ix_brute_double_i32(&segments, &segments);
-		assert_eq!(ixs, res);
+		assert_eq!(ixs, expected.double);
 	}
 
 
@@ -461,22 +447,10 @@ mod tests {
 		let s2: OrderedSegment<f64> = OrderedSegment::new_with_idx((2500., 2100.).into(), (2900., 2100.).into(), 2.);
 
 		let mut segments = vec![s0, s1, s2];
-		let mut res = Vec::<IxResultFloat>::new();
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2469.866666666667, 1900.),
-				idx1: 0,
-				idx2: 1,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2500., 2100.),
-				idx1: 1,
-				idx2: 2,
-			});
+		let expected = Expected::new();
 
 		let ixs = ix_sort_single_f64(&mut segments, false);
-		assert_eq!(ixs, res);
+		assert_eq!(ixs, expected.single);
 	}
 
 	#[test]
@@ -490,34 +464,10 @@ mod tests {
 
 		let mut segments1 = vec![s0, s1, s2];
 		let mut segments2 = segments1.clone();
-		let mut res = Vec::<IxResultFloat>::new();
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2469.866666666667, 1900.),
-				idx1: 0,
-				idx2: 1,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2469.866666666667, 1900.),
-				idx1: 1,
-				idx2: 0,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2500., 2100.),
-				idx1: 1,
-				idx2: 2,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2500., 2100.),
-				idx1: 2,
-				idx2: 1,
-			});
+		let expected = Expected::new();
 
 		let ixs = ix_sort_double_f64(&mut segments1, &mut segments2, false);
-		assert_eq!(ixs, res);
+		assert_eq!(ixs, expected.double);
 	}
 
 	#[test]
@@ -530,21 +480,9 @@ mod tests {
 		let s2: OrderedSegment<i32> = OrderedSegment::new_with_idx((2500, 2100).into(), (2900, 2100).into(), 2);
 
 		let mut segments = vec![s0, s1, s2];
-		let mut res = Vec::<IxResultFloat>::new();
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2469.866666666667, 1900.),
-				idx1: 0,
-				idx2: 1,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2500., 2100.),
-				idx1: 1,
-				idx2: 2,
-			});
+		let expected = Expected::new();
 		let ixs = ix_sort_single_i32(&mut segments, false);
-		assert_eq!(ixs, res);
+		assert_eq!(ixs, expected.single);
 	}
 
 	#[test]
@@ -558,34 +496,10 @@ mod tests {
 
 		let mut segments1 = vec![s0, s1, s2];
 		let mut segments2 = segments1.clone();
-		let mut res = Vec::<IxResultFloat>::new();
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2469.866666666667, 1900.),
-				idx1: 0,
-				idx2: 1,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2469.866666666667, 1900.),
-				idx1: 1,
-				idx2: 0,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2500., 2100.),
-				idx1: 1,
-				idx2: 2,
-			});
-		res.push(
-			IxResultFloat {
-				ix: Point::new(2500., 2100.),
-				idx1: 2,
-				idx2: 1,
-			});
+		let expected = Expected::new();
 
 		let ixs = ix_sort_double_i32(&mut segments1, &mut segments2, false);
-		assert_eq!(ixs, res);
+		assert_eq!(ixs, expected.double);
 	}
 
 	#[test]
@@ -618,44 +532,44 @@ mod tests {
 
 		let expected: Vec<IxResultFloat> = vec![
 			IxResultFloat {
-				ix: Point::new(450., 100.),
-				idx1: 0,
-				idx2: 0,
+				ix: Coordinate { x: 450., y: 100. },
+				idx1: 0.,
+				idx2: 0.,
 			},
 			IxResultFloat {
-				ix: Point::new(611.1111111111111, 100.),
-				idx1: 0,
-				idx2: 1,
+				ix: Coordinate { x: 611.1111111111111, y: 100. },
+				idx1: 0.,
+				idx2: 1.,
 			},
 			IxResultFloat {
-				ix: Point::new(100., 450.),
-				idx1: 3,
-				idx2: 0,
+				ix: Coordinate { x: 100., y: 450. },
+				idx1: 3.,
+				idx2: 0.,
 			},
 			IxResultFloat {
-				ix: Point::new(100., 611.1111111111111),
-				idx1: 3,
-				idx2: 3,
+				ix: Coordinate { x: 100., y: 611.1111111111111 },
+				idx1: 3.,
+				idx2: 3.,
 			},
 			IxResultFloat {
-				ix: Point::new(275., 1000.),
-				idx1: 2,
-				idx2: 3,
+				ix: Coordinate { x: 275., y: 1000. },
+				idx1: 2.,
+				idx2: 3.,
 			},
 			IxResultFloat {
-				ix: Point::new(1000., 1000.),
-				idx1: 2,
-				idx2: 2,
+				ix: Coordinate { x: 1000., y: 1000. },
+				idx1: 2.,
+				idx2: 2.,
 			},
 			IxResultFloat {
-				ix: Point::new(1000., 275.),
-				idx1: 1,
-				idx2: 1,
+				ix: Coordinate { x: 1000., y: 275. },
+				idx1: 1.,
+				idx2: 1.,
 			},
 			IxResultFloat {
-				ix: Point::new(1000., 1000.),
-				idx1: 1,
-				idx2: 2,
+				ix: Coordinate { x: 1000., y: 1000. },
+				idx1: 1.,
+				idx2: 2.,
 			},
 		];
 
@@ -694,44 +608,44 @@ mod tests {
 
 		let expected: Vec<IxResultFloat> = vec![
 			IxResultFloat {
-				ix: Point::new(450., 100.),
-				idx1: 0,
-				idx2: 0,
+				ix: Coordinate { x: 450., y: 100. },
+				idx1: 0.,
+				idx2: 0.,
 			},
 			IxResultFloat {
-				ix: Point::new(611.1111111111111, 100.),
-				idx1: 0,
-				idx2: 1,
+				ix: Coordinate { x: 611.1111111111111, y: 100. },
+				idx1: 0.,
+				idx2: 1.,
 			},
 			IxResultFloat {
-				ix: Point::new(1000., 275.),
-				idx1: 1,
-				idx2: 1,
+				ix: Coordinate { x: 1000., y: 275. },
+				idx1: 1.,
+				idx2: 1.,
 			},
 			IxResultFloat {
-				ix: Point::new(1000., 1000.),
-				idx1: 1,
-				idx2: 2,
+				ix: Coordinate { x: 1000., y: 1000. },
+				idx1: 1.,
+				idx2: 2.,
 			},
 			IxResultFloat {
-				ix: Point::new(1000., 1000.),
-				idx1: 2,
-				idx2: 2,
+				ix: Coordinate { x: 1000., y: 1000. },
+				idx1: 2.,
+				idx2: 2.,
 			},
 			IxResultFloat {
-				ix: Point::new(275., 1000.),
-				idx1: 2,
-				idx2: 3,
+				ix: Coordinate { x: 275., y: 1000. },
+				idx1: 2.,
+				idx2: 3.,
 			},
 			IxResultFloat {
-				ix: Point::new(100., 450.),
-				idx1: 3,
-				idx2: 0,
+				ix: Coordinate { x: 100., y: 450. },
+				idx1: 3.,
+				idx2: 0.,
 			},
 			IxResultFloat {
-				ix: Point::new(100., 611.1111111111111),
-				idx1: 3,
-				idx2: 3,
+				ix: Coordinate { x: 100., y: 611.1111111111111 },
+				idx1: 3.,
+				idx2: 3.,
 			},
 		];
 

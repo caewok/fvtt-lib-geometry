@@ -37,3 +37,10 @@ harness = false
 name = "intersections_line"
 path = "src/lib.rs"
 crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+lto = true
+opt-level = 'z'
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ['-O3']

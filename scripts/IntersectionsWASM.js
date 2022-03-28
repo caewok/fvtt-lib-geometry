@@ -262,20 +262,20 @@ export class IntersectionWASMFast_f64 extends IntersectionsWASM {
   */
   static single(segments, instance) {
     const segments_ptr = copySegments_f64(segments, instance);
-    const wasm_ixs = WASMLine.brute_f64_segment_ptr(segments_ptr, segments.length);
-    return this._reportWASMSegments(wasm_ixs, segments, segments);
+    const wasm_ixs_ptr = WASMLine.brute_f64_segment_ptr(segments_ptr, segments.length);
+//     return this._reportWASMSegments(wasm_ixs, segments, segments);
 
 //     let res_ptr = api.WASMLine.brute_f64_coord_ptr(segments_ptr, segments.length * 2);
 
     // peek at data to get total length
-//     const mem_peek = new Float64Array(instance.memory.buffer, res_ptr, 1);
-//     if(mem_peek[0] === 0) return [];
+    const mem_peek = new Float64Array(instance.memory.buffer, wasm_ixs_ptr, 1);
+    if(mem_peek[0] === 0) return [];
 //
-// 	// drop the first element, which for f64 means moving 8 bits.
-// //     const mem = new Float64Array(instance.memory.buffer, res_ptr, mem_peek[0] * 4 + 1); // +1 for the length indicator
+	// drop the first element, which for f64 means moving 8 bits.
+//     const mem = new Float64Array(instance.memory.buffer, res_ptr, mem_peek[0] * 4 + 1); // +1 for the length indicator
 //     const mem = new Float64Array(instance.memory.buffer, res_ptr + 8, mem_peek[0] * 4)
-//
-//     return this._reportWASMSegments(mem, segments, segments);
+		const mem = new Float64Array(instance.memory.buffer, wasm_ixs_ptr + 32, mem_peek[0] * 4);
+    return this._reportWASMSegments(mem, segments, segments);
   }
 
  /**

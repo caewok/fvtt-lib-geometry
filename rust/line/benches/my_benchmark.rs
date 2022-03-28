@@ -13,7 +13,7 @@ use intersections_line::intersections::{
 	ix_brute_single_i64,
 	ix_sort_single_i64,
 };
-use geo::{CoordNum, Coordinate, Point};
+use geo::{ CoordNum, Coordinate };
 use rand::prelude::Distribution;
 use rand::distributions::Standard;
 use rand::distributions::uniform::SampleUniform;
@@ -40,9 +40,9 @@ impl<T> BenchData<T>
 		let neg_range: T = num_traits::cast(-1000).unwrap();
 
 		BenchData {
-			c0: Point::random_range(neg_range, range).into(),
-			c1: Point::random_range(neg_range, range).into(),
-			c2: Point::random_range(neg_range, range).into(),
+			c0: Coordinate::random_range(neg_range, range).into(),
+			c1: Coordinate::random_range(neg_range, range).into(),
+			c2: Coordinate::random_range(neg_range, range).into(),
 
 			s0: OrderedSegment::random_range(neg_range, range),
 			s1: OrderedSegment::random_range(neg_range, range),

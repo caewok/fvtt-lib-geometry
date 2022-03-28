@@ -17,7 +17,7 @@ use crate::intersections::{
 use crate::point::SimpleOrient;
 use crate::segment::OrderedSegment;
 use geo::algorithm::kernels::Orientation;
-use geo::Coordinate;
+use geo::{ Coordinate };
 use crate::intersections::IxResultFloat;
 
 use wasm_bindgen::prelude::*;
@@ -115,8 +115,8 @@ pub fn brute_f64_ptr(ptr: *mut f64, len: usize) -> *mut f64 {
 	let mut buf = Vec::<f64>::with_capacity((ixs.len() * 4) + 1);
 	buf.push(ixs.len() as f64);
 	for obj in ixs {
-		buf.push(obj.ix.x());
-		buf.push(obj.ix.y());
+		buf.push(obj.ix.x);
+		buf.push(obj.ix.y);
 		buf.push(obj.idx1 as f64);
 		buf.push(obj.idx2 as f64);
 	}
@@ -133,8 +133,8 @@ fn bundle_ix(ixs: Vec<IxResultFloat>) -> Option<Box<[f64]>> {
 	// build return array: coords followed by indices
 	let mut buf = Vec::<f64>::with_capacity(ixs_ln * 4);
 	for obj in ixs {
-		buf.push(obj.ix.x());
-		buf.push(obj.ix.y());
+		buf.push(obj.ix.x);
+		buf.push(obj.ix.y);
 		buf.push(obj.idx1 as f64);
 		buf.push(obj.idx2 as f64);
 	}
@@ -198,6 +198,27 @@ impl OrderedSegmentOrArray {
 	}
 }
 
+// #[repr(C)]
+// pub union IxResultFloatOrArray {
+// 	arr: [f64; 4],
+// 	result: IxResultFloat,
+// }
+//
+// impl IxResultFloatOrArray {
+// 	pub fn as_ixresult(&mut self) -> &mut IxResultFloat {
+// 		unsafe {
+// 			&mut self.result
+// 		}
+// 	}
+//
+// 	pub fn as_array(&mut self) -> &mut [f64; 4] {
+// 		unsafe {
+// 			&mut self.arr
+// 		}
+// 	}
+//
+// }
+
 
 #[wasm_bindgen]
 pub fn array_to_coord(ptr: *mut f64, count: usize) {
@@ -244,10 +265,14 @@ pub fn brute_f64_coord_ptr(ptr: *mut CoordOrArray, count: usize) -> Option<Box<[
 }
 
 #[wasm_bindgen]
-pub fn brute_f64_segment_ptr(ptr: *mut OrderedSegment<f64>, count: usize) -> Option<Box<[f64]>> {
+pub fn brute_f64_segment_ptr(ptr: *mut OrderedSegment<f64>, count: usize) -> *mut IxResultFloat {
 	let data = unsafe { Vec::from_raw_parts(ptr, count, count) };
-	let ixs = ix_brute_single_f64(&data[..]);
-	bundle_ix(ixs)
+	let mut res = ix_brute_single_f64(&data[..]);
+	res.insert(0, IxResultFloat { ix: Coordinate { x: res.len() as f64, y: 0. }, idx1: 0., idx2: 0. });
+
+	let ptr = res.as_mut_ptr();
+	std::mem::forget(res);
+	ptr
 }
 
 

@@ -1,5 +1,11 @@
 [workspace]
-
 members = [
 	"line",
 ]
+
+#[profile.release]
+
+# this combination appeared slower than none at all:
+#lto = true
+#opt-level = 'z'
+
