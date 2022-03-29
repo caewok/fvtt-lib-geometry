@@ -11,8 +11,10 @@
 
 // extern crate test;
 
-pub mod point;
-pub mod segment;
-pub mod intersections;
-pub mod js_api;
+pub mod ordered_coordinate;
+pub mod generate_random;
+pub mod orientation;
+//pub mod segment;
+//pub mod intersections;
+//pub mod js_api;
 
