@@ -11,6 +11,7 @@ Instead, build a simple version:
 - OrderedCoordinate with some math functions from euclid, like cross and dot
 - OrderedSegment from two OrderedCoordinates
 - one version using f64, one using i32, one using i128 (internal use only)
+- also one using i64 for testing purposes
 */
 
 #[wasm_bindgen]
@@ -28,6 +29,12 @@ pub struct OrderedCoordinateI32 {
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
+pub struct OrderedCoordinateI64 {
+	pub x: i64,
+	pub y: i64,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct OrderedCoordinateI128 {
 	pub x: i128,
 	pub y: i128,
@@ -42,6 +49,11 @@ pub const fn c_f64(x: f64, y: f64) -> OrderedCoordinateF64 {
 #[inline]
 pub const fn c_i32(x: i32, y: i32) -> OrderedCoordinateI32 {
 	OrderedCoordinateI32 { x, y }
+}
+
+#[inline]
+pub const fn c_i64(x: i64, y: i64) -> OrderedCoordinateI64 {
+	OrderedCoordinateI64 { x, y }
 }
 
 #[inline]
@@ -66,18 +78,6 @@ impl OrderedCoordinateF64 {
 	pub fn cross(self, other: Self) -> f64 {
 		self.x * other.y - self.y * other.x
 	}
-
-	/// Returns the component-wise multiplication of the two coordinates (vectors)
-	#[inline]
-	pub fn component_mul(self, other: Self) -> Self {
-		c_f64(self.x * other.x, self.y * other.y)
-	}
-
-	/// Returns the component-wise division of the two coordinates (vectors)
-	#[inline]
-	pub fn component_div(self, other: Self) -> Self {
-		c_f64(self.x / other.x, self.y / other.y)
-	}
 }
 
 impl OrderedCoordinateI32 {
@@ -97,27 +97,24 @@ impl OrderedCoordinateI32 {
 	pub fn cross(self, other: Self) -> i32 {
 		self.x * other.y - self.y * other.x
 	}
+}
 
-	/// Returns the component-wise multiplication of the two coordinates (vectors)
-	#[inline]
-	pub fn component_mul(self, other: Self) -> Self {
-		c_i32(self.x * other.x, self.y * other.y)
+impl OrderedCoordinateI64 {
+	pub fn x_y(&self) -> (i64, i64) {
+		(self.x, self.y)
 	}
 
-	/// Returns the component-wise division of the two coordinates (vectors)
+	/// Computes ax * bx + ay * by
 	#[inline]
-	pub fn component_div(self, other: Self) -> Self {
-		let div_x = self.x.div_euclid(other.x);
-		let rem_x = self.x.rem_euclid(other.x);
-		let cmp_x = self.x.div_euclid(2);
-		let x = if rem_x >= cmp_x { div_x + 1 } else { div_x };
+	pub fn dot(self, other: Self) -> i64 {
+		self.x * other.x + self.y * other.y
+	}
 
-		let div_y = self.y.div_euclid(other.y);
-		let rem_y = self.y.rem_euclid(other.y);
-		let cmp_y = self.y.div_euclid(2);
-		let y = if rem_y >= cmp_y { div_y + 1 } else { div_y };
-
-		c_i32(x, y)
+	/// Computes the norm of the cross product.
+	/// ax * by - ay * bx
+	#[inline]
+	pub fn cross(self, other: Self) -> i64 {
+		self.x * other.y - self.y * other.x
 	}
 }
 
@@ -158,6 +155,15 @@ impl Neg for OrderedCoordinateI32 {
 	}
 }
 
+impl Neg for OrderedCoordinateI64 {
+	type Output = OrderedCoordinateI64;
+
+	#[inline]
+	fn neg(self) -> Self::Output {
+		c_i64(-self.x, -self.y)
+	}
+}
+
 impl Neg for OrderedCoordinateI128 {
 	type Output = OrderedCoordinateI128;
 
@@ -182,6 +188,15 @@ impl Add for OrderedCoordinateI32 {
 	#[inline]
 	fn add(self, other: Self) -> Self::Output {
 		c_i32(self.x + other.x, self.y + other.y)
+	}
+}
+
+impl Add for OrderedCoordinateI64 {
+	type Output = OrderedCoordinateI64;
+
+	#[inline]
+	fn add(self, other: Self) -> Self::Output {
+		c_i64(self.x + other.x, self.y + other.y)
 	}
 }
 
@@ -212,6 +227,15 @@ impl Add<&Self> for OrderedCoordinateI32 {
 	}
 }
 
+impl Add<&Self> for OrderedCoordinateI64 {
+	type Output = OrderedCoordinateI64;
+
+	#[inline]
+	fn add(self, other: &Self) -> Self::Output {
+		c_i64(self.x + other.x, self.y + other.y)
+	}
+}
+
 impl Add<&Self> for OrderedCoordinateI128 {
 	type Output = OrderedCoordinateI128;
 
@@ -236,6 +260,15 @@ impl Sub for OrderedCoordinateI32 {
 	#[inline]
 	fn sub(self, other: Self) -> Self::Output {
 		c_i32(self.x - other.x, self.y - other.y)
+	}
+}
+
+impl Sub for OrderedCoordinateI64 {
+	type Output = OrderedCoordinateI64;
+
+	#[inline]
+	fn sub(self, other: Self) -> Self::Output {
+		c_i64(self.x - other.x, self.y - other.y)
 	}
 }
 
@@ -266,6 +299,15 @@ impl Sub<&Self> for OrderedCoordinateI32 {
 	}
 }
 
+impl Sub<&Self> for OrderedCoordinateI64 {
+	type Output = OrderedCoordinateI64;
+
+	#[inline]
+	fn sub(self, other: &Self) -> Self::Output {
+		c_i64(self.x - other.x, self.y - other.y)
+	}
+}
+
 impl Sub<&Self> for OrderedCoordinateI128 {
 	type Output = OrderedCoordinateI128;
 
@@ -290,6 +332,15 @@ impl Mul for OrderedCoordinateI32 {
 	#[inline]
 	fn mul(self, other: Self) -> Self::Output {
 		c_i32(self.x * other.x, self.y * other.y)
+	}
+}
+
+impl Mul for OrderedCoordinateI64 {
+	type Output = OrderedCoordinateI64;
+
+	#[inline]
+	fn mul(self, other: Self) -> Self::Output {
+		c_i64(self.x * other.x, self.y * other.y)
 	}
 }
 
@@ -320,6 +371,16 @@ impl Mul<i32> for OrderedCoordinateI32 {
 		c_i32(self.x * scale, self.y * scale)
 	}
 }
+
+impl Mul<i64> for OrderedCoordinateI64 {
+	type Output = OrderedCoordinateI64;
+
+	#[inline]
+	fn mul(self, scale: i64) -> Self::Output {
+		c_i64(self.x * scale, self.y * scale)
+	}
+}
+
 
 impl Mul<i128> for OrderedCoordinateI128 {
 	type Output = OrderedCoordinateI128;
@@ -355,6 +416,25 @@ impl Div for OrderedCoordinateI32 {
 		let y = if rem_y >= cmp_y { div_y + 1 } else { div_y };
 
 		c_i32(x, y)
+	}
+}
+
+impl Div for OrderedCoordinateI64 {
+	type Output = OrderedCoordinateI64;
+
+	#[inline]
+	fn div(self, other: Self) -> Self::Output {
+		let div_x = self.x.div_euclid(other.x);
+		let rem_x = self.x.rem_euclid(other.x);
+		let cmp_x = self.x.div_euclid(2);
+		let x = if rem_x >= cmp_x { div_x + 1 } else { div_x };
+
+		let div_y = self.y.div_euclid(other.y);
+		let rem_y = self.y.rem_euclid(other.y);
+		let cmp_y = self.y.div_euclid(2);
+		let y = if rem_y >= cmp_y { div_y + 1 } else { div_y };
+
+		c_i64(x, y)
 	}
 }
 
@@ -407,6 +487,26 @@ impl Div<i32> for OrderedCoordinateI32 {
 }
 
 /// Rounds to nearest integer when dividing
+impl Div<i64> for OrderedCoordinateI64 {
+	type Output = OrderedCoordinateI64;
+
+	#[inline]
+	fn div(self, scale: i64) -> Self::Output {
+		let div_x = self.x.div_euclid(scale);
+		let rem_x = self.x.rem_euclid(scale);
+		let cmp_x = self.x.div_euclid(2);
+		let x = if rem_x >= cmp_x { div_x + 1 } else { div_x };
+
+		let div_y = self.y.div_euclid(scale);
+		let rem_y = self.y.rem_euclid(scale);
+		let cmp_y = self.y.div_euclid(2);
+		let y = if rem_y >= cmp_y { div_y + 1 } else { div_y };
+
+		c_i64(x, y)
+	}
+}
+
+/// Rounds to nearest integer when dividing
 impl Div<i128> for OrderedCoordinateI128 {
 	type Output = OrderedCoordinateI128;
 
@@ -438,9 +538,27 @@ impl From<OrderedCoordinateI32> for OrderedCoordinateI128 {
 	}
 }
 
+impl From<OrderedCoordinateI32> for OrderedCoordinateI64 {
+	fn from(c: OrderedCoordinateI32) -> Self {
+		c_i64(c.x as i64, c.y as i64)
+	}
+}
+
+impl From<OrderedCoordinateI64> for OrderedCoordinateI128 {
+	fn from(c: OrderedCoordinateI64) -> Self {
+		c_i128(c.x as i128, c.y as i128)
+	}
+}
+
 impl From<&OrderedCoordinateI32> for OrderedCoordinateI128 {
 	fn from(c: &OrderedCoordinateI32) -> Self {
 		c_i128(c.x as i128, c.y as i128)
+	}
+}
+
+impl From<&OrderedCoordinateI32> for OrderedCoordinateI64 {
+	fn from(c: &OrderedCoordinateI32) -> Self {
+		c_i64(c.x as i64, c.y as i64)
 	}
 }
 
@@ -456,6 +574,11 @@ impl From<OrderedCoordinateI128> for OrderedCoordinateF64 {
 	}
 }
 
+impl From<OrderedCoordinateI64> for OrderedCoordinateF64 {
+	fn from(c: OrderedCoordinateI64) -> Self {
+		c_f64(cast(c.x).unwrap(), cast(c.y).unwrap())
+	}
+}
 
 /*
 Using T for different types is possible, but it is very difficult to handle integer overflow.

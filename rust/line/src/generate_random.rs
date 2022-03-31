@@ -3,6 +3,7 @@
 // use rand::distributions::uniform::SampleUniform;
 use rand::Rng;
 use crate::ordered_coordinate::{ OrderedCoordinateF64, OrderedCoordinateI32 };
+use crate::ordered_segment::{ OrderedSegmentF64, OrderedSegmentI32 };
 
 pub trait GenerateRandom {
 	type MaxType;
@@ -57,5 +58,39 @@ impl GenerateRandom for OrderedCoordinateI32
 		let mut rng = rand::thread_rng();
 		let min = 0;
 		Self { x: rng.gen_range(min..=max), y: rng.gen_range(min..=max) }
+	}
+}
+
+impl GenerateRandom for OrderedSegmentF64
+{
+	type MaxType = f64;
+
+	fn random() -> Self {
+		Self::new(OrderedCoordinateF64::random(), OrderedCoordinateF64::random())
+	}
+
+	fn random_range(min: f64, max: f64) -> Self {
+		Self::new(OrderedCoordinateF64::random_range(min, max), OrderedCoordinateF64::random_range(min, max))
+	}
+
+	fn random_pos(max: f64) -> Self {
+		Self::new(OrderedCoordinateF64::random_pos(max), OrderedCoordinateF64::random_pos(max))
+	}
+}
+
+impl GenerateRandom for OrderedSegmentI32
+{
+	type MaxType = i32;
+
+	fn random() -> Self {
+		Self::new(OrderedCoordinateI32::random(), OrderedCoordinateI32::random())
+	}
+
+	fn random_range(min: i32, max: i32) -> Self {
+		Self::new(OrderedCoordinateI32::random_range(min, max), OrderedCoordinateI32::random_range(min, max))
+	}
+
+	fn random_pos(max: i32) -> Self {
+		Self::new(OrderedCoordinateI32::random_pos(max), OrderedCoordinateI32::random_pos(max))
 	}
 }

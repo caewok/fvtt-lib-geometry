@@ -3,7 +3,10 @@ members = [
 	"line",
 ]
 
-#[profile.release]
+[profile.release]
+opt-level = 3
+lto = true
+overflow-checks = false # much faster when false and using i128
 
 # this combination appeared slower than none at all:
 #lto = true

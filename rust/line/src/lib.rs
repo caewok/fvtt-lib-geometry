@@ -14,7 +14,9 @@
 pub mod ordered_coordinate;
 pub mod generate_random;
 pub mod orientation;
-//pub mod segment;
-//pub mod intersections;
+pub mod ordered_segment;
+pub mod nwse_ordering;
+pub mod intersection;
+pub mod intersect_segments;
 //pub mod js_api;
 

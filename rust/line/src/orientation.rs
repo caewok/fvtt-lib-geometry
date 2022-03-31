@@ -1,4 +1,4 @@
-use crate::ordered_coordinate::{ OrderedCoordinateI32, OrderedCoordinateF64, OrderedCoordinateI128 };
+use crate::ordered_coordinate::{ OrderedCoordinateI32, OrderedCoordinateF64, OrderedCoordinateI64, OrderedCoordinateI128 };
 use wasm_bindgen::prelude::*;
 
 /// Is the object clockwise, counterclockwise, or collinear?
@@ -26,48 +26,113 @@ pub trait Orientable {
 impl Orientable for OrderedCoordinateF64 {
     #[inline]
     fn orient(&self, b: &Self, c: &Self) -> Orientation {
-        // (ay - cy) * (bx - cx) - (ax - cx) * (by - cy)
+//         let (ax, ay) = self.x_y();
+//         let (bx, by) = b.x_y();
+//         let (cx, cy) = c.x_y();
+//         let res = (ay - cy) * (bx - cx) - (ax - cx) * (by - cy);
+
         let dac = *self - c;
         let dbc = *b - c;
-        let right = dac.y * dbc.x;
-        let left =  dac.x * dbc.y;
+        let res = dac.x * dbc.y - dac.y * dbc.x;
 
-     	if right > left {
+     	if res < 0. {
      		Orientation::CounterClockwise
-     	} else if right < left {
+     	} else if res > 0. {
      		Orientation::Clockwise
      	} else {
      		Orientation::Collinear
      	}
+
+//         let right = dac.y * dbc.x;
+//         let left =  dac.x * dbc.y;
+//
+//      	if right > left {
+//      		Orientation::CounterClockwise
+//      	} else if right < left {
+//      		Orientation::Clockwise
+//      	} else {
+//      		Orientation::Collinear
+//      	}
     }
 }
 
-/// No overflow checks
 impl Orientable for OrderedCoordinateI32 {
     #[inline]
      fn orient(&self, b: &Self, c: &Self) -> Orientation {
         // (ay - cy) * (bx - cx) - (ax - cx) * (by - cy)
-        let (a, b, c): (OrderedCoordinateI128, OrderedCoordinateI128, OrderedCoordinateI128) = (self.into(), b.into(), c.into());
+
+        // options: don't check overflow (fails for Foundry)
+        // cast to i64 (works for Foundry) -- time cost ~ 2x (~100% increase time)
+        // cast to i128 (works for all i32) -- same time cost as i64
+
+//         let (a, b, c) = (*self, *b, *c); // no overflow checks
+//         let (a, b, c): (OrderedCoordinateI64, OrderedCoordinateI64, OrderedCoordinateI64) = (self.into(), b.into(), c.into()); // overflow avoidance
+        let (a, b, c): (OrderedCoordinateI128, OrderedCoordinateI128, OrderedCoordinateI128) = (self.into(), b.into(), c.into()); // overflow avoidance
 
         let dac = a - c;
         let dbc = b - c;
-        let right = dac.y * dbc.x;
-        let left  = dac.x * dbc.y;
+        let res = dac.x * dbc.y - dac.y * dbc.x;
 
-     	if right > left {
+     	if res < 0 {
      		Orientation::CounterClockwise
-     	} else if right < left {
+     	} else if res > 0 {
      		Orientation::Clockwise
      	} else {
      		Orientation::Collinear
      	}
+
+//         let dac = a - c;
+//         let dbc = b - c;
+//         let right = dac.y * dbc.x;
+//         let left  = dac.x * dbc.y;
+//
+//      	if right > left {
+//      		Orientation::CounterClockwise
+//      	} else if right < left {
+//      		Orientation::Clockwise
+//      	} else {
+//      		Orientation::Collinear
+//      	}
+    }
+}
+
+impl Orientable for OrderedCoordinateI128 {
+    #[inline]
+     fn orient(&self, b: &Self, c: &Self) -> Orientation {
+        // (ay - cy) * (bx - cx) - (ax - cx) * (by - cy)
+        let dac = *self - c;
+        let dbc = *b - c;
+        let res = dac.x * dbc.y - dac.y * dbc.x;
+
+     	if res < 0 {
+     		Orientation::CounterClockwise
+     	} else if res > 0 {
+     		Orientation::Clockwise
+     	} else {
+     		Orientation::Collinear
+     	}
+
+//         let (a, b, c) = (*self, *b, *c); // no overflow checks
+//
+//         let dac = a - c;
+//         let dbc = b - c;
+//         let right = dac.y * dbc.x;
+//         let left  = dac.x * dbc.y;
+//
+//      	if right > left {
+//      		Orientation::CounterClockwise
+//      	} else if right < left {
+//      		Orientation::Clockwise
+//      	} else {
+//      		Orientation::Collinear
+//      	}
     }
 }
 
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use crate::ordered_coordinate::{ c_i32, c_f64 };
+	use crate::ordered_coordinate::{ c_i32, c_f64, c_i128 };
 
 // ---------------- ORIENTATION
 
@@ -97,6 +162,18 @@ mod tests {
 		assert_eq!(p1.orient(&p2, &p5), Orientation::Collinear);
 	}
 
+	#[test]
+	fn orient_i128_works() {
+		let p1 = c_i128(0, 0);
+		let p2 = c_i128(1, 1);
+		let p3 = c_i128(0, 1); // cw
+		let p4 = c_i128(1, 0); // ccw
+		let p5 = c_i128(2, 2); // collinear
+
+		assert_eq!(p1.orient(&p2, &p3), Orientation::Clockwise);
+		assert_eq!(p1.orient(&p2, &p4), Orientation::CounterClockwise);
+		assert_eq!(p1.orient(&p2, &p5), Orientation::Collinear);
+	}
 
     // test whether we can use very large integers without overflowing
     // (not at the maximum coordinates, which will overflow)
@@ -119,6 +196,30 @@ mod tests {
 // 		assert_eq!(nw.orient(&ne, &se), Orientation::Clockwise);
 //     }
 
+    // Maximum map resolution in Foundry is 16384 x 16384 (2^14 x 2^14)
+    // https://forums.forge-vtt.com/t/the-image-optimizer/681
+    // In theory, it would be 0 to 16384, although some possibility
+    // of negative coordinates at the map borders.
+    #[test]
+    fn orient_i32_foundry_overflow_works() {
+        let min = 0;
+        let max = 2e14 as i32;
+
+ 		let nw = c_i32(min, min);
+		let sw = c_i32(min, max);
+		let ne = c_i32(max, min);
+		let se = c_i32(max, max);
+		let z  = c_i32(0, 0);
+
+		assert_eq!(nw.orient(&se, &ne), Orientation::CounterClockwise);
+		assert_eq!(nw.orient(&se, &sw), Orientation::Clockwise);
+		assert_eq!(nw.orient(&z, &se), Orientation::Collinear);
+		assert_eq!(nw.orient(&sw, &se), Orientation::CounterClockwise);
+		assert_eq!(nw.orient(&ne, &se), Orientation::Clockwise);
+    }
+
+    // What if we use the full i32 values?
+    // (Requires i128)
     #[test]
     fn orient_i32_overflow_works() {
         let min = i32::MIN;
