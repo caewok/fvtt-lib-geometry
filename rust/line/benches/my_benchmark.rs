@@ -178,7 +178,7 @@ fn bench_intersection(c: &mut Criterion) {
 	});
 
 	let mut rng: StdRng = SeedableRng::seed_from_u64(42);
-	group.bench_function("line_intersection_f64", move |b| {
+	group.bench_function("line_intersection2_f64", move |b| {
 		b.iter_batched(|| BenchDataI32::new(&mut rng).into(),
 		|data: BenchDataF64| {
 			data.s0.line_intersection2(&bb_(data.s1));
