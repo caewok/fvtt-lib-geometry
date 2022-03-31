@@ -22,9 +22,9 @@ pub fn ix_brute_single_i32(segments: &[OrderedSegmentI32]) -> Vec<IxResultFloat>
 		for sj in &segments[(i + 1)..] {
 			let sj: OrderedSegmentI128 = sj.into();
 
-// 			if !si.intersects(&sj) { continue; }
-// 			let res = si.line_intersection2(&sj);
-			let res = si.segment_intersection(&sj);
+			if !si.intersects(&sj) { continue; }
+			let res = si.line_intersection2(&sj);
+// 			let res = si.segment_intersection(&sj);
 
 			if let Some(ix) = res {
 				ixs.push( IxResultFloat {
@@ -57,9 +57,9 @@ pub fn ix_brute_single_f64(segments: &[OrderedSegmentF64]) -> Vec<IxResultFloat>
 
 		// faster then the
 		for sj in &segments[(i + 1)..] {
-// 			if !si.intersects(&sj) { continue; }
-// 			let res = si.line_intersection2(&sj);
-			let res = si.segment_intersection(sj);
+			if !si.intersects(&sj) { continue; }
+			let res = si.line_intersection2(&sj);
+// 			let res = si.segment_intersection(sj);
 			if let Some(ix) = res {
 				ixs.push( IxResultFloat {
 					ix,
