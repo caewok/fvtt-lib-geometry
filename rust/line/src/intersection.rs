@@ -577,6 +577,8 @@ mod tests {
 	use super::*;
 	use crate::generate_random::{ GenerateRandom };
 	use crate::ordered_coordinate::{ OrderedCoordinateF64, c_i32, c_f64 };
+	use rand::SeedableRng;
+	use rand::rngs::StdRng;
 
 	struct SegmentDataI32
     {
@@ -686,12 +688,13 @@ mod tests {
 	#[test]
 	fn intersects_random_i32_f64_equal() {
 		let max_iter = 100;
+		let mut rng: StdRng = SeedableRng::seed_from_u64(42);
 
 		for _ in 0..max_iter {
-			let s0_i = OrderedSegmentI32::random_range(-10000, 10000);
+			let s0_i = OrderedSegmentI32::random_range(-10000, 10000, &mut rng);
 			let s0_f: OrderedSegmentF64 = s0_i.clone().into();
 
-			let s1_i =  OrderedSegmentI32::random_range(-10000, 10000);
+			let s1_i =  OrderedSegmentI32::random_range(-10000, 10000, &mut rng);
 			let s1_f: OrderedSegmentF64 = s1_i.clone().into();
 
 			let res_i = s0_i.intersects(&s1_i);
@@ -1067,12 +1070,13 @@ mod tests {
 	#[test]
 	fn line_intersection1_random_i32_f64_equal() {
 		let max_iter = 100;
+		let mut rng: StdRng = SeedableRng::seed_from_u64(42);
 
 		for _ in 0..max_iter {
-			let s0_i = OrderedSegmentI32::random_range(-10000, 10000);
+			let s0_i = OrderedSegmentI32::random_range(-10000, 10000, &mut rng);
 			let s0_f: OrderedSegmentF64 = s0_i.clone().into();
 
-			let s1_i =  OrderedSegmentI32::random_range(-10000, 10000);
+			let s1_i =  OrderedSegmentI32::random_range(-10000, 10000, &mut rng);
 			let s1_f: OrderedSegmentF64 = s1_i.clone().into();
 
 			let res_i = s0_i.line_intersection1(&s1_i);
@@ -1085,12 +1089,13 @@ mod tests {
 	#[test]
 	fn line_intersection2_random_i32_f64_equal() {
 		let max_iter = 100;
+		let mut rng: StdRng = SeedableRng::seed_from_u64(42);
 
 		for _ in 0..max_iter {
-			let s0_i = OrderedSegmentI32::random_range(-10000, 10000);
+			let s0_i = OrderedSegmentI32::random_range(-10000, 10000, &mut rng);
 			let s0_f: OrderedSegmentF64 = s0_i.clone().into();
 
-			let s1_i =  OrderedSegmentI32::random_range(-10000, 10000);
+			let s1_i =  OrderedSegmentI32::random_range(-10000, 10000, &mut rng);
 			let s1_f: OrderedSegmentF64 = s1_i.clone().into();
 
 			let res_i = s0_i.line_intersection2(&s1_i);
@@ -1103,12 +1108,13 @@ mod tests {
 	#[test]
 	fn segment_intersection_random_i32_f64_equal() {
 		let max_iter = 100;
+		let mut rng: StdRng = SeedableRng::seed_from_u64(42);
 
 		for _ in 0..max_iter {
-			let s0_i = OrderedSegmentI32::random_range(-10000, 10000);
+			let s0_i = OrderedSegmentI32::random_range(-10000, 10000, &mut rng);
 			let s0_f: OrderedSegmentF64 = s0_i.clone().into();
 
-			let s1_i =  OrderedSegmentI32::random_range(-10000, 10000);
+			let s1_i =  OrderedSegmentI32::random_range(-10000, 10000, &mut rng);
 			let s1_f: OrderedSegmentF64 = s1_i.clone().into();
 
 			let res_i = s0_i.segment_intersection(&s1_i);
@@ -1126,12 +1132,13 @@ mod tests {
 	#[test]
 	fn segment_intersection2_random_i32_f64_equal() {
 		let max_iter = 100;
+		let mut rng: StdRng = SeedableRng::seed_from_u64(42);
 
 		for _ in 0..max_iter {
-			let s0_i = OrderedSegmentI32::random_range(-10000, 10000);
+			let s0_i = OrderedSegmentI32::random_range(-10000, 10000, &mut rng);
 			let s0_f: OrderedSegmentF64 = s0_i.clone().into();
 
-			let s1_i =  OrderedSegmentI32::random_range(-10000, 10000);
+			let s1_i =  OrderedSegmentI32::random_range(-10000, 10000, &mut rng);
 			let s1_f: OrderedSegmentF64 = s1_i.clone().into();
 
 			let res_i = s0_i.segment_intersection2(&s1_i);
