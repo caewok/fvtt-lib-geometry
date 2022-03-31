@@ -310,114 +310,94 @@ impl Intersection for OrderedSegmentI32 {
 	}
 
 	fn segment_intersection(&self, other: &Self) -> Option<OrderedCoordinateF64> {
-	    // cannot do the subtraction below without upscaling from i32 --> i28
-	    let ab: OrderedSegmentI128 = self.into();
-	    let other: OrderedSegmentI128 = other.into();
+		let (a, b, c, d) = (self.start, self.end, other.start, other.end);
 
-		let epsilon = 1e-8_f64;
+		let delta_ac = a - c;
+        let delta_bc = b - c;
+        let delta_ad = a - d;
+        let delta_bd = b - d;
 
-		let d1 = ab.delta();
-		let d2 = other.delta();
+        let xa = delta_ac.y * delta_bc.x - delta_ac.x * delta_bc.y;
+        let xb = delta_ad.y * delta_bd.x - delta_ad.x * delta_bd.y;
 
-		let dnm = d1.cross(d2);
-// 		let dnm2 = d2.y * d1.x - d2.x * d1.y;
-// 		assert_eq!(dnm, dnm2);
-		if dnm == 0 { return None; }
-		// dnm = (dy - cy) * (bx - ax) - (dx - cx) * (by - ay)
+        if xa == 0 && xb == 0 { return None; }
 
-		// Determine the vector distance from a
-		let d_ac = ab.start - other.start;
+        let xc = delta_ac.y * delta_ad.x - delta_ac.x * delta_ad.y;
+        let xd = delta_bc.y * delta_bd.x - delta_bc.x * delta_bd.y;
 
-        // vector distance from self.start (a)
-		let t0 = d2.cross(d_ac);
-// 		let t0_1 = d2.x * d_ac.y - d2.y * d_ac.x;
-// 		assert_eq!(t0, t0_1);
-		let t0 = t0 as f64 / dnm as f64;
-		if t0 < (0. - epsilon) || t0 > (1. + epsilon) { return None; }
-        // t0 = ((dx - cx) * (ay - cy) - (dy - cy) * (ax - cx)) / dnm
+//         let delta_ca = c - a = -delta_ac;
+//         let delta_da = d - a = -delta_ad;
+//         let delta_cb = c - b = -delta_bc;
+//         let delta_db = d - b = -delta_bd;
+//
+//         let xc = delta_ca.y * delta_da.x - delta_ca.x * delta_da.y
+//         let xd = delta_cb.y * delta_db.x - delta_cb.x * delta_db.y
 
-        // vector distance from other.start (c)
-		let t1 = d1.cross(d_ac);
-// 		let t1_1 = d1.x * d_ac.y - d1.y * d_ac.x;
-// 		assert_eq!(t1, t1_1);
-		let t1 = t1 as f64 / dnm as f64;
-		if t1 < (0. - epsilon) || t1 > (1. + epsilon) { return None; }
-        // t1 = ((bx - ax) * (ay - cy) - (by - ay) * (ax - cx)) / dnm
+        let xab = xa * xb <= 0;
+        let xcd = xc * xd <= 0;
+        if !(xab && xcd) { return None; }
 
+        // do this first?
+        let delta_ab = a - b;
+        let delta_cd = c - d;
+        let dnm = delta_ab.x * delta_cd.y - delta_cd.x * delta_ab.y;
+        if dnm == 0 { return None; }
 
+        let cross_ab = a.x * b.y - a.y * b.x;
+        let cross_cd = c.x * d.y - c.y * d.x;
 
-		let x = ab.start.x as f64 + t0 * d1.x as f64;
-		let y = ab.start.y as f64 + t0 * d1.y as f64;
+        let x_num = cross_ab * delta_cd.x - delta_ab.x * cross_cd;
+        let y_num = cross_ab * delta_cd.y - delta_ab.y * cross_cd;
+
+		let x = x_num / dnm;
+	    let y = y_num / dnm;
 
 		Some(OrderedCoordinateF64 { x, y })
 	}
 
 	fn segment_intersection2(&self, other: &Self) -> Option<OrderedCoordinateF64> {
-        let ab: OrderedSegmentI128 = self.into();
-	    let other: OrderedSegmentI128 = other.into();
+ 		let (a, b, c, d) = (self.start, self.end, other.start, other.end);
 
-	    // First line coefficients where "a1 x  +  b1 y  +  c1  =  0"
-	    let (x1, y1, x2, y2) = ab.coords();
-	    let (x3, y3, x4, y4) = other.coords();
+		let delta_ac = a - c;
+        let delta_bc = b - c;
+        let delta_ad = a - d;
+        let delta_bd = b - d;
 
-	     // First line coefficients where "a1 x  +  b1 y  +  c1  =  0"
-        let a1 = y2 - y1;
-        let b1 = x1 - x2;
-        let c1 = x2 * y1 - x1 * y2;
+        let xa = delta_ac.y * delta_bc.x - delta_ac.x * delta_bc.y;
+        let xb = delta_ad.y * delta_bd.x - delta_ad.x * delta_bd.y;
 
-        // Second line coefficients
-        let a2 = y4 - y3;
-        let b2 = x3 - x4;
-        let c2 = x4 * y3 - x3 * y4;
+        if xa == 0 && xb == 0 { return None; }
 
-        let denom = a1 * b2 - a2 * b1;
+        let xc = delta_ac.y * delta_ad.x - delta_ac.x * delta_ad.y;
+        let xd = delta_bc.y * delta_bd.x - delta_bc.x * delta_bd.y;
 
-        // Lines are colinear
-        if denom == 0 {
-            return None;
-        }
+//         let delta_ca = c - a = -delta_ac;
+//         let delta_da = d - a = -delta_ad;
+//         let delta_cb = c - b = -delta_bc;
+//         let delta_db = d - b = -delta_bd;
+//
+//         let xc = delta_ca.y * delta_da.x - delta_ca.x * delta_da.y
+//         let xd = delta_cb.y * delta_db.x - delta_cb.x * delta_db.y
 
-        // Compute sign values
-        let r3 = a1 * x3 + b1 * y3 + c1;
-        let r4 = a1 * x4 + b1 * y4 + c1;
+        let xab = xa * xb <= 0;
+        let xcd = xc * xd <= 0;
+        if !(xab && xcd) { return None; }
 
-        // Sign values for second line
-        let r1 = a2 * x1 + b2 * y1 + c2;
-        let r2 = a2 * x2 + b2 * y2 + c2;
+        // do this first?
+        let delta_ab = a - b;
+        let delta_cd = c - d;
+        let dnm = delta_ab.x * delta_cd.y - delta_cd.x * delta_ab.y;
+        if dnm == 0. { return None; }
 
-        // Flag denoting whether intersection point is on passed line segments. If this is false,
-        // the intersection occurs somewhere along the two mathematical, infinite lines instead.
-        //
-        // Check signs of r3 and r4.  If both point 3 and point 4 lie on same side of line 1, the
-        // line segments do not intersect.
-        //
-        // Check signs of r1 and r2.  If both point 1 and point 2 lie on same side of second line
-        // segment, the line segments do not intersect.
-        let is_on_segments = (r3 != 0 && r4 != 0 && same_signs(r3, r4))
-            || (r1 != 0 && r2 != 0 && same_signs(r1, r2));
+        // can reuse delta_ac
+        let t0 = delta_cd.x * delta_ac.y - delta_cd.y * delta_ac.x;
+        let t0 = t0 / dnm;
 
-        if !is_on_segments { return None; }
-        // If we got here, line segments intersect. Compute intersection point using method similar
-        // to that described here: http://paulbourke.net/geometry/pointlineplane/#i2l
+        // can reuse delta_ab
+        let x = a.x + t0 * delta_ab.x;
+        let y = a.y + t0 * delta_ab.y;
 
-        // The denom/2 is to get rounding instead of truncating. It is added or subtracted to the
-        // numerator, depending upon the sign of the numerator.
-       //  let offset = if denom < 0 { -denom / 2 } else { denom / 2 };
-    //
-    //     let num = b1 * c2 - b2 * c1;
-    //     let x = if num < 0 { num - offset } else { num + offset } / denom;
-    //
-    //     let num = a2 * c1 - a1 * c2;
-    //     let y = if num < 0 { num - offset } else { num + offset } / denom;
-
-        // do float instead
-        let num = b1 * c2 - b2 * x1;
-        let x = num as f64 / denom as f64;
-
-        let num = a2 * c1 - a1 * c2;
-        let y = num as f64 / denom as f64;
-
-        Some(OrderedCoordinateF64{ x, y })
+        Some(OrderedCoordinateF64 { x, y })
 	}
 }
 
@@ -512,110 +492,94 @@ impl Intersection for OrderedSegmentI128 {
 	}
 
 	fn segment_intersection(&self, other: &Self) -> Option<OrderedCoordinateF64> {
-	    // cannot do the subtraction below without upscaling from i32 --> i28
+		let (a, b, c, d) = (self.start, self.end, other.start, other.end);
 
-		let epsilon = 1e-8_f64;
+		let delta_ac = a - c;
+        let delta_bc = b - c;
+        let delta_ad = a - d;
+        let delta_bd = b - d;
 
-		let d1 = self.delta();
-		let d2 = other.delta();
+        let xa = delta_ac.y * delta_bc.x - delta_ac.x * delta_bc.y;
+        let xb = delta_ad.y * delta_bd.x - delta_ad.x * delta_bd.y;
 
-		let dnm = d1.cross(d2);
-// 		let dnm2 = d2.y * d1.x - d2.x * d1.y;
-// 		assert_eq!(dnm, dnm2);
-		if dnm == 0 { return None; }
-		// dnm = (dy - cy) * (bx - ax) - (dx - cx) * (by - ay)
+        if xa == 0 && xb == 0 { return None; }
 
-		// Determine the vector distance from a
-		let d_ac = self.start - other.start;
+        let xc = delta_ac.y * delta_ad.x - delta_ac.x * delta_ad.y;
+        let xd = delta_bc.y * delta_bd.x - delta_bc.x * delta_bd.y;
 
-        // vector distance from self.start (a)
-		let t0 = d2.cross(d_ac);
-// 		let t0_1 = d2.x * d_ac.y - d2.y * d_ac.x;
-// 		assert_eq!(t0, t0_1);
-		let t0 = t0 as f64 / dnm as f64;
-		if t0 < (0. - epsilon) || t0 > (1. + epsilon) { return None; }
-        // t0 = ((dx - cx) * (ay - cy) - (dy - cy) * (ax - cx)) / dnm
+//         let delta_ca = c - a = -delta_ac;
+//         let delta_da = d - a = -delta_ad;
+//         let delta_cb = c - b = -delta_bc;
+//         let delta_db = d - b = -delta_bd;
+//
+//         let xc = delta_ca.y * delta_da.x - delta_ca.x * delta_da.y
+//         let xd = delta_cb.y * delta_db.x - delta_cb.x * delta_db.y
 
-        // vector distance from other.start (c)
-		let t1 = d1.cross(d_ac);
-// 		let t1_1 = d1.x * d_ac.y - d1.y * d_ac.x;
-// 		assert_eq!(t1, t1_1);
-		let t1 = t1 as f64 / dnm as f64;
-		if t1 < (0. - epsilon) || t1 > (1. + epsilon) { return None; }
-        // t1 = ((bx - ax) * (ay - cy) - (by - ay) * (ax - cx)) / dnm
+        let xab = xa * xb <= 0;
+        let xcd = xc * xd <= 0;
+        if !(xab && xcd) { return None; }
 
+        // do this first?
+        let delta_ab = a - b;
+        let delta_cd = c - d;
+        let dnm = delta_ab.x * delta_cd.y - delta_cd.x * delta_ab.y;
+        if dnm == 0 { return None; }
 
+        let cross_ab = a.x * b.y - a.y * b.x;
+        let cross_cd = c.x * d.y - c.y * d.x;
 
-		let x = self.start.x as f64 + t0 * d1.x as f64;
-		let y = self.start.y as f64 + t0 * d1.y as f64;
+        let x_num = cross_ab * delta_cd.x - delta_ab.x * cross_cd;
+        let y_num = cross_ab * delta_cd.y - delta_ab.y * cross_cd;
+
+		let x = x_num / dnm;
+	    let y = y_num / dnm;
 
 		Some(OrderedCoordinateF64 { x, y })
 	}
 
 	fn segment_intersection2(&self, other: &Self) -> Option<OrderedCoordinateF64> {
+ 		let (a, b, c, d) = (self.start, self.end, other.start, other.end);
 
-	    // First line coefficients where "a1 x  +  b1 y  +  c1  =  0"
-	    let (x1, y1, x2, y2) = self.coords();
-	    let (x3, y3, x4, y4) = other.coords();
+		let delta_ac = a - c;
+        let delta_bc = b - c;
+        let delta_ad = a - d;
+        let delta_bd = b - d;
 
-	     // First line coefficients where "a1 x  +  b1 y  +  c1  =  0"
-        let a1 = y2 - y1;
-        let b1 = x1 - x2;
-        let c1 = x2 * y1 - x1 * y2;
+        let xa = delta_ac.y * delta_bc.x - delta_ac.x * delta_bc.y;
+        let xb = delta_ad.y * delta_bd.x - delta_ad.x * delta_bd.y;
 
-        // Second line coefficients
-        let a2 = y4 - y3;
-        let b2 = x3 - x4;
-        let c2 = x4 * y3 - x3 * y4;
+        if xa == 0 && xb == 0 { return None; }
 
-        let denom = a1 * b2 - a2 * b1;
+        let xc = delta_ac.y * delta_ad.x - delta_ac.x * delta_ad.y;
+        let xd = delta_bc.y * delta_bd.x - delta_bc.x * delta_bd.y;
 
-        // Lines are colinear
-        if denom == 0 {
-            return None;
-        }
+//         let delta_ca = c - a = -delta_ac;
+//         let delta_da = d - a = -delta_ad;
+//         let delta_cb = c - b = -delta_bc;
+//         let delta_db = d - b = -delta_bd;
+//
+//         let xc = delta_ca.y * delta_da.x - delta_ca.x * delta_da.y
+//         let xd = delta_cb.y * delta_db.x - delta_cb.x * delta_db.y
 
-        // Compute sign values
-        let r3 = a1 * x3 + b1 * y3 + c1;
-        let r4 = a1 * x4 + b1 * y4 + c1;
+        let xab = xa * xb <= 0;
+        let xcd = xc * xd <= 0;
+        if !(xab && xcd) { return None; }
 
-        // Sign values for second line
-        let r1 = a2 * x1 + b2 * y1 + c2;
-        let r2 = a2 * x2 + b2 * y2 + c2;
+        // do this first?
+        let delta_ab = a - b;
+        let delta_cd = c - d;
+        let dnm = delta_ab.x * delta_cd.y - delta_cd.x * delta_ab.y;
+        if dnm == 0 { return None; }
 
-        // Flag denoting whether intersection point is on passed line segments. If this is false,
-        // the intersection occurs somewhere along the two mathematical, infinite lines instead.
-        //
-        // Check signs of r3 and r4.  If both point 3 and point 4 lie on same side of line 1, the
-        // line segments do not intersect.
-        //
-        // Check signs of r1 and r2.  If both point 1 and point 2 lie on same side of second line
-        // segment, the line segments do not intersect.
-        let is_on_segments = (r3 != 0 && r4 != 0 && same_signs(r3, r4))
-            || (r1 != 0 && r2 != 0 && same_signs(r1, r2));
+        // can reuse delta_ac
+        let t0 = delta_cd.x * delta_ac.y - delta_cd.y * delta_ac.x;
+        let t0 = t0 / dnm;
 
-        if !is_on_segments { return None; }
-        // If we got here, line segments intersect. Compute intersection point using method similar
-        // to that described here: http://paulbourke.net/geometry/pointlineplane/#i2l
+        // can reuse delta_ab
+        let x = a.x + t0 * delta_ab.x;
+        let y = a.y + t0 * delta_ab.y;
 
-        // The denom/2 is to get rounding instead of truncating. It is added or subtracted to the
-        // numerator, depending upon the sign of the numerator.
-       //  let offset = if denom < 0 { -denom / 2 } else { denom / 2 };
-    //
-    //     let num = b1 * c2 - b2 * c1;
-    //     let x = if num < 0 { num - offset } else { num + offset } / denom;
-    //
-    //     let num = a2 * c1 - a1 * c2;
-    //     let y = if num < 0 { num - offset } else { num + offset } / denom;
-
-        // do float instead
-        let num = b1 * c2 - b2 * x1;
-        let x = num as f64 / denom as f64;
-
-        let num = a2 * c1 - a1 * c2;
-        let y = num as f64 / denom as f64;
-
-        Some(OrderedCoordinateF64{ x, y })
+        Some(OrderedCoordinateF64 { x, y })
 	}
 }
 
