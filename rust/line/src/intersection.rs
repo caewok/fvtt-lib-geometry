@@ -99,8 +99,8 @@ impl Intersection for OrderedSegmentF64 {
 		let d2 = other.delta();
 
 		let dnm = d1.cross(d2);
-		let dnm2 = d2.y * d1.x - d2.x * d1.y;
-		assert_eq!(dnm, dnm2);
+// 		let dnm2 = d2.y * d1.x - d2.x * d1.y;
+// 		assert_eq!(dnm, dnm2);
 		if dnm == 0. { return None; }
 		// dnm = (dy - cy) * (bx - ax) - (dx - cx) * (by - ay)
 
@@ -108,8 +108,8 @@ impl Intersection for OrderedSegmentF64 {
 		let d_ac = self.start - other.start;
 
 		let t0 = d2.cross(d_ac);
-		let t0_1 = d2.x * d_ac.y - d2.y * d_ac.x;
-		assert_eq!(t0, t0_1);
+// 		let t0_1 = d2.x * d_ac.y - d2.y * d_ac.x;
+// 		assert_eq!(t0, t0_1);
 		let t0 = t0 / dnm;
 		// t0 = ((dx - cx) * (ay - cy) - (dy - cy) * (ax - cx)) / dnm
 
@@ -126,8 +126,8 @@ impl Intersection for OrderedSegmentF64 {
 		let d2 = other.delta();
 
 		let dnm = d1.cross(d2);
-		let dnm2 = d2.y * d1.x - d2.x * d1.y;
-		assert_eq!(dnm, dnm2);
+// 		let dnm2 = d2.y * d1.x - d2.x * d1.y;
+// 		assert_eq!(dnm, dnm2);
 		if dnm == 0. { return None; }
 		// dnm = (dy - cy) * (bx - ax) - (dx - cx) * (by - ay)
 
@@ -136,16 +136,16 @@ impl Intersection for OrderedSegmentF64 {
 
         // vector distance from self.start (a)
 		let t0 = d2.cross(d_ac);
-		let t0_1 = d2.x * d_ac.y - d2.y * d_ac.x;
-		assert_eq!(t0, t0_1);
+// 		let t0_1 = d2.x * d_ac.y - d2.y * d_ac.x;
+// 		assert_eq!(t0, t0_1);
 		let t0 = t0 / dnm;
 		if t0 < (0. - epsilon) || t0 > (1. + epsilon) { return None; }
         // t0 = ((dx - cx) * (ay - cy) - (dy - cy) * (ax - cx)) / dnm
 
         // vector distance from other.start (c)
 		let t1 = d1.cross(d_ac);
-		let t1_1 = d1.x * d_ac.y - d1.y * d_ac.x;
-		assert_eq!(t1, t1_1);
+// 		let t1_1 = d1.x * d_ac.y - d1.y * d_ac.x;
+// 		assert_eq!(t1, t1_1);
 		let t1 = t1 / dnm;
 		if t1 < (0. - epsilon) || t1 > (1. + epsilon) { return None; }
         // t1 = ((bx - ax) * (ay - cy) - (by - ay) * (ax - cx)) / dnm
