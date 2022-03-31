@@ -2,7 +2,7 @@
 // - intersects
 // - lineLineIntersection
 // - segmentIntersection
-use crate::ordered_coordinate::{ OrderedCoordinateF64 };
+use crate::ordered_coordinate::{ OrderedCoordinateF64, OrderedCoordinateI128 };
 use crate::ordered_segment::{ OrderedSegmentF64, OrderedSegmentI32, OrderedSegmentI128 };
 use crate::orientation::{ Orientation, Orientable };
 
@@ -310,7 +310,7 @@ impl Intersection for OrderedSegmentI32 {
 	}
 
 	fn segment_intersection(&self, other: &Self) -> Option<OrderedCoordinateF64> {
-		let (a, b, c, d) = (self.start, self.end, other.start, other.end);
+		let (a, b, c, d): (OrderedCoordinateI128, OrderedCoordinateI128, OrderedCoordinateI128, OrderedCoordinateI128) = (self.start.into(), self.end.into(), other.start.into(), other.end.into());
 
 		let delta_ac = a - c;
         let delta_bc = b - c;
@@ -333,8 +333,9 @@ impl Intersection for OrderedSegmentI32 {
 //         let xc = delta_ca.y * delta_da.x - delta_ca.x * delta_da.y
 //         let xd = delta_cb.y * delta_db.x - delta_cb.x * delta_db.y
 
-        let xab = xa * xb <= 0;
-        let xcd = xc * xd <= 0;
+        // use signum to avoid integer overflow
+        let xab = xa.signum() * xb.signum() <= 0;
+        let xcd = xc.signum() * xd.signum() <= 0;
         if !(xab && xcd) { return None; }
 
         // do this first?
@@ -349,14 +350,14 @@ impl Intersection for OrderedSegmentI32 {
         let x_num = cross_ab * delta_cd.x - delta_ab.x * cross_cd;
         let y_num = cross_ab * delta_cd.y - delta_ab.y * cross_cd;
 
-		let x = x_num / dnm;
-	    let y = y_num / dnm;
+		let x = x_num as f64 / dnm as f64;
+	    let y = y_num as f64 / dnm as f64;
 
 		Some(OrderedCoordinateF64 { x, y })
 	}
 
 	fn segment_intersection2(&self, other: &Self) -> Option<OrderedCoordinateF64> {
- 		let (a, b, c, d) = (self.start, self.end, other.start, other.end);
+		let (a, b, c, d): (OrderedCoordinateI128, OrderedCoordinateI128, OrderedCoordinateI128, OrderedCoordinateI128) = (self.start.into(), self.end.into(), other.start.into(), other.end.into());
 
 		let delta_ac = a - c;
         let delta_bc = b - c;
@@ -379,23 +380,24 @@ impl Intersection for OrderedSegmentI32 {
 //         let xc = delta_ca.y * delta_da.x - delta_ca.x * delta_da.y
 //         let xd = delta_cb.y * delta_db.x - delta_cb.x * delta_db.y
 
-        let xab = xa * xb <= 0;
-        let xcd = xc * xd <= 0;
+        // use signum to avoid integer overflow
+        let xab = xa.signum() * xb.signum() <= 0;
+        let xcd = xc.signum() * xd.signum() <= 0;
         if !(xab && xcd) { return None; }
 
         // do this first?
         let delta_ab = a - b;
         let delta_cd = c - d;
         let dnm = delta_ab.x * delta_cd.y - delta_cd.x * delta_ab.y;
-        if dnm == 0. { return None; }
+        if dnm == 0 { return None; }
 
         // can reuse delta_ac
         let t0 = delta_cd.x * delta_ac.y - delta_cd.y * delta_ac.x;
-        let t0 = t0 / dnm;
+        let t0 = t0 as f64 / dnm as f64;
 
         // can reuse delta_ab
-        let x = a.x + t0 * delta_ab.x;
-        let y = a.y + t0 * delta_ab.y;
+        let x = a.x as f64 + t0 * delta_ab.x as f64;
+        let y = a.y as f64 + t0 * delta_ab.y as f64;
 
         Some(OrderedCoordinateF64 { x, y })
 	}
@@ -515,8 +517,9 @@ impl Intersection for OrderedSegmentI128 {
 //         let xc = delta_ca.y * delta_da.x - delta_ca.x * delta_da.y
 //         let xd = delta_cb.y * delta_db.x - delta_cb.x * delta_db.y
 
-        let xab = xa * xb <= 0;
-        let xcd = xc * xd <= 0;
+        // use signum to avoid integer overflow
+        let xab = xa.signum() * xb.signum() <= 0;
+        let xcd = xc.signum() * xd.signum() <= 0;
         if !(xab && xcd) { return None; }
 
         // do this first?
@@ -531,8 +534,8 @@ impl Intersection for OrderedSegmentI128 {
         let x_num = cross_ab * delta_cd.x - delta_ab.x * cross_cd;
         let y_num = cross_ab * delta_cd.y - delta_ab.y * cross_cd;
 
-		let x = x_num / dnm;
-	    let y = y_num / dnm;
+		let x = x_num as f64 / dnm as f64;
+	    let y = y_num as f64 / dnm as f64;
 
 		Some(OrderedCoordinateF64 { x, y })
 	}
@@ -560,9 +563,9 @@ impl Intersection for OrderedSegmentI128 {
 //
 //         let xc = delta_ca.y * delta_da.x - delta_ca.x * delta_da.y
 //         let xd = delta_cb.y * delta_db.x - delta_cb.x * delta_db.y
-
-        let xab = xa * xb <= 0;
-        let xcd = xc * xd <= 0;
+        // use signum to avoid integer overflow
+        let xab = xa.signum() * xb.signum() <= 0;
+        let xcd = xc.signum() * xd.signum() <= 0;
         if !(xab && xcd) { return None; }
 
         // do this first?
@@ -573,11 +576,11 @@ impl Intersection for OrderedSegmentI128 {
 
         // can reuse delta_ac
         let t0 = delta_cd.x * delta_ac.y - delta_cd.y * delta_ac.x;
-        let t0 = t0 / dnm;
+        let t0 = t0 as f64 / dnm as f64;
 
         // can reuse delta_ab
-        let x = a.x + t0 * delta_ab.x;
-        let y = a.y + t0 * delta_ab.y;
+        let x = a.x as f64 + t0 * delta_ab.x as f64;
+        let y = a.y as f64 + t0 * delta_ab.y as f64;
 
         Some(OrderedCoordinateF64 { x, y })
 	}
