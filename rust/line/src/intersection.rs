@@ -120,46 +120,94 @@ impl Intersection for OrderedSegmentF64 {
 	}
 
 	fn segment_intersection(&self, other: &Self) -> Option<OrderedCoordinateF64> {
-		let epsilon = 1e-8;
+		let (a, b, c, d) = (self.start, self.end, other.start, other.end);
 
-		let d1 = self.delta();
-		let d2 = other.delta();
+		let delta_ac = a - c;
+        let delta_bc = b - c;
+        let delta_ad = a - d;
+        let delta_bd = b - d;
 
-		let dnm = d1.cross(d2);
-// 		let dnm2 = d2.y * d1.x - d2.x * d1.y;
-// 		assert_eq!(dnm, dnm2);
-		if dnm == 0. { return None; }
-		// dnm = (dy - cy) * (bx - ax) - (dx - cx) * (by - ay)
+        let xa = delta_ac.y * delta_bc.x - delta_ac.x * delta_bc.y;
+        let xb = delta_ad.y * delta_bd.x - delta_ad.x * delta_bd.y;
 
-		// Determine the vector distance from a
-		let d_ac = self.start - other.start;
+        if xa == 0. && xb == 0. { return None; }
 
-        // vector distance from self.start (a)
-		let t0 = d2.cross(d_ac);
-// 		let t0_1 = d2.x * d_ac.y - d2.y * d_ac.x;
-// 		assert_eq!(t0, t0_1);
-		let t0 = t0 / dnm;
-		if t0 < (0. - epsilon) || t0 > (1. + epsilon) { return None; }
-        // t0 = ((dx - cx) * (ay - cy) - (dy - cy) * (ax - cx)) / dnm
+        let xc = delta_ac.y * delta_ad.x - delta_ac.x * delta_ad.y;
+        let xd = delta_bc.y * delta_bd.x - delta_bc.x * delta_bd.y;
 
-        // vector distance from other.start (c)
-		let t1 = d1.cross(d_ac);
-// 		let t1_1 = d1.x * d_ac.y - d1.y * d_ac.x;
-// 		assert_eq!(t1, t1_1);
-		let t1 = t1 / dnm;
-		if t1 < (0. - epsilon) || t1 > (1. + epsilon) { return None; }
-        // t1 = ((bx - ax) * (ay - cy) - (by - ay) * (ax - cx)) / dnm
+//         let delta_ca = c - a = -delta_ac;
+//         let delta_da = d - a = -delta_ad;
+//         let delta_cb = c - b = -delta_bc;
+//         let delta_db = d - b = -delta_bd;
+//
+//         let xc = delta_ca.y * delta_da.x - delta_ca.x * delta_da.y
+//         let xd = delta_cb.y * delta_db.x - delta_cb.x * delta_db.y
 
+        let xab = xa * xb <= 0.;
+        let xcd = xc * xd <= 0.;
+        if !(xab && xcd) { return None; }
 
+        // do this first?
+        let delta_ab = a - b;
+        let delta_cd = c - d;
+        let dnm = delta_ab.x * delta_cd.y - delta_cd.x * delta_ab.y;
+        if dnm == 0. { return None; }
 
-		let x = self.start.x + t0 * d1.x;
-		let y = self.start.y + t0 * d1.y;
+        let cross_ab = a.x * b.y - a.y * b.x;
+        let cross_cd = c.x * d.y - c.y * d.x;
+
+        let x_num = cross_ab * delta_cd.x - delta_ab.x * cross_cd;
+        let y_num = cross_ab * delta_cd.y - delta_ab.y * cross_cd;
+
+		let x = x_num / dnm;
+	    let y = y_num / dnm;
 
 		Some(OrderedCoordinateF64 { x, y })
 	}
 
 	fn segment_intersection2(&self, other: &Self) -> Option<OrderedCoordinateF64> {
-	    self.segment_intersection(other)
+ 		let (a, b, c, d) = (self.start, self.end, other.start, other.end);
+
+		let delta_ac = a - c;
+        let delta_bc = b - c;
+        let delta_ad = a - d;
+        let delta_bd = b - d;
+
+        let xa = delta_ac.y * delta_bc.x - delta_ac.x * delta_bc.y;
+        let xb = delta_ad.y * delta_bd.x - delta_ad.x * delta_bd.y;
+
+        if xa == 0. && xb == 0. { return None; }
+
+        let xc = delta_ac.y * delta_ad.x - delta_ac.x * delta_ad.y;
+        let xd = delta_bc.y * delta_bd.x - delta_bc.x * delta_bd.y;
+
+//         let delta_ca = c - a = -delta_ac;
+//         let delta_da = d - a = -delta_ad;
+//         let delta_cb = c - b = -delta_bc;
+//         let delta_db = d - b = -delta_bd;
+//
+//         let xc = delta_ca.y * delta_da.x - delta_ca.x * delta_da.y
+//         let xd = delta_cb.y * delta_db.x - delta_cb.x * delta_db.y
+
+        let xab = xa * xb <= 0.;
+        let xcd = xc * xd <= 0.;
+        if !(xab && xcd) { return None; }
+
+        // do this first?
+        let delta_ab = a - b;
+        let delta_cd = c - d;
+        let dnm = delta_ab.x * delta_cd.y - delta_cd.x * delta_ab.y;
+        if dnm == 0. { return None; }
+
+        // can reuse delta_ac
+        let t0 = delta_cd.x * delta_ac.y - delta_cd.y * delta_ac.x;
+        let t0 = t0 / dnm;
+
+        // can reuse delta_ab
+        let x = a.x + t0 * delta_ab.x;
+        let y = a.y + t0 * delta_ab.y;
+
+        Some(OrderedCoordinateF64 { x, y })
 	}
 }
 
@@ -941,6 +989,21 @@ mod tests {
 
 		// this last intersection is outside the segments
 		assert_eq!(data.s2.segment_intersection(&data.s3), None);
+    }
+
+    #[test]
+    fn segment_intersection2_f64_works() {
+        let data: SegmentDataF64 = SegmentDataI32::new().into();
+
+    	assert_eq!(data.s0.segment_intersection2(&data.s1), data.expected01);
+		assert_eq!(data.s0.segment_intersection2(&data.s2), data.expected02);
+		assert_eq!(data.s0.segment_intersection2(&data.s3), data.expected03);
+
+		assert_eq!(data.s1.segment_intersection2(&data.s2), data.expected12);
+		assert_eq!(data.s1.segment_intersection2(&data.s3), data.expected13);
+
+		// this last intersection is outside the segments
+		assert_eq!(data.s2.segment_intersection2(&data.s3), None);
     }
 
     #[test]
