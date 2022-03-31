@@ -39,11 +39,23 @@ pub fn ix_brute_single_i32(segments: &[OrderedSegmentI32]) -> Vec<IxResultFloat>
 	ixs
 }
 
+fn ix_result_builder(ix_res: Option<OrderedCoordinateF64>, si: &OrderedSegmentF64, sj: &OrderedSegmentF64) -> Option<IxResultFloat> {
+	match ix_res {
+		Some(ix) => Some(IxResultFloat { ix: ix, idx1: si.idx.into(), idx2: sj.idx.into() }),
+		None => None
+	}
+}
+
 
 
 pub fn ix_brute_single_f64(segments: &[OrderedSegmentF64]) -> Vec<IxResultFloat> {
 	let mut ixs = Vec::<IxResultFloat>::new();
 	for(i, si) in segments.iter().enumerate() {
+		// works but slower than the dual for loops:
+// 		let mut tmp: Vec<IxResultFloat> = segments[(i + 1)..].iter().filter(|sj| si.intersects(&sj)).filter_map(|sj| ix_result_builder(si.line_intersection2(&sj), &si, &sj)).collect();
+// 		ixs.append(&mut tmp);
+
+		// faster then the
 		for sj in &segments[(i + 1)..] {
 			if !si.intersects(&sj) { continue; }
 			let res = si.line_intersection2(&sj);
